@@ -1,0 +1,89 @@
+@font-face {
+    font-family: Dongle-Bold;
+    src: url(../Assets/fonts/Dongle-Bold.ttf);
+}
+
+@font-face {
+    font-family: Dongle-Light;
+    src: url(../Assets/fonts/Dongle-Light.ttf);
+}
+
+@font-face {
+    font-family: Dongle-Reg;
+    src: url(../Assets/fonts/Dongle-Regular.ttf);
+}
+
+/* --------------------------------------------- */
+
+.header {
+    background-color: #157346;
+    padding: 12px;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #E0FFE5;
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.logo {
+    width: 5vw;
+    padding: 8px;
+}
+
+.sidebar-menu img {
+    width: 3vw;
+    padding: 12px;
+}
+
+.label-main {
+    font-family: Dongle-Bold;
+    font-size: 3vw;
+    color: black;
+
+    padding: 0;
+    margin: 0;
+    line-height: 0.3;
+}
+
+.label-sub {
+    font-family: Dongle-Reg;
+    font-size: 2vw;
+    color: white;
+
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+
+.sign-out {
+    font-family: Dongle-Reg;
+    font-size: 2vw;
+    color: white;
+
+    background-color: black;
+    border: none;
+    border-radius: 20px;
+    padding: 2px 16px;
+
+    cursor: pointer;
+
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.sign-out:hover {
+    background-color: white;
+    color: black;
+}
