@@ -7,7 +7,7 @@
 
 body {
   height: 100vh;
-  background: url('images/labubuddy.jpg') no-repeat center center/cover;
+  background: url('../Assets/images/LAbubuddy.jpg') no-repeat center center/cover;
   font-family: 'Segoe UI', sans-serif;
 }
 
