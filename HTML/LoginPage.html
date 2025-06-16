@@ -7,14 +7,17 @@
   <link href="../CSS/login-style.css" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="flex items-center justify-center h-full">
-  <div class="flex flex-col items-center space-y-4">
+<body class="flex items-center justify-center h-full relative overflow-hidden">
+   <!-- Background Circle -->
+  <div class="absolute w-[1000px] h-[1000px] rounded-full bg-green-200/50"></div>
+
+  <div class="flex flex-col items-center space-y-4 z-10">
     <img src="../Assets/icons/logo.svg" alt="LABubuddy Logo" class="w-48 h-auto" />
     <h1 class="logo-title text-white text-4xl">L A B u b u d d y</h1>
-    <input type="email" placeholder="Email" class="w-64 px-4 py-2 rounded-full outline-none" />
-    <input type="password" placeholder="Password" class="w-64 px-4 py-2 rounded-full outline-none" />
-    <p class="text-white text-sm">No account yet? <a href="CreateAccount.html" class="underline">Create Account</a></p>
-    <button class="w-64 px-4 py-2 rounded-full bg-emerald-700 text-white font-bold">Log in</button>
+    <input type="email" placeholder="Email" class="w-64 px-4 py-2 rounded-full outline-none border border-black" />
+    <input type="password" placeholder="Password" class="w-64 px-4 py-2 rounded-full outline-none border border-black" />
+    <p class="text-white text-sm">No account yet? <a href="SignUpPage.html" class="underline">Create Account</a></p>
+    <button class="w-64 px-4 py-2 rounded-full bg-emerald-700 text-white font-bold border border-black">Log in</button>
   </div>
 </body>
 </html>
