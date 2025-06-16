@@ -1,0 +1,43 @@
+/* IMPORTING GENERAL STYLES */
+@import url("../CSS/fonts.css");
+@import url("../CSS/general-iframe.css");
+
+/* MAIN AREA */
+.slot-area-content {
+    display: grid;
+    grid-template-areas:
+        "door tableA tableB"
+        "board area-empty area-empty"
+        "board tableC tableD";
+    grid-template-columns: 1fr 2fr 2fr;
+    grid-template-rows: 3fr 0.3fr 3fr;
+}
+
+.door {
+    grid-area: door;
+    height: 30%;
+}
+
+.board {
+    grid-area: board;
+}
+
+.tableA {
+    grid-area: tableA;
+}
+
+.tableB {
+    grid-area: tableB;
+}
+
+.tableC {
+    grid-area: tableC;
+}
+
+.tableD {
+    grid-area: tableD;
+}
+
+.chairs {
+    
+}

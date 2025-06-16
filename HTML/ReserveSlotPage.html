@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/reserve.css">
     <script src="../JS/general.js"></script>
+    <script src="../JS/reservepage.js"></script>
 
-    <title>Labubuddies</title>
+    <title>Labubuddies - Reservation</title>
 </head>
 
 <body>
@@ -48,7 +50,47 @@
     </div>
 
     <!-- MAIN CONTENT -->
-     <!-- insert main content here -->
+    <div class="main-content">
+        <div class="instructions">
+            <h2>Choose a laboratory.</h2>
+            <!-- change instruc depending on page in slot -->
+        </div>
+
+        <!-- LAB/SEAT SLOTS -->
+        <div class="slot-area">
+            <iframe src="FloorPage.html" title="slot-area-contents" class="slot-area-contents"></iframe>
+            <br>
+        </div>
+
+        <!-- DATE/TIME SLOTS -->
+        <div class="timeslot-area">
+            <div class="date-input">
+                <label for="res-date">Choose a Date</label>
+                <br>
+                <input type="date" id="res-date" name="res-date">
+            </div>
+            <br>
+            <div class="starttime-input">
+                <label for="start-time">Choose a Start Time</label>
+                <br>
+                <select class="start-time" name="start-time">
+                    <option value="0"> -- None --</option>
+                </select>
+            </div>
+            <br>
+            <div class="endtime-input">
+                <label for="end-time">Choose an End Time</label>
+                <br>
+                <select class="end-time" name="end-time">
+                    <option value="0">-- None --</option>
+                </select>
+                <br>
+                <br>
+                <br>
+            </div>
+            <button type="button" class="confirm-res">Confirm</button>
+        </div>
+    </div>
 
 </body>
 

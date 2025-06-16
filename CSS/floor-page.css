@@ -1,0 +1,59 @@
+/* IMPORTING GENERAL STYLES */
+@import url("../CSS/fonts.css");
+@import url("../CSS/general-iframe.css");
+
+
+/* MAIN BUTTONS */
+.slot-area-content {
+    display: grid;
+    grid-template-areas:
+        "area-left area-up area-right"
+        "area-left area-empty area-right"
+        "area-left area-lo area-right";
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: 3fr 0.1fr 3fr;
+}
+
+.area-up {
+    grid-area: area-up;
+}
+
+.area-lo {
+    grid-area: area-lo;
+}
+
+.area-up, .area-lo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.upperLabs, .lowerLabs {
+    width: 30%;
+}
+
+.upperLabs img, .lowerLabs img{
+    width: 100%;
+}
+
+.area-right {
+    grid-area: area-right;
+}
+
+.area-left {
+    grid-area: area-left;
+}
+
+.area-left, .area-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.area-left img, .area-right img {
+    width: 20vw;
+    height: auto;
+    flex-shrink: 0;
+}
