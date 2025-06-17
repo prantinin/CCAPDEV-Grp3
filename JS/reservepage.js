@@ -13,6 +13,8 @@ function populateTimeOptions() {
         "7:30 PM - 8:00 PM", "8:00 PM - 8:30 PM", "8:30 PM - 9:00 PM"
     ];
 
+    let timeOptionsHTML = "";
+
     timeLabels.forEach((label, index) => {
         timeOptionsHTML += `<option value="${index + 1}">${label}</option>`;
     });
@@ -20,17 +22,5 @@ function populateTimeOptions() {
     document.querySelector("select.start-time").insertAdjacentHTML("beforeend", timeOptionsHTML);
     document.querySelector("select.end-time").insertAdjacentHTML("beforeend", timeOptionsHTML);
 }
-
-
-
-// SLOT INSTRUCTIONS
-
-window.addEventListener("message", function(event) {
-    const instructionsBox = document.querySelector(".instructions h2");
-    if (instructionsBox && typeof event.data === "string") {
-        instructionsBox.textContent = event.data;
-    }
-});
-
 
 document.addEventListener("DOMContentLoaded", populateTimeOptions);

@@ -42,10 +42,12 @@
         </div>
         <hr class="solid-divider">
         <a href = "">Edit Profile</a>
+        <a href = "">Search Other Users</a>
         <hr class="solid-divider">
         <a href = "">Create Reservation</a>
         <a href = "">Edit Reservation</a>
         <a href = "">View Reservations</a>
+        <a href = "">Search Free Slots</a>
         <hr class="solid-divider">
     </div>
 
@@ -57,12 +59,17 @@
 
         <!-- LAB/SEAT SLOTS -->
         <div class="slot-area">
-            <iframe src="iframeFloor.html" title="slot-area-contents" class="slot-area-contents"></iframe>
+            <iframe src="iframeRoom.html" title="slot-area-contents" class="slot-area-contents"></iframe>
             <br>
         </div>
 
         <!-- DATE/TIME SLOTS -->
         <div class="timeslot-area">
+            <div class="chosen-slot-area">
+                <p>Chosen slot: </p>
+                <div class="chosen-slot">Lab 1, seat A1</div>
+            </div>
+            <br>
             <div class="date-input">
                 <label for="res-date">Choose a Date</label>
                 <br>

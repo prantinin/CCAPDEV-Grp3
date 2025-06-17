@@ -1,3 +1,9 @@
+/* IMPORTED STYLES */
+/* --------------------------------------------- */
+@import url("fonts.css");
+
+
+
 /* HEADER */
 /* --------------------------------------------- */
 
@@ -65,9 +71,9 @@ body {
 .sign-out {
     font-family: Dongle-Reg;
     font-size: 2vw;
-    color: white;
+    color: black;
 
-    background-color: black;
+    background-color: #34C578;
     border: none;
     border-radius: 20px;
     padding: 2px 16px;
@@ -79,8 +85,9 @@ body {
 
 .sign-out:hover {
     background-color: white;
-    color: black;
+    color: #34C578;
 }
+
 
 
 /* SIDEBAR */
