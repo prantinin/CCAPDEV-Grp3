@@ -15,9 +15,15 @@
   <form id="loginForm" class="flex flex-col items-center space-y-4 z-10">
     <img src="../Assets/icons/logo.svg" alt="LABubuddy Logo" class="w-48 h-auto" />
     <h1 class="logo-title text-white text-4xl">L A B u b u d d y</h1>
-    
-    <input type="email" placeholder="Email" class="w-64 px-4 py-2 rounded-full outline-none border border-black" required />
-    <input type="password" placeholder="Password" class="w-64 px-4 py-2 rounded-full outline-none border border-black" required />
+
+    <input type="email" id="email" placeholder="Email" class="w-64 px-4 py-2 rounded-full outline-none border border-black" required />
+    <input type="password" id="password" placeholder="Password" class="w-64 px-4 py-2 rounded-full outline-none border border-black" required />
+
+    <!-- Remember Me checkbox -->
+    <label class="text-white text-sm flex items-center space-x-2">
+      <input type="checkbox" id="rememberMe" class="form-checkbox" />
+      <span>Remember me for 3 weeks</span>
+    </label>
 
     <p class="text-white text-sm">No account yet? <a href="SignUpPage.html" class="underline">Create Account</a></p>
 
@@ -27,9 +33,31 @@
   </form>
 
   <script>
+    // Check if the user is remembered and still within 3 weeks
+    const rememberData = JSON.parse(localStorage.getItem("rememberMe"));
+    const now = new Date().getTime();
+
+    if (rememberData && rememberData.expires > now) {
+      // Extend remember period by 3 more weeks
+      const newExpireTime = now + 1000 * 60 * 60 * 24 * 21; // 21 days
+      localStorage.setItem("rememberMe", JSON.stringify({ email: rememberData.email, expires: newExpireTime }));
+      window.location.href = "ReserveSlotPage.html";
+    }
+
     document.getElementById("loginForm").addEventListener("submit", function(event) {
       event.preventDefault(); // Prevent page refresh
-      window.location.href = "ReserveSlotPage.html"; // Redirect to reserve page
+
+      const email = document.getElementById("email").value;
+      const remember = document.getElementById("rememberMe").checked;
+
+      if (remember) {
+        const expireTime = new Date().getTime() + 1000 * 60 * 60 * 24 * 21; // 21 days in ms
+        localStorage.setItem("rememberMe", JSON.stringify({ email: email, expires: expireTime }));
+      } else {
+        localStorage.removeItem("rememberMe");
+      }
+
+      window.location.href = "ReserveSlotPage.html";
     });
   </script>
 </body>
