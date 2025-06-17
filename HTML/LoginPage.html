@@ -9,7 +9,7 @@
 </head>
 <body class="flex items-center justify-center h-full relative overflow-hidden">
   <!-- Background Circle -->
-  <div class="absolute w-[1000px] h-[1000px] rounded-full bg-[#D9F1DD] opacity-20"></div>
+  <div class="absolute w-[1000px] h-[1000px] rounded-full bg-green-200/50"></div>
 
   <!-- Login Form -->
   <form id="loginForm" class="flex flex-col items-center space-y-4 z-10">
@@ -19,7 +19,7 @@
     <input type="email" id="email" placeholder="Email" class="w-64 px-4 py-2 rounded-full outline-none border border-black" required />
     <input type="password" id="password" placeholder="Password" class="w-64 px-4 py-2 rounded-full outline-none border border-black" required />
 
-    <!-- Remember Me checkbox -->
+    <!-- Remember Me checkbox (not functional yet) -->
     <label class="text-white text-sm flex items-center space-x-2">
       <input type="checkbox" id="rememberMe" class="form-checkbox" />
       <span>Remember me for 3 weeks</span>
@@ -27,37 +27,54 @@
 
     <p class="text-white text-sm">No account yet? <a href="SignUpPage.html" class="underline">Create Account</a></p>
 
-    <button type="submit" class="w-64 px-4 py-2 rounded-full bg-emerald-700 text-white border border-gray-200 font-bold shadow-lg">
+    <button type="submit" class="w-64 px-4 py-2 rounded-full bg-emerald-700 text-white font-bold border border-black">
       Log in
     </button>
   </form>
 
   <script>
-    // Check if the user is remembered and still within 3 weeks
-    const rememberData = JSON.parse(localStorage.getItem("rememberMe"));
-    const now = new Date().getTime();
-
-    if (rememberData && rememberData.expires > now) {
-      // Extend remember period by 3 more weeks
-      const newExpireTime = now + 1000 * 60 * 60 * 24 * 21; // 21 days
-      localStorage.setItem("rememberMe", JSON.stringify({ email: rememberData.email, expires: newExpireTime }));
-      window.location.href = "ReserveSlotPage.html";
-    }
+    const users = [
+      {
+        email: "timothy_ortiz@dlsu.edu.ph",
+        password: "iLoveChikkieNuggies123",
+        redirect: "TimothyOrtiz.html"
+      },
+      {
+        email: "maricarmen_antonio@dlsu.edu.ph",
+        password: "L0K1MYL0VE<33",
+        redirect: "MaricarmenAntonio.html"
+      },
+      {
+        email: "amadeo_espinoza@dlsu.edu.ph",
+        password: "M4R1CARM3N_4_L1F3!",
+        redirect: "AmadeoEspinoza.html"
+      },
+      {
+        email: "daisy_reyes@dlsu.edu.ph",
+        password: "P4SSW0RD123456!",
+        redirect: "DaisyReyes.html"
+      },
+      {
+        email: "loki_lopez_tech@dlsu.edu.ph",
+        password: "THORisF4T!!!",
+        redirect: "LokiLopez.html"
+      }
+    ];
 
     document.getElementById("loginForm").addEventListener("submit", function(event) {
-      event.preventDefault(); // Prevent page refresh
+      event.preventDefault(); // Prevent form from submitting
 
-      const email = document.getElementById("email").value;
-      const remember = document.getElementById("rememberMe").checked;
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
 
-      if (remember) {
-        const expireTime = new Date().getTime() + 1000 * 60 * 60 * 24 * 21; // 21 days in ms
-        localStorage.setItem("rememberMe", JSON.stringify({ email: email, expires: expireTime }));
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if (user) {
+        // Redirect to user’s profile page
+        window.location.href = user.redirect;
       } else {
-        localStorage.removeItem("rememberMe");
+        alert("Invalid email or password.");
       }
-
-      window.location.href = "ReserveSlotPage.html";
     });
   </script>
 </body>
