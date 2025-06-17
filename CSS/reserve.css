@@ -112,14 +112,19 @@
 }
 
 .confirm-res {
+    background-color: #999;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.confirm-res.active {
     background-color: black;
     color: white;
-
-    padding: 5px 16px;
+    cursor: pointer;
     transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-.confirm-res:hover {
+.confirm-res.active:hover {
     background-color: #34C578;
     color: black;
 }

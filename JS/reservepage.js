@@ -52,4 +52,32 @@ window.addEventListener('message', (event) => {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const confirmBtn = document.querySelector(".confirm-res");
+    const resDate = document.querySelector("#res-date");
+    const startTime = document.querySelector(".start-time");
+    const endTime = document.querySelector(".end-time");
+    const chosenSlot = document.querySelector(".chosen-slot");
+
+    function checkInputs() {
+        const dateFilled = resDate.value.trim() !== "";
+        const startFilled = startTime.value !== "0";
+        const endFilled = endTime.value !== "0";
+        const seatFilled = chosenSlot.textContent.trim() !== "";
+
+        if (dateFilled && startFilled && endFilled && seatFilled) {
+            confirmBtn.disabled = false;
+            confirmBtn.classList.add("active");
+        } else {
+            confirmBtn.disabled = true;
+            confirmBtn.classList.remove("active");
+        }
+    }
+
+    resDate.addEventListener("input", checkInputs);
+    startTime.addEventListener("change", checkInputs);
+    endTime.addEventListener("change", checkInputs);
+});
+
+
 document.addEventListener("DOMContentLoaded", populateTimeOptions);
