@@ -3,7 +3,7 @@
 @import url("../CSS/general-iframe.css");
 
 
-/* MAIN BUTTONS */
+/* MAIN GRID */
 .slot-area-content {
     display: grid;
     grid-template-areas:

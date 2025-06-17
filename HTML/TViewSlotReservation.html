@@ -63,16 +63,39 @@
     </div>
 
     <!-- MAIN CONTENT -->
-    <!-- insert main content here -->
-    <div class = "flex justify-center">
+     <!-- insert main content here -->
+    <div>
+    <div class="flex flex-col justify-center items-center">
 
-      <div class="flex bg-[#1C9259] bg-opacity-40 shadow rounded-3xl mt-8 w-[90%] h-[150px]">
-        
-        <div class="mt-4 p-4 border border-blue-500">
-          <h3 class="text-xl font-bold">Lab A</h3>
-          <p class="text-sm text-gray-500">SEAT A1</p>
-          <p class="text-sm text-gray-500">June 24 - 5:00pm</p>
+      <div id="filter-details" class = "flex flex-row border border-red-500 w-[90%] mt-8">
+        <div class="flex border border-black ">
+          <div>
+            <p>COMPUTER LAB XXXX (view ALL reservations)</p>
+            <p>date n time</p>
+          </div>
+
+          <div class= "flex flex-col ml-auto">
+            <div class="flex border border-red-500 ">
+              <p> x seats available</p>
+            </div>
+            <div class= "flex">
+              <p> reserve button</p>
+            </div>
+          </div>
+          
         </div>
+        </div>
+
+        <div id="reserve-list" class="flex  bg-[#1C9259] bg-opacity-40 shadow rounded-3xl mt-8 w-[90%] h-[150px] border border-red-500">
+          <div class="mt-4 p-4 border border-blue-500 w-[130px]">
+            <img src="">    <!-- redirects to profile when image is chosen-->
+          </div>
+
+          <div class="mt-4 p-4 border border-blue-500">
+            <h3 class="text-xl font-bold">Lab A</h3>
+            <p class="text-sm text-gray-500">SEAT A1</p>
+            <p class="text-sm text-gray-500">June 24 - 5:00pm</p>
+          </div>
 
           <div class="flex flex-col p-4 ml-auto border border-blue-500">
             <div class="mt-3 h-8 w-8">
@@ -86,7 +109,11 @@
             </div>
           </div>
 
-      </div>
+        </div>
+
+
+
+    </div>
     </div>
 
 </body>

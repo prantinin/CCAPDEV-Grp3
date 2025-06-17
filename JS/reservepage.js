@@ -1,4 +1,4 @@
-// TIME SLOTS
+// RESERVATION TIME SLOTS
 
 function populateTimeOptions() {
     const timeLabels = [
