@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ndgreen: '#1C9259',
+          }
+        }
+      }
+    }
+  </script>
+    <script src="https://cdn.tailwindcss.com"> </script>
+
+
+    <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/reserve.css">
+    <script src="../JS/general.js"></script>
+    <script src="../JS/reservepage.js"></script>
+
+    <title>Labubuddies - Reservation</title>
+</head>
+
+<body>
+    <!-- HEADING OPTIONS -->
+    <header class="header">
+        <button onclick="openSidebar()" class="open-menu">
+            <img src="../Assets/icons/menu-black.svg">
+        </button>
+
+        <div class="title">
+            <img src="../Assets/icons/logo.svg" class="logo">
+
+            <div class="label">
+                <p class="label-main">LABubuddy</p>
+                <p class="label-sub">Student</p>
+            </div>
+        </div>
+
+        <button type="button" class="sign-out">Sign Out</button>
+    </header>
+
+    <!-- MENU SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-heading">
+            <button onclick="closeSidebar()">
+                <img src="../Assets/icons/menu-white.svg">
+                <h1>Menu</h1>
+            </button>
+        </div>
+        <hr class="solid-divider">
+        <a href = "">Edit Profile</a>
+        <hr class="solid-divider">
+        <a href = "">Create Reservation</a>
+        <a href = "">Edit Reservation</a>
+        <a href = "">View Reservations</a>
+        <hr class="solid-divider">
+    </div>
+
+    <div id= "content-area" class = "flex items-center justify-center">
+        <div class = "bg-[#1C9259] bg-opacity-40 mt-16 bg-ndgreen rounded-lg w-[700px] h-[450px]">
+            
+                <div class = "flex justify-center mt-8">
+                <div>
+
+                <div>
+                <p class = "flex justify-center text-xl font-medium text-black-700">Filter Results</p>
+                </div>
+                <br>
+
+                <label for="lab-finput" class="block mb-2 text-sm font-medium text-gray-700">Choose Laboratory:</label>
+                <select id="lab-finput" name="lab-finput" class="block w-80 p-2 bg-white border-white 
+                rounded-full shadow-sm focus:outline-none focus:ring-2">
+                <option value="">-- Select --</option>
+                </select>
+
+                <br>
+
+                <label for="date-finput" class="block mb-2 text-sm font-medium text-gray-700" >Choose a Date</label>
+                <input type="date" id="date-finput" name="date-finput" class="block w-80 p-2 bg-white border-white 
+                rounded-full shadow-sm focus:outline-none focus:ring-2">
+
+                <br>
+
+                <label for="time-finput" class="block mb-2 text-sm font-medium text-gray-700">Choose Time:</label>
+                <select id="time-finput" name="time-finput" class="block w-80 p-2 bg-white border-white 
+                rounded-full shadow-sm focus:outline-none focus:ring-2">
+                <option value="">-- Select --</option>
+                </select>
+
+                    <br>
+
+                <div class="flex justify-center">
+                <div class="flex justify-center w-52 bg-[#14AE5C] px-6 py-3 rounded-full text-white text-xl font-medium">
+                <button type="button">Search</button>
+                </div>
+              </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</html>
