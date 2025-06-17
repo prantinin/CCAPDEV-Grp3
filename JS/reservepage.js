@@ -1,3 +1,5 @@
+// TIME SLOTS
+
 function populateTimeOptions() {
     const timeLabels = [
         "7:30 AM - 8:00 AM", "8:00 AM - 8:30 AM", "8:30 AM - 9:00 AM",
@@ -11,8 +13,6 @@ function populateTimeOptions() {
         "7:30 PM - 8:00 PM", "8:00 PM - 8:30 PM", "8:30 PM - 9:00 PM"
     ];
 
-    let timeOptionsHTML = "";
-
     timeLabels.forEach((label, index) => {
         timeOptionsHTML += `<option value="${index + 1}">${label}</option>`;
     });
@@ -21,10 +21,16 @@ function populateTimeOptions() {
     document.querySelector("select.end-time").insertAdjacentHTML("beforeend", timeOptionsHTML);
 }
 
-function switchInstructions() {
-    const reservInstruc = [
-        "Choose a seat.", "This lab is full.", "This seat is taken."
-    ]
-}
+
+
+// SLOT INSTRUCTIONS
+
+window.addEventListener("message", function(event) {
+    const instructionsBox = document.querySelector(".instructions h2");
+    if (instructionsBox && typeof event.data === "string") {
+        instructionsBox.textContent = event.data;
+    }
+});
+
 
 document.addEventListener("DOMContentLoaded", populateTimeOptions);
