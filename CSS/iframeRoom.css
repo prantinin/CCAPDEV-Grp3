@@ -1,20 +1,59 @@
 /* IMPORTING GENERAL STYLES */
 @import url("../CSS/fonts.css");
-@import url("../CSS/general-iframe.css");
+
+
+
+/* GENERAL */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+
+
+/* HEADING */
+.slot-area-head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    gap: 8px;
+    
+    background-color: #92D3AD;
+}
+
+.lab-select {
+    font-family: Dongle-Reg;
+    font-size: 5vh;
+
+    background-color: white;
+    border-radius: 20px;
+    border: none;
+
+    margin: 0;
+    padding: 3px 15px;
+    line-height: 1;
+}
+
+
 
 /* MAIN AREA */
 .slot-area-content {
     display: grid;
     grid-template-areas:
-        "door areaA areaB"
-        "board areaC areaD";
-    grid-template-columns: 0.8fr 2fr 2fr;
+        "door door areaA areaB areaC"
+        "board areaD areaE areaF areaG";
+    grid-template-columns: 0.2fr 2fr 2fr 2fr 2fr;
     grid-template-rows: 300px 300px;
+    gap: 0px;
+    padding: 0;
 }
 
 .door {
     grid-area: door;
-    width: 200px;
+    width: 250px;
 }
 
 .door img {
@@ -23,15 +62,15 @@
 
 .board {
     grid-area: board;
-    width: 500px;
 }
 
 .board img {
-    width: 100%;
+    width: 50px;
 }
 
 
-/* GRID AREAS */
+
+/* TABLE AREAS */
 .areaA {
     grid-area: areaA;
 }
@@ -48,25 +87,51 @@
     grid-area: areaD;
 }
 
-.areaA, .areaB, .areaC, .areaD {    
+.areaE {
+    grid-area: areaE;
+}
+
+.areaF {
+    grid-area: areaF;
+}
+
+.areaG {
+    grid-area: areaG;
+}
+
+.areaA, .areaB, .areaC, .areaD, .areaE, .areaF, .areaG {    
     display: flex;
     flex-direction: column;
     gap: 30px;
+    padding: 40px;
 }
 
 
 
 /* TABLES */
-.upperTable, .lowerTable {
+.upperTable, .lowerTable{
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
+    padding: 0;
+}
+
+.mid {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: center;
+
+    margin-top: -40px;
+    margin-bottom: -40px;
+    margin-left: -30px;
+    padding: 0;
 }
 
 .chairs {
     background: none;
     border: none;
-    width: 100px;
+    width: 80px;
 
     display: flex;
     flex-direction: row;
@@ -78,6 +143,7 @@
 
 .chairs img {
     width: 100%;
+    padding: 15px;
 }
 
 .table {
@@ -90,7 +156,7 @@
 }
 
 .table img {
-    width: 300px;
+    width: 150px;
     margin: 0;
     padding: 0;
 }
@@ -98,10 +164,13 @@
 
 
 /* POP-OUTS */
-.popFree {
-    display: none;
-}
-
 .popReserved {
-    display: none;
+    display: block;    
+    background-color: #f2f2f2;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+    
+    color: #f54346;
+    padding: 0.3px;
+    margin: 0;
 }

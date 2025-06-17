@@ -13,24 +13,43 @@ function populateTimeOptions() {
         "7:30 PM - 8:00 PM", "8:00 PM - 8:30 PM", "8:30 PM - 9:00 PM"
     ];
 
+    const startSelect = document.querySelector("select.start-time");
+    const endSelect = document.querySelector("select.end-time");
+
+    // start time options
+    startSelect.innerHTML = `<option value="">-- None --</option>`;
     timeLabels.forEach((label, index) => {
-        timeOptionsHTML += `<option value="${index + 1}">${label}</option>`;
+        startSelect.innerHTML += `<option value="${index}">${label}</option>`;
     });
 
-    document.querySelector("select.start-time").insertAdjacentHTML("beforeend", timeOptionsHTML);
-    document.querySelector("select.end-time").insertAdjacentHTML("beforeend", timeOptionsHTML);
+    // end time options only takes times >= start
+    startSelect.addEventListener("change", () => {
+        const startIndex = parseInt(startSelect.value);
+
+        endSelect.innerHTML = `<option value="">-- None --</option>`;
+        if (!isNaN(startIndex)) {
+            for (let i = startIndex; i < timeLabels.length; i++) {
+                endSelect.innerHTML += `<option value="${i}">${timeLabels[i]}</option>`;
+            }
+        }
+    });
+
+    // date only shows present and future
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("res-date").setAttribute("min", today);
 }
 
 
+// DYNAMIC CHOSEN SLOT
 
-// SLOT INSTRUCTIONS
-
-window.addEventListener("message", function(event) {
-    const instructionsBox = document.querySelector(".instructions h2");
-    if (instructionsBox && typeof event.data === "string") {
-        instructionsBox.textContent = event.data;
+window.addEventListener('message', (event) => {
+    const data = event.data;
+    if (data.lab && data.seat) {
+        const chosenSlot = document.querySelector('.chosen-slot');
+        if (chosenSlot) {
+            chosenSlot.textContent = `${data.lab}, seat ${data.seat}`;
+        }
     }
 });
-
 
 document.addEventListener("DOMContentLoaded", populateTimeOptions);
