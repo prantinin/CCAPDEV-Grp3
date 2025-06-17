@@ -63,37 +63,44 @@
     </div>
 
     <div id= "content-area" class = "flex items-center justify-center">
-        <div class = "bg-[#1C9259] bg-opacity-40 mt-16 bg-ndgreen rounded-lg w-[700px] h-[400px]">
+        <div class = "bg-[#1C9259] bg-opacity-40 mt-16 bg-ndgreen rounded-lg w-[700px] h-[450px]">
             
                 <div class = "flex justify-center mt-8">
-                <p>Filter Results</p>
+                <div>
+
+                <div>
+                <p class = "flex justify-center text-xl font-medium text-black-700">Filter Results</p>
+                </div>
                 <br>
 
-                <div class="filter-area">
-
                 <label for="lab-finput" class="block mb-2 text-sm font-medium text-gray-700">Choose Laboratory:</label>
-                <select id="lab-finput" name="lab-finput" class="block w-52 p-2 bg-white border-white 
-                rounded-md shadow-sm focus:outline-none focus:ring-2">
+                <select id="lab-finput" name="lab-finput" class="block w-80 p-2 bg-white border-white 
+                rounded-full shadow-sm focus:outline-none focus:ring-2">
                 <option value="">-- Select --</option>
                 </select>
 
                 <br>
 
                 <label for="date-finput" class="block mb-2 text-sm font-medium text-gray-700" >Choose a Date</label>
-                <input type="date" id="date-finput" name="date-finput" class="block w-52 p-2 bg-white border-white 
-                rounded-md shadow-sm focus:outline-none focus:ring-2">
+                <input type="date" id="date-finput" name="date-finput" class="block w-80 p-2 bg-white border-white 
+                rounded-full shadow-sm focus:outline-none focus:ring-2">
 
                 <br>
 
                 <label for="time-finput" class="block mb-2 text-sm font-medium text-gray-700">Choose Time:</label>
-                <select id="time-finput" name="time-finput" class="block w-52 p-2 bg-white border-white 
-                rounded-md shadow-sm focus:outline-none focus:ring-2">
+                <select id="time-finput" name="time-finput" class="block w-80 p-2 bg-white border-white 
+                rounded-full shadow-sm focus:outline-none focus:ring-2">
                 <option value="">-- Select --</option>
                 </select>
 
                     <br>
 
-                    <button type="button" class="filter-view">Search</button>
+                <div class="flex justify-center">
+                <div class="flex justify-center w-52 bg-[#14AE5C] px-6 py-3 rounded-full text-white text-xl font-medium">
+                <button type="button">Search</button>
+                </div>
+              </div>
+
                 </div>
 
             </div>
