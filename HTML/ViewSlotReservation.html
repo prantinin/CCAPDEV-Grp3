@@ -5,51 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"> </script>
-  <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const addBtn = document.getElementById("add-item");
-  const reserveList = document.getElementById("reserve-list");
-
-  addBtn.addEventListener("click", () => {
-    // Create a new reserve-item
-    const newItem = document.createElement("div");
-    newItem.className = "reserve-item flex justify-center w-[90%]";
-    newItem.innerHTML = `
-      <div class="flex bg-[#1C9259] bg-opacity-40 shadow rounded-3xl mt-8 w-full h-[150px]">
-        <div class="mt-4 p-4">
-          <h3 class="text-xl font-bold">Lab A</h3>
-          <p class="text-sm text-gray-500">SEAT A1</p>
-          <p class="text-sm text-gray-500">June 24 - 5:00pm</p>
-        </div>
-        <div class="flex flex-col p-4 ml-auto">
-          <div class="mt-3 h-8 w-8">
-            <a href="#"><img class="delete" src="../Assets/images/deleteicon.png" alt="Delete"></a>
-          </div>
-          <div class="mt-8 h-8 w-8">
-            <a href="#"><img class="edit" src="../Assets/images/editicon.png" alt="Edit"></a>
-          </div>
-        </div>
-      </div>
-    `;
-
-    // Append to the list
-    reserveList.appendChild(newItem);
-
-    // Attach delete event to new delete button
-    newItem.querySelector(".delete").addEventListener("click", () => {
-      newItem.remove();
-    });
-  });
-
-  // Attach delete event to existing items
-  document.querySelectorAll(".delete").forEach(delBtn => {
-    delBtn.addEventListener("click", function () {
-      this.closest(".reserve-item").remove();
-    });
-  });
-});
-</script>
-
 
     <link rel="stylesheet" href="../CSS/general.css">
     <link rel="stylesheet" href="../CSS/reserve.css">
@@ -98,19 +53,19 @@ document.addEventListener("DOMContentLoaded", function () {
     <!-- MAIN CONTENT -->
     <!-- insert main content here -->
 <!-- Existing Reserve Items -->
-<div id="reserve-list" class="flex flex-col items-center space-y-4">
+<div class="reserve-list flex flex-col items-center space-y-4">
   <div class="reserve-item flex justify-center w-[90%]">
-    <div class="flex bg-[#1C9259] bg-opacity-40 rounded-3xl mt-8 w-full h-[150px]">
+    <div class="flex bg-[#1C9259] bg-opacity-40 rounded-3xl mt-8 w-full h-[150px] shadow-md">
       
       <div class="text-[#2C2C2C] ml-4 mt-3 p-4">
         <h3 class="text-[30px] font-bold">Lab A</h3>
-        <p class="text-sm text-gray-500">SEAT A1</p>
-        <p class="text-sm text-gray-500">01/01/2005 - 5:00pm</p>
+        <p class="text-sm">SEAT A1</p>
+        <p class="text-sm">01/01/2025 - 5:00pm</p>
       </div>
 
       <div class="flex flex-col p-4 ml-auto">
         <div class="mt-3 h-8 w-8">
-          <a href="#"><img class="delete" src="../Assets/images/deleteicon.png" alt="Delete"></a>
+          <button class="delete-item"><img src="../Assets/images/deleteicon.png" alt="Delete"></button>
         </div>
         <div class="mt-8 h-8 w-8">
           <a href="ReserveSlotPage.html"><img class="edit" src="../Assets/images/editicon.png" alt="Edit"></a>
@@ -120,14 +75,42 @@ document.addEventListener("DOMContentLoaded", function () {
   </div>
 </div>
 
+
+
 <!-- Add Button -->
 <div class="flex justify-center">
   <div class="flex justify-center w-[90%] h-[150px]">
     <div class="flex items-center justify-center mt-6 h-8 w-8">
-      <img id="add-item" src="../Assets/images/plus-circle.svg" alt="Add">
+      <button id="add-item">
+        <img src="../Assets/images/plus-circle.svg" alt="Add">
+      </button>
     </div>
   </div>
 </div>
+
+<script>
+        //add reservation
+        document.getElementById("add-item").addEventListener("click", function () {
+            const reserveList = document.querySelector(".reserve-list");
+            const clone = reserveList.cloneNode(true);
+            
+            clone.removeAttribute("id");
+            reserveList.parentNode.insertBefore(clone, reserveList.nextSibling);
+        });
+
+        //delete reservation
+        document.addEventListener("click", function(e) {
+            if (e.target.classList.contains("delete-item") || 
+                e.target.parentElement.classList.contains("delete-item")) {
+                
+                const itemToDelete = e.target.closest(".reserve-list"); //remove nearest
+                if (itemToDelete) {
+                    itemToDelete.remove();
+                }
+            }
+        });
+
+</script>
 
 </body>
 

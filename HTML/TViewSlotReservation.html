@@ -4,17 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ndgreen: '#1C9259',
-          }
-        }
-      }
-    }
-  </script>
     <script src="https://cdn.tailwindcss.com"> </script>
 
 
@@ -70,7 +59,7 @@
       <div id="filter-details" class = "flex flex-row w-[90%] mt-8">
 
     <a href="TFilterReservation.html">
-    <div class="flex flex-row w-[300px] bg-white px-50 py-6 rounded-full ">
+    <div class="flex flex-row w-[300px] bg-white px-50 py-6 rounded-full shadow">
     <div class="flex ml-4 mt-3 h-8 w-8 0">
     <img src="../Assets/images/searchicon.png">
     </div>
@@ -89,7 +78,7 @@
             <div class="flex items-center justify-center">
               <p> <strong>XX</strong> Seats Available</p>
             </div>
-            <div class= "flex justify-center w-52 bg-[#14AE5C] px-6 py-1.5 rounded-full text-white text-xl font-medium mt-3">
+            <div class= "flex justify-center w-52 bg-[#14AE5C] px-6 py-1.5 rounded-full text-white text-xl font-medium mt-3 shadow">
               <a href="ReserveSlotPage.html">
               <p> New Reservation</p>
               </a>
@@ -98,7 +87,7 @@
           
         </div>
 
-        <div id="reserve-list" class="flex  bg-[#1C9259] bg-opacity-40 shadow rounded-3xl mt-8 w-[90%] h-[150px] ">
+        <div class=" reserve-list flex  bg-[#1C9259] bg-opacity-40 shadow rounded-3xl mt-8 w-[90%] h-[150px] shadow-md ">
           <div class="mt-1.5 ml-3 p-4 w-[140px] h-[140px]">
             <a href="#">  <!-- redirects to profile when image is chosen-->
               <img src="../Assets/images/dp.png" alt="Profile Picture">
@@ -114,8 +103,8 @@
 
           <div class="flex flex-col p-4 ml-auto ">
             <div class="mt-3 h-8 w-8">
-          <a href="https://www.google.com/">
-            <img src="../Assets/images/deleteicon.png" alt="Delete"></a>
+          <button class="delete-item">
+            <img src="../Assets/images/deleteicon.png" alt="Delete"></button>
             </div>
 
             <div class="mt-8 h-8 w-8">
@@ -134,10 +123,36 @@
     <div class="flex justify-center">
   <div class="flex justify-center w-[90%] h-[150px]">
     <div class="flex items-center justify-center mt-6 h-8 w-8">
-      <img id="add-item" src="../Assets/images/plus-circle.svg" alt="Add">
+      <button id="add-item">
+      <img src="../Assets/images/plus-circle.svg" alt="Add">
+      </button>
     </div>
   </div>
 </div>
+
+<script>
+        //add reservation
+        document.getElementById("add-item").addEventListener("click", function () {
+            const reserveList = document.querySelector(".reserve-list");
+            const clone = reserveList.cloneNode(true);
+            
+            clone.removeAttribute("id");
+            reserveList.parentNode.insertBefore(clone, reserveList.nextSibling);
+        });
+
+        //delete reservation
+        document.addEventListener("click", function(e) {
+            if (e.target.classList.contains("delete-item") || 
+                e.target.parentElement.classList.contains("delete-item")) {
+                
+                const itemToDelete = e.target.closest(".reserve-list"); //remove nearest
+                if (itemToDelete) {
+                    itemToDelete.remove();
+                }
+            }
+        });
+
+</script>
 
 </body>
 
