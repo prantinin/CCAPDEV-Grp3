@@ -1,6 +1,43 @@
 /* IMPORTING GENERAL STYLES */
 @import url("../CSS/fonts.css");
-@import url("../CSS/general-iframe.css");
+
+
+
+/* GENERAL */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+
+
+/* HEADING */
+.slot-area-head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    gap: 8px;
+    
+    background-color: #92D3AD;
+}
+
+.lab-select {
+    font-family: Dongle-Reg;
+    font-size: 5vh;
+
+    background-color: white;
+    border-radius: 20px;
+    border: none;
+
+    margin: 0;
+    padding: 3px 15px;
+    line-height: 1;
+}
+
+
 
 /* MAIN AREA */
 .slot-area-content {
@@ -23,15 +60,15 @@
 
 .board {
     grid-area: board;
-    width: 500px;
 }
 
 .board img {
-    width: 100%;
+    width: 50px;
 }
 
 
-/* GRID AREAS */
+
+/* TABLE AREAS */
 .areaA {
     grid-area: areaA;
 }
@@ -52,6 +89,7 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
+    padding: 40px;
 }
 
 
@@ -78,6 +116,7 @@
 
 .chairs img {
     width: 100%;
+    padding: 15px;
 }
 
 .table {
@@ -90,7 +129,7 @@
 }
 
 .table img {
-    width: 300px;
+    width: 200px;
     margin: 0;
     padding: 0;
 }
@@ -99,9 +138,13 @@
 
 /* POP-OUTS */
 .popFree {
-    display: none;
+    border-radius: 10px;
+    height: 100px;
+    width: 200px;
 }
 
 .popReserved {
-    display: none;
+    border-radius: 10px;
+    height: 100px;
+    width: 250px;
 }
