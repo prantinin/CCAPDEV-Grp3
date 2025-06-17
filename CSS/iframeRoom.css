@@ -23,7 +23,7 @@
 
 .board {
     grid-area: board;
-    width: 100%
+    width: 500px;
 }
 
 .board img {
@@ -31,7 +31,7 @@
 }
 
 
-
+/* GRID AREAS */
 .areaA {
     grid-area: areaA;
 }
@@ -56,6 +56,7 @@
 
 
 
+/* TABLES */
 .upperTable, .lowerTable {
     display: flex;
     flex-direction: row;
@@ -92,4 +93,15 @@
     width: 300px;
     margin: 0;
     padding: 0;
+}
+
+
+
+/* POP-OUTS */
+.popFree {
+    display: none;
+}
+
+.popReserved {
+    display: none;
 }
