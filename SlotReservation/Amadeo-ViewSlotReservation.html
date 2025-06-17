@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"> </script>
+
+    <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/reserve.css">
+    <script src="../JS/general.js"></script>
+    <script src="../JS/reservepage.js"></script>
+
+    <title>Labubuddies - Reservation</title>
+</head>
+
+<body>
+    <!-- HEADING OPTIONS -->
+    <header class="header">
+        <button onclick="openSidebar()" class="open-menu">
+            <img src="../Assets/icons/menu-black.svg">
+        </button>
+
+        <div class="title">
+            <img src="../Assets/icons/logo.svg" class="logo">
+
+            <div class="label">
+                <p class="label-main">LABubuddy</p>
+                <p class="label-sub">Student</p>
+            </div>
+        </div>
+
+        <button type="button" class="sign-out">Sign Out</button>
+    </header>
+
+    <!-- MENU SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-heading">
+            <button onclick="closeSidebar()">
+                <img src="../Assets/icons/menu-white.svg">
+                <h1>Menu</h1>
+            </button>
+        </div>
+        <hr class="solid-divider">
+        <a href = "">Edit Profile</a>
+        <hr class="solid-divider">
+        <a href = "">Create Reservation</a>
+        <a href = "">Edit Reservation</a>
+        <a href = "">View Reservations</a>
+        <hr class="solid-divider">
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <!-- insert main content here -->
+<!-- Existing Reserve Items -->
+<div class="reserve-list flex flex-col items-center space-y-4">
+  <div class="reserve-item flex justify-center w-[90%]">
+    <div class="flex bg-[#1C9259] bg-opacity-40 rounded-3xl mt-8 w-full h-[150px] shadow-md">
+      
+      <div class="text-[#2C2C2C] ml-4 mt-3 p-4">
+        <h3 class="text-[30px] font-bold">Laboratory 4</h3>
+        <p class="text-sm">SEAT B3</p>
+        <p class="text-sm">04/07/2025 - 01:00pm to 08:00pm</p>
+      </div>
+
+      <div class="flex flex-col p-4 ml-auto">
+        <div class="mt-3 h-8 w-8">
+          <button class="delete-item"><img src="../Assets/images/deleteicon.png" alt="Delete"></button>
+        </div>
+        <div class="mt-8 h-8 w-8">
+          <a href="ReserveSlotPage.html"><img class="edit" src="../Assets/images/editicon.png" alt="Edit"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="reserve-list flex flex-col items-center space-y-4">
+  <div class="reserve-item flex justify-center w-[90%]">
+    <div class="flex bg-[#1C9259] bg-opacity-40 rounded-3xl mt-8 w-full h-[150px] shadow-md">
+      
+      <div class="text-[#2C2C2C] ml-4 mt-3 p-4">
+        <h3 class="text-[30px] font-bold">Laboratory 2</h3>
+        <p class="text-sm">SEAT A4 [BOOKED ANONYMOUSLY] </p>
+        <p class="text-sm">08/07/2025 - 04:30pm to 05:00pm</p>
+      </div>
+
+      <div class="flex flex-col p-4 ml-auto">
+        <div class="mt-3 h-8 w-8">
+          <button class="delete-item"><img src="../Assets/images/deleteicon.png" alt="Delete"></button>
+        </div>
+        <div class="mt-8 h-8 w-8">
+          <a href="ReserveSlotPage.html"><img class="edit" src="../Assets/images/editicon.png" alt="Edit"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Add Button -->
+<div class="flex justify-center">
+  <div class="flex justify-center w-[90%] h-[150px]">
+    <div class="flex items-center justify-center mt-6 h-8 w-8">
+      <button id="add-item">
+        <img src="../Assets/images/plus-circle.svg" alt="Add">
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+        //add reservation
+        document.getElementById("add-item").addEventListener("click", function () {
+            const reserveList = document.querySelector(".reserve-list");
+            const clone = reserveList.cloneNode(true);
+            
+            clone.removeAttribute("id");
+            reserveList.parentNode.insertBefore(clone, reserveList.nextSibling);
+        });
+
+        //delete reservation
+        document.addEventListener("click", function(e) {
+            if (e.target.classList.contains("delete-item") || 
+                e.target.parentElement.classList.contains("delete-item")) {
+                
+                const itemToDelete = e.target.closest(".reserve-list"); //remove nearest
+                if (itemToDelete) {
+                    itemToDelete.remove();
+                }
+            }
+        });
+
+</script>
+
+</body>
+
+</html>
