@@ -8,7 +8,7 @@
     grid-template-areas: 
         "instruc instruc"
         "slot-area timeslot-area" ;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 3fr 0.8fr;
     grid-template-rows: 1fr 14fr;
     gap: 20px;
     padding: 2vw;
@@ -46,6 +46,7 @@
     border: none;
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
 }
 
 
@@ -99,6 +100,15 @@
 
 .timeslot-area {
     line-height: 20px;
+}
+
+.anon {
+    padding: 10px 0px;
+}
+
+.anonRes:checked {
+    accent-color: #34C578;
+    border: none;
 }
 
 .confirm-res {

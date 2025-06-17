@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="../CSS/iframeRoom.css">
-    <script src="../JS/popout.js"></script>
+    <script src="../JS/iframeRes.js"></script>
 
     <title>Labubuddies</title>
 </head>
@@ -23,6 +23,9 @@
         </div>
 
         <!-- CONTENT -->
+        <div class="popReserved">
+            <p>This seat has been reserved. Please choose another.</p>
+        </div>
         <div class="slot-area-content">
             
             <!-- CLASS FRONT -->
@@ -36,21 +39,26 @@
             <!-- TABLES -->
             <div class="areaA">
                 <div class="upperTable">
-                    <button onclick="openPopFree()" id="A1" class="chairs">
+                    <button onclick="" id="A1" class="chairs">
                         <img src="../Assets/icons/chair1.svg">
                     </button>
-                    <button id="A2" class="chairs">
+                    <button onclick="" id="A2" class="chairs">
                         <img src="../Assets/icons/chair2.svg">
                     </button>
                 </div>
-                <div class="table">
-                    <img src="../Assets/icons/tableA.svg" id="tableA">
+                <div class="mid">
+                    <div class="table">
+                        <img src="../Assets/icons/tableA.svg" id="tableA">
+                    </div>
+                    <button onclick="" id="A5" class="chairs">
+                        <img src="../Assets/icons/chair5.svg">
+                    </button>
                 </div>
                 <div class="lowerTable">
-                    <button id="A3" class="chairs">
+                    <button onclick="" id="A3" class="chairs">
                         <img src="../Assets/icons/chair3.svg">
                     </button>
-                    <button id="A4" class="chairs">
+                    <button onclick="" id="A4" class="chairs">
                         <img src="../Assets/icons/chair4.svg">
                     </button>
                 </div>
@@ -65,8 +73,13 @@
                         <img src="../Assets/icons/chair2.svg">
                     </button>
                 </div>
-                <div class="table">
-                    <img src="../Assets/icons/tableB.svg" id="tableB">
+                <div class="mid">
+                    <div class="table">
+                        <img src="../Assets/icons/tableB.svg" id="tableB">
+                    </div>
+                    <button id="B5" class="chairs">
+                        <img src="../Assets/icons/chair5.svg">
+                    </button>
                 </div>
                 <div class="lowerTable">
                     <button id="B3" class="chairs">
@@ -87,8 +100,13 @@
                         <img src="../Assets/icons/chair2.svg">
                     </button>
                 </div>
-                <div class="table">
-                    <img src="../Assets/icons/tableC.svg" id="tableC">
+                <div class="mid">
+                    <div class="table">
+                        <img src="../Assets/icons/tableC.svg" id="tableC">
+                    </div>
+                    <button id="C5" class="chairs">
+                        <img src="../Assets/icons/chair5.svg">
+                    </button>
                 </div>
                 <div class="lowerTable">
                     <button id="C3" class="chairs">
@@ -109,8 +127,13 @@
                         <img src="../Assets/icons/chair2.svg">
                     </button>
                 </div>
-                <div class="table">
-                    <img src="../Assets/icons/tableD.svg" id="tableD">
+                <div class="mid">
+                    <div class="table">
+                        <img src="../Assets/icons/tableD.svg" id="tableD">
+                    </div>
+                    <button id="D5" class="chairs">
+                        <img src="../Assets/icons/chair5.svg">
+                    </button>
                 </div>
                 <div class="lowerTable">
                     <button id="D3" class="chairs">
@@ -121,15 +144,89 @@
                     </button>
                 </div>
             </div>
+
+            <div class="areaE">
+                <div class="upperTable">
+                    <button id="E1" class="chairs">
+                        <img src="../Assets/icons/chair1.svg">
+                    </button>
+                    <button id="E2" class="chairs">
+                        <img src="../Assets/icons/chair2.svg">
+                    </button>
+                </div>
+                <div class="mid">
+                    <div class="table">
+                        <img src="../Assets/icons/tableE.svg" id="tableE">
+                    </div>
+                    <button id="E5" class="chairs">
+                        <img src="../Assets/icons/chair5.svg">
+                    </button>
+                </div>
+                <div class="lowerTable">
+                    <button id="E3" class="chairs">
+                        <img src="../Assets/icons/chair3.svg">
+                    </button>
+                    <button id="E4" class="chairs">
+                        <img src="../Assets/icons/chair4.svg">
+                    </button>
+                </div>
+            </div>
+
+            <div class="areaF">
+                <div class="upperTable">
+                    <button id="F1" class="chairs">
+                        <img src="../Assets/icons/chair1.svg">
+                    </button>
+                    <button id="F2" class="chairs">
+                        <img src="../Assets/icons/chair2.svg">
+                    </button>
+                </div>
+                <div class="mid">
+                    <div class="table">
+                        <img src="../Assets/icons/tableF.svg" id="tableE">
+                    </div>
+                    <button id="E5" class="chairs">
+                        <img src="../Assets/icons/chair5.svg">
+                    </button>
+                </div>
+                <div class="lowerTable">
+                    <button id="D3" class="chairs">
+                        <img src="../Assets/icons/chair3.svg">
+                    </button>
+                    <button id="D4" class="chairs">
+                        <img src="../Assets/icons/chair4.svg">
+                    </button>
+                </div>
+            </div>
+
+            <div class="areaG">
+                <div class="upperTable">
+                    <button id="D1" class="chairs">
+                        <img src="../Assets/icons/chair1.svg">
+                    </button>
+                    <button id="D2" class="chairs">
+                        <img src="../Assets/icons/chair2.svg">
+                    </button>
+                </div>
+                <div class="mid">
+                    <div class="table">
+                        <img src="../Assets/icons/tableG.svg" id="tableG">
+                    </div>
+                    <button id="G5" class="chairs">
+                        <img src="../Assets/icons/chair5.svg">
+                    </button>
+                </div>
+                <div class="lowerTable">
+                    <button id="G3" class="chairs">
+                        <img src="../Assets/icons/chair3.svg">
+                    </button>
+                    <button id="G4" class="chairs">
+                        <img src="../Assets/icons/chair4.svg">
+                    </button>
+                </div>
+            </div>
             
         </div>
-
-        <div class="popFree">
-            <iframe src="popFree.html" title="popFree" class="popFree"></iframe>
-        </div>
-
-        <div clas="popReserved">
-            <iframe src="popReserved.html" title="popReserved" class="popReserved"></iframe>
-        </div>
     </body>
+
 </html>
