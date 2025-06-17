@@ -63,17 +63,16 @@
     </div>
 
     <div id= "content-area" class = "flex items-center justify-center">
-        <div class = "bg-[#1C9259] bg-opacity-40 mt-16 bg-ndgreen rounded-lg w-[700px] h-[450px]">
+        <div class = "bg-[#1C9259] bg-opacity-40 mt-16 bg-ndgreen rounded-lg w-[700px] h-[478px] text-[#2C2C2C]">
             
                 <div class = "flex justify-center mt-8">
                 <div>
 
                 <div>
-                <p class = "flex justify-center text-xl font-medium text-black-700">Filter Results</p>
+                <p class = "flex justify-center text-[30px] font-medium text-[#2C2C2C]">Filter Reservations</p>
                 </div>
-                <br>
 
-                <label for="lab-finput" class="block mb-2 text-sm font-medium text-gray-700">Choose Laboratory:</label>
+                <label for="lab-finput" class="mt-4 block mb-2 text-sm font-medium ">Choose Laboratory:</label>
                 <select id="lab-finput" name="lab-finput" class="block w-80 p-2 bg-white border-white 
                 rounded-full shadow-sm focus:outline-none focus:ring-2">
                 <option value="">-- Select --</option>
@@ -81,13 +80,13 @@
 
                 <br>
 
-                <label for="date-finput" class="block mb-2 text-sm font-medium text-gray-700" >Choose a Date</label>
+                <label for="date-finput" class="block mb-2 text-sm font-medium " >Choose a Date</label>
                 <input type="date" id="date-finput" name="date-finput" class="block w-80 p-2 bg-white border-white 
                 rounded-full shadow-sm focus:outline-none focus:ring-2">
 
                 <br>
 
-                <label for="time-finput" class="block mb-2 text-sm font-medium text-gray-700">Choose Time:</label>
+                <label for="time-finput" class="block mb-2 text-sm font-medium ">Choose Time:</label>
                 <select id="time-finput" name="time-finput" class="block w-80 p-2 bg-white border-white 
                 rounded-full shadow-sm focus:outline-none focus:ring-2">
                 <option value="">-- Select --</option>
@@ -95,9 +94,18 @@
 
                     <br>
 
-                <div class="flex justify-center">
+                <id="search-buttons" div class="flex flex-col items-center">
                 <div class="flex justify-center w-52 bg-[#14AE5C] px-6 py-3 rounded-full text-white text-xl font-medium">
+                <a href="TViewSlotReservation.html">
                 <button type="button">Search</button>
+                </a>
+                </div>
+                <div class="flex justify-center mt-2">
+                  <a href="TViewSlotReservation.html">
+                    <p>
+                      View All Instead
+                    </p>
+                  </a>
                 </div>
               </div>
 
