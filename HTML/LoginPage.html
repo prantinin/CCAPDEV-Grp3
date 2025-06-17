@@ -9,27 +9,72 @@
 </head>
 <body class="flex items-center justify-center h-full relative overflow-hidden">
   <!-- Background Circle -->
-  <div class="absolute w-[1000px] h-[1000px] rounded-full bg-[#D9F1DD] opacity-20"></div>
+  <div class="absolute w-[1000px] h-[1000px] rounded-full bg-green-200/50"></div>
 
   <!-- Login Form -->
   <form id="loginForm" class="flex flex-col items-center space-y-4 z-10">
     <img src="../Assets/icons/logo.svg" alt="LABubuddy Logo" class="w-48 h-auto" />
     <h1 class="logo-title text-white text-4xl">L A B u b u d d y</h1>
-    
-    <input type="email" placeholder="Email" class="w-64 px-4 py-2 rounded-full outline-none shadow-lg" required />
-    <input type="password" placeholder="Password" class="w-64 px-4 py-2 rounded-full outline-none shadow-lg" required />
+
+    <input type="email" id="email" placeholder="Email" class="w-64 px-4 py-2 rounded-full outline-none border border-black" required />
+    <input type="password" id="password" placeholder="Password" class="w-64 px-4 py-2 rounded-full outline-none border border-black" required />
+
+    <!-- Remember Me checkbox (not functional yet) -->
+    <label class="text-white text-sm flex items-center space-x-2">
+      <input type="checkbox" id="rememberMe" class="form-checkbox" />
+      <span>Remember me for 3 weeks</span>
+    </label>
 
     <p class="text-white text-sm">No account yet? <a href="SignUpPage.html" class="underline">Create Account</a></p>
 
-    <button type="submit" class="w-64 px-4 py-2 rounded-full bg-emerald-700 text-white border border-gray-200 font-bold shadow-lg">
+    <button type="submit" class="w-64 px-4 py-2 rounded-full bg-emerald-700 text-white font-bold border border-black">
       Log in
     </button>
   </form>
 
   <script>
+    const users = [
+      {
+        email: "timothy_ortiz@dlsu.edu.ph",
+        password: "iLoveChikkieNuggies123",
+        redirect: "TimothyOrtiz.html"
+      },
+      {
+        email: "maricarmen_antonio@dlsu.edu.ph",
+        password: "L0K1MYL0VE<33",
+        redirect: "MaricarmenAntonio.html"
+      },
+      {
+        email: "amadeo_espinoza@dlsu.edu.ph",
+        password: "M4R1CARM3N_4_L1F3!",
+        redirect: "AmadeoEspinoza.html"
+      },
+      {
+        email: "daisy_reyes@dlsu.edu.ph",
+        password: "P4SSW0RD123456!",
+        redirect: "DaisyReyes.html"
+      },
+      {
+        email: "loki_lopez_tech@dlsu.edu.ph",
+        password: "THORisF4T!!!",
+        redirect: "LokiLopez.html"
+      }
+    ];
+
     document.getElementById("loginForm").addEventListener("submit", function(event) {
-      event.preventDefault(); // Prevent page refresh
-      window.location.href = "ReserveSlotPage.html"; // Redirect to reserve page
+      event.preventDefault(); // Prevent form from submitting
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if (user) {
+        // Redirect to user’s profile page
+        window.location.href = user.redirect;
+      } else {
+        alert("Invalid email or password.");
+      }
     });
   </script>
 </body>
