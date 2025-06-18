@@ -37,9 +37,9 @@
 
     align-items: center;
     justify-content: center;
-    background-color: black;
-    color: #34C578;
-    border-radius: 10px;
+    color: black;
+    margin: 0;
+    padding: 0;
 }
 
 
