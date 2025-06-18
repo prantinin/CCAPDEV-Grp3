@@ -19,3 +19,7 @@ function handleOutsideClick(event) {
         closeSidebar();
     }
 }
+
+function goBack() {
+    window.history.back();
+}
