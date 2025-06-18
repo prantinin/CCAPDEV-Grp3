@@ -25,7 +25,7 @@
 
             <div class="label">
                 <p class="label-main">LABubuddy</p>
-                <p class="label-sub">Student</p>
+                <p class="label-sub">Technician</p>
             </div>
         </div>
 
@@ -53,13 +53,12 @@
     <div class="main-content">
         <div class="instructions">
             <h2>Choose a laboratory.</h2>
-            <a href="TReserveSlotPage.html">To Technician</a>
+            <a href="ReserveSlotPage.html">To Student</a>
         </div>
 
         <!-- LAB/SEAT SLOTS -->
         <div class="slot-area">
             <iframe src="iframeRoom.html" title="slot-area-contents" class="slot-area-contents"></iframe>
-            <br>
         </div>
 
         <!-- DATE/TIME SLOTS -->
@@ -89,6 +88,11 @@
                 <select class="end-time" name="end-time">
                     <option value="0">-- None --</option>
                 </select>
+            </div>
+            <br>
+            <div class="student-email">
+                <label for="email">Enter student's email</label>
+                <input type="email" id="email" class="email">
             </div>
             <div class="anon">
                 <input type="checkbox" id="anonRes" class="anonRes" value="anonRes">
