@@ -1,0 +1,39 @@
+{
+  "users": {
+    "user1": {
+      "email": "timothy_ortiz@dlsu.edu.ph",
+      "pw": "iLoveChikkieNuggies123",
+      "pfp": "../Assets/icons/S1pfp.svg",
+      "reservations": [1, 2],
+      "role": "student"
+    },
+    "user2": {
+      "email": "maricarmen_antonio@dlsu.edu.ph",
+      "pw": "L0K1MYL0VE<33",
+      "pfp": "../Assets/icons/S2pfp.svg",
+      "reservations": [3, 4],
+      "role": "student"
+    },
+    "user3": {
+      "email": "amadeo_espinoza@dlsu.edu.ph",
+      "pw": "iLoveChikkieNuggies123",
+      "pfp": "../Assets/icons/S1pfp.svg",
+      "reservations": [5],
+      "role": "student"
+    },
+    "user4": {
+      "email": "daisy_reyes@dlsu.edu.ph",
+      "pw": "iLoveChikkieNuggies123",
+      "pfp": "../Assets/icons/S1pfp.svg",
+      "reservations": [6],
+      "role": "student"
+    },
+    "user5": {
+      "email": "loki_lopez_tech@dlsu.edu.ph",
+      "pw": "THORisF4T!!!",
+      "pfp": "../Assets/icons/S1pfp.svg",
+      "reservations": [],
+      "role": "technician"
+    }
+  }
+}
