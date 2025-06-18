@@ -24,6 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// ERROR WHEN CHOOSING RESERVED SEATS
 function openPopRes(event) {
     const popup = document.querySelector(".popReserved");
 

@@ -52,6 +52,7 @@ window.addEventListener('message', (event) => {
     }
 });
 
+// FORM VALIDATION
 document.addEventListener("DOMContentLoaded", function () {
     const confirmBtn = document.querySelector(".confirm-res");
     const resDate = document.querySelector("#res-date");
