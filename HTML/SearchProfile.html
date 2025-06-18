@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/searchprofile.css">
+
+
+    <script src="../JS/general.js"></script>
+
+    <title>Labubuddies</title>
+
+</head>
+
+<body>
+   
+    <!-- HEADING OPTIONS -->
+    <header class="header">
+        <button onclick="openSidebar()" class="open-menu">
+            <img src="../Assets/icons/menu-black.svg">
+        </button>
+
+        <div class="title">
+            <img src="../Assets/icons/logo.svg" class="logo">
+
+            <div class="label">
+                <p class="label-main">LABubuddy</p>
+                <p class="label-sub">Student</p>
+            </div>
+        </div>
+        <button type="button" class="sign-out">Sign Out</button>
+    </header>
+
+    <!-- MENU SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-heading">
+            <button onclick="closeSidebar()">
+                <img src="../Assets/icons/menu-white.svg">
+                <h1>Menu</h1>
+            </button>
+        </div>
+        <hr class="solid-divider">
+        <a href = "ViewProfile.html">Profile</a>
+        <a href = "SearchProfile.html">Search Other Users</a>
+        <hr class="solid-divider">
+        <a href = "">Create Reservation</a>
+        <a href = "">Edit Reservation</a>
+        <a href = "">View Reservations</a>
+        <a href = "">Search Free Slots</a>
+        <hr class="solid-divider">
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="user-section">
+            <div class="user-card">
+                <div class="user-picture">
+                    <img src="../Assets/images/cat2.jpg" alt="dp" class="user-picture">
+                </div>
+                <a href = "ViewProfile2.html" style="text-decoration: none; color: inherit;">
+                    <p class="user-name">Timothy Ortiz</p>
+                </a>
+            </div>
+            <div class="user-card">
+                <div class="user-picture">
+                    <img src="../Assets/images/dog.jpg" alt="dp" class="user-picture">
+                </div>
+                <a href = "ViewProfile3.html" style="text-decoration: none; color: inherit;">
+                    <p class="user-name">Amadeo Espinoza</p>
+                </a>
+            </div>
+            <div class="user-card">
+                <div class="user-picture">
+                    <img src="../Assets/images/cat3.jpg" alt="dp" class="user-picture">
+                </div>
+                <a href = "ViewProfile4.html" style="text-decoration: none; color: inherit;">
+                    <p class="user-name">Daisy Reyes</p>
+                </a>
+            </div>
+            <div class="user-card">
+                <div class="user-picture"> 
+                    <img src="../Assets/images/dog2.jpg" alt="dp" class="user-picture">
+                </div>
+                <a href = "ViewProfile5.html" style="text-decoration: none; color: inherit;">
+                    <p class="user-name">Laurissa Wayne</p>
+                </a>
+            </div>
+             <div class="user-card">
+                <div class="user-picture"> 
+                    <img src="../Assets/images/technician.png" alt="dp" class="user-picture">
+                </div>
+                <a href = "ViewProfile6.html" style="text-decoration: none; color: inherit;">
+                    <p class="user-name">Loki Lopez</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="search-section">
+            <div class="search-logo">
+                  <img src="../Assets/icons/logo.svg" alt="logo" class="search-logo">
+            </div>
+            <h2 class="search-title">Search LABUDDIES</h2>
+            
+            <form class="search-form">
+                <input type="text" class="search-input" placeholder="Name" name="name">
+                <select class="search-input" name="role">
+                    <option value="">Select Role</option>
+                    <option value="student">Student</option>
+                    <option value="technician">Technician</option>
+                </select>
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+    </main>
+
+</body>
+
+</html>
