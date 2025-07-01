@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/editprofile.css">
+    <link rel="stylesheet" href="../CSS/fonts.css">
+
+    <script src="../JS/general.js"></script>
+    <script src="../JS/editprofile.js"></script>
+
+    <title>Labubuddies - Edit Profile</title>
+          
+    
+</head>
+
+<body>
+   
+    <!-- HEADING OPTIONS -->
+    <header class="header">
+        <button onclick="openSidebar()" class="open-menu">
+            <img src="../Assets/icons/menu-black.svg">
+        </button>
+
+        <div class="title">
+            <img src="../Assets/icons/logo.svg" class="logo">
+
+            <div class="label">
+                <p class="label-main">LABubuddy</p>
+                <p class="label-sub">Student</p>
+            </div>
+        </div>
+
+        <a href="LoginPage.html" class="sign-out">Sign Out</a>
+    </header>
+
+    <!-- MENU SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-heading">
+            <button onclick="closeSidebar()">
+                <img src="../Assets/icons/menu-white.svg">
+                <h1>Menu</h1>
+            </button>
+        </div>
+        <hr class="solid-divider">
+        <a href="ViewProfile.html">View Profile</a>
+        <a href="SearchProfile.html">Search Other Users</a>
+        <hr class="solid-divider">
+        <a href="ReserveSlotPage.html">Create Reservation</a>
+        <a href="../SlotReservation/Maricarmen-ViewSlotReservation.html">View Reservations</a>
+        <hr class="solid-divider">
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="profile-container">
+             <button class="back-btn" onclick="goBack()">
+                    <img src="../Assets/icons/back.svg" alt="Back" style="width: 20px; height: 20px;">
+                 </button>
+            <div class="profile-section">
+                <div class="profile-picture" onclick="document.getElementById('profile-image-input').click()">
+                    <img id="profile-image" class="profile-image" src="../Assets/images/cat.jpg" alt="Profile Picture">
+                </div>
+                <input type="file" id="profile-image-input" accept="image/*" onchange="ImageUpload(event)">
+                
+                <h1 class="profile-name">Maricarmen Antonio</h1>
+                
+                <div class="description-section">
+                    <p class="description-label">Description</p>
+                    <textarea class="description-textarea" placeholder="Enter your description here...">DLSU ID 121 BSCS-ST</textarea>
+                </div>
+
+                <div class="button-group" style="text-align: center;">
+                    <a href="ViewProfile.html" class="save-btn" style="text-decoration: none; display: block; text-align: center;">
+                        Save
+                    </a>
+                    <a href="ViewProfile.html" class="cancel-btn" style="text-decoration: none; display: block; text-align: center;">
+                        Cancel
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+</body>
+
+</html>
