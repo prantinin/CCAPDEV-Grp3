@@ -1,0 +1,17 @@
+{
+  "name": "ccapdev-grp3",
+  "version": "1.0.0",
+  "description": "During the preparation of this work the author(s) used Gemini and ChatGPT\r for the following purposes:",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.16.1"
+  }
+}
