@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
-const uri = "mongodb+srv://labubuddies:ccapdev2025@cluster0.c6mgfi4.mongodb.net/labubuddiesDB?retryWrites=true&w=majority&appName=Cluster0";
-
-mongoose.connect(uri)
+mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
   .then(() => {
     console.log('Connected to MongoDB...');
 
