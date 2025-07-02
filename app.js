@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
+const uri = "mongodb+srv://labubuddies:ccapdev2025@cluster0.c6mgfi4.mongodb.net/labubuddiesDB?retryWrites=true&w=majority&appName=Cluster0";
+
+mongoose.connect(uri)
   .then(() => {
     console.log('Connected to MongoDB...');
 
@@ -12,6 +14,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
   })
   .then(() => {
     console.log('Test document inserted!');
-    mongoose.connection.close(); // Close the connection after insert
+    mongoose.connection.close();
   })
   .catch(err => console.log('Could not connect to MongoDB...', err));
