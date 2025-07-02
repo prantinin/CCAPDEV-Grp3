@@ -25,4 +25,8 @@
   font-family: 'Dongle-Regular';
 }
 
+* {
+  font-family: 'Dongle-Reg', sans-serif !important;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=Inter&display=swap');

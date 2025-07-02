@@ -32,6 +32,7 @@ app.get('/createreserve', (req, res) => {
 app.get('/reserveiframe', (req, res) => {
   res.render('reserveiframe', {
     title: 'Reservation Slots',
+    layout: false,
     labs: labs,
     areas: areas
   });

@@ -1,25 +1,22 @@
 function openSidebar() {
-    document.querySelector(".sidebar").classList.add("active");
-    document.addEventListener("click", handleOutsideClick);
+  document.getElementById("sidebar").classList.add("active");
+  document.addEventListener("click", handleOutsideClick);
 }
 
 function closeSidebar() {
-    document.querySelector(".sidebar").classList.remove("active");
-    document.removeEventListener("click", handleOutsideClick);
+  document.getElementById("sidebar").classList.remove("active");
+  document.removeEventListener("click", handleOutsideClick);
 }
 
 function handleOutsideClick(event) {
-    const sidebar = document.querySelector(".sidebar");
-    const openButton = document.querySelector(".open-menu");
+  const sidebar = document.getElementById("sidebar");
+  const openButton = document.querySelector("button[onclick='openSidebar()']");
 
-    if (
-        !sidebar.contains(event.target) &&
-        !openButton.contains(event.target)
-    ) {
-        closeSidebar();
-    }
+  if (!sidebar.contains(event.target) && !openButton.contains(event.target)) {
+    closeSidebar();
+  }
 }
 
 function goBack() {
-    window.history.back();
+  window.history.back();
 }

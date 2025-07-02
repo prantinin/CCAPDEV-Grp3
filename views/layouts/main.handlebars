@@ -5,12 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
 
-    <link rel="stylesheet" href="../../CSS/general.css">
+    <link rel="stylesheet" href="/CSS/fonts.css">
 
     <script src="/JS/general.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        }
+
+        .sidebar.active {
+        transform: translateX(0);
+        }
+    </style>
 </head>
-<body>
+<body class="bg-[#E0FFE5]">
 
     {{> header}}
     {{> sidebar}}

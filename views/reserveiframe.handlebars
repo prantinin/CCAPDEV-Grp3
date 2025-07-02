@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Labubuddies</title>
+
+  <link rel="stylesheet" href="../../CSS/fonts.css">
+  
+  <script src="/JS/iframeRes.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .fixed-chair {
+      width: 80px;
+      height: 80px;
+    }
+
+    .fixed-table {
+      width: 120px;
+      height: 120px;
+    }
+  </style>
+</head>
+<body class="m-0 p-0 bg-white">
+
+  <!-- Lab Select Dropdown -->
+  <div class="flex items-center justify-center gap-2 p-4 bg-[#92D3AD]">
+    <label for="lab-select" class="hidden">Choose Lab</label>
+    <select id="lab-select" name="lab-select" class="font-Dongle-Regular text-xl bg-white border rounded-xl px-4 py-1">
+      {{#each labs}}
+        <option value="{{this.value}}">{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <!-- Pop-up Message -->
+  <div id="popReserved" class="hidden bg-gray-100 text-sm text-red-500 p-1 font-sans">
+    <p>This seat has been reserved. Please choose another.</p>
+  </div>
+
+  <!-- Main Slot Area -->
+ <div class="grid grid-cols-[0.2fr_2fr_2fr_2fr_2fr] grid-rows-[auto_auto] gap-0 p-0">
+  <!-- Door -->
+  <div class="w-[200px] col-start-1 row-start-1">
+    <img src="/Assets/icons/labdoor.svg" class="w-full" alt="Door" />
+  </div>
+
+  <!-- Board (directly below door) -->
+  <div class="col-start-1 row-start-2">
+    <img src="/Assets/icons/board.svg" class="w-[50px]" alt="Board" />
+  </div>
+
+    <!-- Lab Areas -->
+    {{#each areas}}
+<div class="grid grid-cols-3 grid-rows-3 gap-2 p-7 items-center justify-center">
+
+  <!-- Upper Row: Chair 1 and Chair 2 -->
+  <div class="col-start-1 row-start-1 flex justify-center">
+    <button id="{{this.upper.[0].id}}" class="chairs fixed-chair bg-transparent border-none flex justify-center cursor-pointer">
+      <img src="{{this.upper.[0].img}}" class="w-full h-full object-contain" alt="{{this.upper.[0].id}}" />
+    </button>
+  </div>
+
+  <div class="col-start-2 row-start-1 flex justify-center">
+    <button id="{{this.upper.[1].id}}" class="chairs fixed-chair bg-transparent border-none flex justify-center cursor-pointer">
+      <img src="{{this.upper.[1].img}}" class="w-full h-full object-contain" alt="{{this.upper.[1].id}}" />
+    </button>
+  </div>
+
+  <!-- Middle Row: Table and Chair 5 (mid) -->
+  <div class="col-start-1 row-start-2 flex justify-center">
+    <img src="{{this.table}}" class="fixed-table object-contain" alt="Table {{@key}}" />
+  </div>
+
+  <div class="col-start-3 row-start-2 flex justify-center">
+    {{#if this.mid}}
+      <button id="{{this.mid.id}}" class="chairs fixed-chair bg-transparent border-none flex justify-center cursor-pointer" {{#if this.mid.onclick}}onclick="{{this.mid.onclick}}"{{/if}}>
+        <img src="{{this.mid.img}}" class="w-full h-full object-contain" alt="{{this.mid.id}}" />
+      </button>
+    {{/if}}
+  </div>
+
+  <!-- Lower Row: Chair 3 and Chair 4 -->
+  <div class="col-start-1 row-start-3 flex justify-center">
+    <button id="{{this.lower.[0].id}}" class="chairs fixed-chair bg-transparent border-none flex justify-center cursor-pointer" {{#if this.lower.[0].onclick}}onclick="{{this.lower.[0].onclick}}"{{/if}}>
+      <img src="{{this.lower.[0].img}}" class="w-full h-full object-contain" alt="{{this.lower.[0].id}}" />
+    </button>
+  </div>
+
+  <div class="col-start-2 row-start-3 flex justify-center">
+    <button id="{{this.lower.[1].id}}" class="chairs fixed-chair bg-transparent border-none flex justify-center cursor-pointer" {{#if this.lower.[1].onclick}}onclick="{{this.lower.[1].onclick}}"{{/if}}>
+      <img src="{{this.lower.[1].img}}" class="w-full h-full object-contain" alt="{{this.lower.[1].id}}" />
+    </button>
+  </div>
+
+</div>
+
+    {{/each}}
+
+  </div>
+
+</body>
+</html>
