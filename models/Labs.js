@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const labSchema = new mongoose.Schema({
     labID: {
         type: Number,
-        require: true
+        required: true
     },
     labName: {
         type: String,
-        require: true
+        required: true
     }
 });
 

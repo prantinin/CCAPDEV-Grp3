@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const seatSchema = new mongoose.Schema({
     seatID: {
         type: Number,
-        require: true
+        required: true
     },
     seatCode: {
         type: String,
-        require: true
+        required: true
     },
     labID: {
         type: mongoose.Schema.Types.ObjectId,
@@ -15,10 +15,11 @@ const seatSchema = new mongoose.Schema({
     },
     avail: {
         type: Boolean,
-        require: true
+        required: true
     }
 });
 
-module.exports = mongoose.model('Lab', labSchema);
+const Lab = mongoose.model('Lab', labSchema);
+const Seat = mongoose.model('Seat', seatSchema);
 
-module.exports = mongoose.model('Seat', seatSchema);
+module.exports = { Lab, Seat };

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const reservSchema = new mongoose.Schema({
     reservID: {
         type: Number,
-        require: true
+        required: true
     },
     userID: {
         type: mongoose.Schema.Types.ObjectId,
@@ -11,7 +11,7 @@ const reservSchema = new mongoose.Schema({
     },
     isAnon: {
         type: Boolean,
-        require: true
+        required: true
     },
     slot: {
         type: mongoose.Schema.Types.ObjectId,
@@ -19,27 +19,28 @@ const reservSchema = new mongoose.Schema({
     },
     reservStart: {
         type: Number,
-        require: true
+        required: true
     },
     reservEnd: {
         type: Number,
-        require: true
+        required: true
     },
     reservDate: {
         type: String,
-        require: true
+        required: true
     },
     reqTime: {
         type: Number,
-        require: true
+        required: true
     },
     reqDate: {
         type: String,
-        require: true
+        required: true
     }
 });
 
-module.exports = mongoose.model('User', userSchema);
-module.exports = mongoose.model('Seat', seatSchema);
+const User = mongoose.model('User', userSchema);
+const Reserv = mongoose.model('Reserv', reservSchema);
+const Seat = mongoose.model('Seat', seatSchema);
 
-module.exports = mongoose.model('Reserv', reservSchema);
+module.exports = { User, Reserv, Seat };
