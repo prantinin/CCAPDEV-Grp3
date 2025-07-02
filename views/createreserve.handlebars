@@ -1,0 +1,54 @@
+<div class="grid grid-cols-4 gap-5 p-6">
+  <!-- Instructions -->
+  <div class="col-span-4 flex justify-between font-light">
+    <h2 class="text-3xl font-bold">Choose a laboratory.</h2>
+  </div>
+
+  <!-- Slot / Seat Area -->
+<div class="col-span-3 bg-white rounded-xl overflow-hidden">
+  <iframe src="/reserveiframe" title="slot-area-contents" class="w-full h-full border-none"></iframe>
+</div>
+
+  <!-- Time Slot / Reservation Info -->
+  <div class="col-span-1 bg-green-100 rounded-xl p-6 text-lg space-y-4">
+    <!-- Chosen Slot -->
+    <div class="flex items-center space-x-2">
+      <p  class="text-2xl">Chosen slot:</p>
+      <div class="bg-white px-4 py-2 rounded text-black">Lab 1, seat A1</div>
+    </div>
+
+    <!-- Date Input -->
+    <div>
+      <label for="res-date" class="text-2xl">Choose a Date</label>
+      <input type="date" id="res-date" name="res-date" class="w-full p-2 rounded border mt-1">
+    </div>
+
+    <!-- Start Time -->
+    <div>
+      <label for="start-time" class="text-2xl">Choose a Start Time</label>
+      <select name="start-time" class="w-full p-2 rounded border mt-1">
+        <option value="0"> -- None --</option>
+      </select>
+    </div>
+
+    <!-- End Time -->
+    <div>
+      <label for="end-time" class="text-2xl">Choose an End Time</label>
+      <select name="end-time" class="w-full p-2 rounded border mt-1">
+        <option value="0">-- None --</option>
+      </select>
+    </div>
+
+    <!-- Anonymous Checkbox -->
+    <div class="flex items-center space-x-2">
+      <input type="checkbox" id="anonRes" class="accent-green-500">
+      <label for="anonRes"  class="text-2xl">Reserve Anonymously?</label>
+    </div>
+
+    <!-- Confirm Button -->
+    <button type="button" class="w-full py-2 rounded bg-gray-400 text-gray-200 text-2xl cursor-not-allowed 
+    transition hover:bg-green-500 hover:text-black active:cursor-pointer">
+      Confirm
+    </button>
+  </div>
+</div>

@@ -13,4 +13,16 @@
     src: url(../Assets/fonts/Dongle-Regular.ttf);
 }
 
+.font-dongle-bold {
+  font-family: 'Dongle-Bold';
+}
+
+.font-dongle-light {
+  font-family: 'Dongle-Light';
+}
+
+.font-dongle-regular {
+  font-family: 'Dongle-Regular';
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=Inter&display=swap');
