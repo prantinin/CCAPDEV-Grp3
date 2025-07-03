@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.get('/createreserve', (req, res) => {
-  res.render('createreserve', { title: 'Create Reservation' });
+  res.render('createreserve', { title: 'Labubuddies | Reserve' });
 });
 
 app.get('/reserveiframe', (req, res) => {
