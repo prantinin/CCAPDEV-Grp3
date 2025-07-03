@@ -1,0 +1,12 @@
+[
+  { "reservID": 5001, "userID": 1002, "isAnonymous": false, "slot": 1, "seatCode": "A1", "reservStart": 900, "reservEnd": 1100, "reservDate": "2025-07-01", "reqTime": 800, "reqDate": "2025-06-30" },
+  { "reservID": 5002, "userID": 1003, "isAnonymous": true, "slot": 2, "seatCode": "A2", "reservStart": 1300, "reservEnd": 1500, "reservDate": "2025-07-01", "reqTime": 900, "reqDate": "2025-06-30" },
+  { "reservID": 5003, "userID": 1004, "isAnonymous": false, "slot": 3, "seatCode": "B1", "reservStart": 1000, "reservEnd": 1200, "reservDate": "2025-07-02", "reqTime": 850, "reqDate": "2025-07-01" },
+  { "reservID": 5004, "userID": 1005, "isAnonymous": true, "slot": 1, "seatCode": "B2", "reservStart": 800, "reservEnd": 1000, "reservDate": "2025-07-03", "reqTime": 700, "reqDate": "2025-07-02" },
+  { "reservID": 5005, "userID": 1006, "isAnonymous": false, "slot": 2, "seatCode": "C1", "reservStart": 1400, "reservEnd": 1600, "reservDate": "2025-07-04", "reqTime": 1100, "reqDate": "2025-07-03" },
+  { "reservID": 5006, "userID": 1007, "isAnonymous": false, "slot": 3, "seatCode": "C2", "reservStart": 900, "reservEnd": 1100, "reservDate": "2025-07-05", "reqTime": 800, "reqDate": "2025-07-04" },
+  { "reservID": 5007, "userID": 1008, "isAnonymous": true, "slot": 1, "seatCode": "D1", "reservStart": 1200, "reservEnd": 1400, "reservDate": "2025-07-06", "reqTime": 1000, "reqDate": "2025-07-05" },
+  { "reservID": 5008, "userID": 1009, "isAnonymous": false, "slot": 2, "seatCode": "E1", "reservStart": 1300, "reservEnd": 1500, "reservDate": "2025-07-07", "reqTime": 900, "reqDate": "2025-07-06" },
+  { "reservID": 5009, "userID": 1010, "isAnonymous": true, "slot": 3, "seatCode": "F1", "reservStart": 1000, "reservEnd": 1200, "reservDate": "2025-07-08", "reqTime": 850, "reqDate": "2025-07-07" },
+  { "reservID": 5010, "userID": 1001, "isAnonymous": false, "slot": 1, "seatCode": "G1", "reservStart": 800, "reservEnd": 1000, "reservDate": "2025-07-09", "reqTime": 700, "reqDate": "2025-07-08" }
+]
