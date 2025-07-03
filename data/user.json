@@ -1,0 +1,8 @@
+[
+  { "userID": 1001, "fName": "Timothy", "lName": "Ortiz", "password": "iLoveChikkieNuggies123", "isTech": false, "profPic": "", "profDesc": "DLSU ID 123 BS-IT" },
+  { "userID": 1002, "fName": "Maricarmen", "lName": "Antonio", "password": "L0K1MYL0VE<33", "isTech": false, "profPic": "", "profDesc": "DLSU ID 121 BSCS-ST" },
+  { "userID": 1003, "fName": "Amadeo", "lName": "Espinosa", "password": "M4R1CARM3N_4_L1F3!", "isTech": false, "profPic": "", "profDesc": "DLSU ID 122 BSCS-ST" },
+  { "userID": 1004, "fName": "Daisy", "lName": "Reyes", "password": "P4SSW0RD123456!", "isTech": false, "profPic": "", "profDesc": "DLSU ID 124 BSCS-NIS" },
+  { "userID": 1005, "fName": "Laurissa", "lName": "Wayne", "password": "insertPasswordH3R3", "isTech": false, "profPic": "", "profDesc": "DLSU ID 121 BS-IT" },
+  { "userID": 1006, "fName": "Loki", "lName": "Lopez", "password": "THORisF4T!!!", "isTech": true, "profPic": "", "profDesc": "Reservation Technician" }
+]
