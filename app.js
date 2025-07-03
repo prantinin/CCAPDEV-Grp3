@@ -52,6 +52,53 @@ app.get('/register', (req, res) => {
   });
 });
 
+// POST: Register
+app.post('/register', async (req, res) => {
+  const { fName, lName, password, isTech } = req.body;
+
+  try {
+    const hashedPw = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      userID: Date.now(), // simplistic unique ID
+      fName,
+      lName,
+      password: hashedPw,
+      isTech: isTech === 'on',
+      profPic: '',
+      profDesc: ''
+    });
+    await newUser.save();
+    res.redirect('/login');
+  } catch (err) {
+    console.error(err);
+    res.send('Registration failed');
+  }
+});
+
+// POST: Login
+app.post('/login', async (req, res) => {
+  const { fName, password } = req.body;
+
+  try {
+    const user = await User.findOne({ fName });
+    if (!user) return res.send('User not found');
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.send('Incorrect password');
+
+    req.session.user = {
+      id: user.userID,
+      name: user.fName,
+      isTech: user.isTech
+    };
+
+    res.redirect('/createreserve'); 
+  } catch (err) {
+    console.error(err);
+    res.send('Login failed');
+  }
+});
+
 // Start server
 const PORT = 3000;
 app.listen(PORT, () => {
