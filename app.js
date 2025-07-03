@@ -38,6 +38,20 @@ app.get('/reserveiframe', (req, res) => {
   });
 });
 
+app.get('/login', (req, res) => {
+  res.render('login', {
+    title: 'Login',
+    layout: false
+  });
+});
+
+app.get('/register', (req, res) => {
+  res.render('register', {
+    title: 'Register',
+    layout: false
+  });
+});
+
 // Start server
 const PORT = 3000;
 app.listen(PORT, () => {
