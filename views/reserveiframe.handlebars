@@ -9,23 +9,11 @@
   
   <script src="/JS/iframeRes.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    .fixed-chair {
-      width: 80px;
-      height: 80px;
-    }
-
-    .fixed-table {
-      width: 120px;
-      height: 120px;
-    }
-  </style>
 </head>
 <body class="m-0 p-0 bg-white">
 
   <!-- Lab Select Dropdown -->
-  <div class="flex items-center justify-center gap-2 p-4 bg-[#92D3AD]">
+  <div class="flex items-center justify-center gap-2 p-4 border shadow-md bg-[#92D3AD]">
     <label for="lab-select" class="hidden">Choose Lab</label>
     <select id="lab-select" name="lab-select" class="font-Dongle-Regular text-xl bg-white border rounded-xl px-4 py-1">
       {{#each labs}}
@@ -53,49 +41,48 @@
 
     <!-- Lab Areas -->
     {{#each areas}}
-<div class="grid grid-cols-3 grid-rows-3 gap-2 p-7 items-center justify-center">
+    <div class="flex flex-row gap-1 p-1">
+      <div class="flex flex-col gap-8 p-7">
 
-  <!-- Upper Row: Chair 1 and Chair 2 -->
-  <div class="col-start-1 row-start-1 flex justify-center">
-    <button id="{{this.upper.[0].id}}" class="chairs fixed-chair bg-transparent border-none flex justify-center cursor-pointer">
-      <img src="{{this.upper.[0].img}}" class="w-full h-full object-contain" alt="{{this.upper.[0].id}}" />
-    </button>
-  </div>
+        <!-- Upper Row -->
+        <div class="flex space-x-2">
+          {{#each this.upper}}
+            <button id="{{id}}" class="chairs bg-transparent border-none w-20 flex justify-center cursor-pointer">
+              <img src="{{img}}" class="w-full p-4" alt="{{id}}" />
+            </button>
+          {{/each}}
+        </div>
 
-  <div class="col-start-2 row-start-1 flex justify-center">
-    <button id="{{this.upper.[1].id}}" class="chairs fixed-chair bg-transparent border-none flex justify-center cursor-pointer">
-      <img src="{{this.upper.[1].img}}" class="w-full h-full object-contain" alt="{{this.upper.[1].id}}" />
-    </button>
-  </div>
+        <!-- Middle Row (Table + Mid Chair) -->
+        <div class="flex items-center justify-start -mt-10 -mb-10 -ml-8">
+          <div class="flex items-center justify-start w-full h-[5%]">
+            <pre>             </pre>
+            <img src="{{this.table}}" class="w-[150px]" alt="Table {{@key}}" />
+          </div>
+        </div>
 
-  <!-- Middle Row: Table and Chair 5 (mid) -->
-  <div class="col-start-1 row-start-2 flex justify-center">
-    <img src="{{this.table}}" class="fixed-table object-contain" alt="Table {{@key}}" />
-  </div>
+        <!-- Lower Row -->
+        <div class="flex space-x-2">
+          {{#each this.lower}}
+            <button id="{{id}}" class="chairs bg-transparent border-none w-20 flex 
+            justify-center cursor-pointer" {{#if onclick}}onclick="{{onclick}}"{{/if}}>
+              <img src="{{img}}" class="w-full p-4" alt="{{id}}" />
+            </button>
+          {{/each}}
+        </div>
 
-  <div class="col-start-3 row-start-2 flex justify-center">
-    {{#if this.mid}}
-      <button id="{{this.mid.id}}" class="chairs fixed-chair bg-transparent border-none flex justify-center cursor-pointer" {{#if this.mid.onclick}}onclick="{{this.mid.onclick}}"{{/if}}>
-        <img src="{{this.mid.img}}" class="w-full h-full object-contain" alt="{{this.mid.id}}" />
-      </button>
-    {{/if}}
-  </div>
+      </div>
+        <div class="flex items-center justify-center -mt-10 -mb-10 -ml-8 w-20">
+          {{#if this.mid}}
+            <button id="{{this.mid.id}}" class="chairs bg-transparent border-none w-21 flex 
+            justify-center cursor-pointer" {{#if this.mid.onclick}}onclick="{{this.mid.onclick}}"{{/if}}>
+              <img src="{{this.mid.img}}" class="w-full p-4" alt="{{this.mid.id}}" />
+            </button>
+          {{/if}}
+        </div>
 
-  <!-- Lower Row: Chair 3 and Chair 4 -->
-  <div class="col-start-1 row-start-3 flex justify-center">
-    <button id="{{this.lower.[0].id}}" class="chairs fixed-chair bg-transparent border-none flex justify-center cursor-pointer" {{#if this.lower.[0].onclick}}onclick="{{this.lower.[0].onclick}}"{{/if}}>
-      <img src="{{this.lower.[0].img}}" class="w-full h-full object-contain" alt="{{this.lower.[0].id}}" />
-    </button>
-  </div>
-
-  <div class="col-start-2 row-start-3 flex justify-center">
-    <button id="{{this.lower.[1].id}}" class="chairs fixed-chair bg-transparent border-none flex justify-center cursor-pointer" {{#if this.lower.[1].onclick}}onclick="{{this.lower.[1].onclick}}"{{/if}}>
-      <img src="{{this.lower.[1].img}}" class="w-full h-full object-contain" alt="{{this.lower.[1].id}}" />
-    </button>
-  </div>
-
-</div>
-
+    </div>
+    
     {{/each}}
 
   </div>
