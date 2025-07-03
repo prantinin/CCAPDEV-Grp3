@@ -1,5 +1,5 @@
 button.confirm-res.active {
-  background-color: #22c55e;
+  background-color: #34C578;
   color: black;
   cursor: pointer;
 }
@@ -9,7 +9,7 @@ button.confirm-res.active:hover {
 }
 
 button.confirm-res {
-  background-color: #9ca3af;
+  background-color: #9CA3AF;
   color: #e5e7eb;
   cursor: not-allowed;
 }
