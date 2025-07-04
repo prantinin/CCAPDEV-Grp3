@@ -2,8 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const exphbs = require('express-handlebars');
 const path = require('path');
+const session = require('express-session');
+const bcrypt = require('bcryptjs');
 
 const { labs, areas } = require('./data/areas');
+const User = require('./models/User');
 
 const app = express();
 
@@ -11,6 +14,17 @@ const app = express();
 mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
   .then(() => console.log('Connected to MongoDB...'))
   .catch(err => console.log('Could not connect to MongoDB...', err));
+
+// Body parser middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Session middleware
+app.use(session({
+  secret: 'superSecretSessionKey',
+  resave: false,
+  saveUninitialized: false
+}));
 
 // Handlebars setup (with .handlebars extension)
 app.engine('handlebars', exphbs.engine({
