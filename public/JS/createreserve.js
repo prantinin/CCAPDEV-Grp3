@@ -12,8 +12,8 @@ function populateTimeOptions() {
     "7:30 PM - 8:00 PM", "8:00 PM - 8:30 PM", "8:30 PM - 9:00 PM"
   ];
 
-  const startSelect = document.querySelector("select.start-time");
-  const endSelect = document.querySelector("select.end-time");
+  const startSelect = document.querySelector("select.startTime");
+  const endSelect = document.querySelector("select.endTime");
 
   // Start time options
   startSelect.innerHTML = `<option value="">-- None --</option>`;
@@ -45,7 +45,7 @@ function populateTimeOptions() {
     maxDateObj.setDate(today.getDate() + 7);
     const maxDate = maxDateObj.toISOString().split("T")[0];
 
-    const dateInput = document.getElementById("res-date");
+    const dateInput = document.getElementById("resDate");
     dateInput.setAttribute("min", minDate);
     dateInput.setAttribute("max", maxDate);
 }
@@ -54,26 +54,26 @@ function populateTimeOptions() {
 window.addEventListener('message', (event) => {
   const data = event.data;
   if (data.lab && data.seat) {
-    const chosenSlot = document.querySelector('.chosen-slot');
+    const chosenSlot = document.querySelector('.chosenSlot');
     if (chosenSlot) {
-      chosenSlot.textContent = `${data.lab}, seat ${data.seat}`;
-      checkInputs(); // Also revalidate when slot changes!
+      chosenSlot.value = `${data.lab}, seat ${data.seat}`;
+      checkInputs();
     }
   }
 });
 
 // FORM VALIDATION
 function checkInputs() {
-  const confirmBtn = document.querySelector(".confirm-res");
-  const resDate = document.querySelector("#res-date");
-  const startTime = document.querySelector(".start-time");
-  const endTime = document.querySelector(".end-time");
-  const chosenSlot = document.querySelector(".chosen-slot");
+  const confirmBtn = document.querySelector(".confirmRes");
+  const resDate = document.querySelector("#resDate");
+  const startTime = document.querySelector(".startTime");
+  const endTime = document.querySelector(".endTime");
+  const chosenSlot = document.querySelector(".chosenSlot");
 
   const dateFilled = resDate.value.trim() !== "";
   const startFilled = startTime.value !== "";
   const endFilled = endTime.value !== "";
-  const seatFilled = chosenSlot.textContent.trim() !== "";
+  const seatFilled = chosenSlot.value.trim() !== "";
 
   if (dateFilled && startFilled && endFilled && seatFilled) {
     confirmBtn.disabled = false;
@@ -85,10 +85,9 @@ function checkInputs() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Setup input listeners
-  document.querySelector("#res-date").addEventListener("input", checkInputs);
-  document.querySelector(".start-time").addEventListener("change", checkInputs);
-  document.querySelector(".end-time").addEventListener("change", checkInputs);
+  document.querySelector("#resDate").addEventListener("input", checkInputs);
+  document.querySelector(".startTime").addEventListener("change", checkInputs);
+  document.querySelector(".endTime").addEventListener("change", checkInputs);
 
   populateTimeOptions();
 });

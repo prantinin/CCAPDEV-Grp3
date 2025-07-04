@@ -1,14 +1,15 @@
-button.confirm-res.active {
+button.confirmRes.active {
   background-color: #34C578;
   color: black;
   cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-button.confirm-res.active:hover {
-    border: 2px solid black;
+button.confirmRes.active:hover {
+    transform: scale(1.05);
 }
 
-button.confirm-res {
+button.confirmRes {
   background-color: #9CA3AF;
   color: #e5e7eb;
   cursor: not-allowed;

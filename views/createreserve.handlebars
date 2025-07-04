@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/CSS/createreserve.css">
-<script src="/JS/reserveoptions.js"></script>
+<script src="/JS/createreserve.js"></script>
 
 <div class="grid grid-cols-4 gap-5 p-6">
   <!-- Instructions -->
@@ -17,39 +17,39 @@
     <!-- Chosen Slot -->
     <div class="flex items-center space-x-2">
       <p class="text-2xl">Chosen slot:</p>
-      <input type="text" name="slot" class="chosen-slot bg-white px-4 py-2 border rounded text-xl text-black w-full" value="Lab 1, seat A1" readonly>
+      <input type="text" name="chosenSlot" id="chosenSlot" class="chosenSlot bg-white px-4 py-2 border rounded text-xl text-black w-full" value="Lab 1, seat A1" readonly>
     </div>
 
     <!-- Date Input -->
     <div>
-      <label for="res-date" class="text-2xl">Choose a Date</label>
-      <input type="date" id="res-date" name="date" class="res-date w-full p-2 rounded text-xl border mt-1" required>
+      <label for="resDate" class="text-2xl">Choose a Date</label>
+      <input type="date" id="resDate" name="resDate" class="resDate w-full p-2 rounded text-xl border mt-1" required>
     </div>
 
     <!-- Start Time -->
     <div>
-      <label for="start-time" class="text-2xl">Choose a Start Time</label>
-      <select name="startTime" class="start-time w-full p-2 rounded border text-xl mt-1" required>
+      <label for="startTime" class="text-2xl">Choose a Start Time</label>
+      <select name="startTime" class="startTime w-full p-2 rounded border text-xl mt-1" required>
         <option value="">-- None --</option>
       </select>
     </div>
 
     <!-- End Time -->
     <div>
-      <label for="end-time" class="text-2xl">Choose an End Time</label>
-      <select name="endTime" class="end-time w-full p-2 rounded border text-xl mt-1" required>
+      <label for="endTime" class="text-2xl">Choose an End Time</label>
+      <select name="endTime" class="endTime w-full p-2 rounded border text-xl mt-1" required>
         <option value="">-- None --</option>
       </select>
     </div>
 
     <!-- Anonymous Checkbox -->
     <div class="flex items-center space-x-2">
-      <input type="checkbox" id="anonRes" name="anonymous" class="anonRes accent-green-500">
-      <label for="anonRes" class="text-2xl">Reserve Anonymously?</label>
+      <input type="checkbox" name="anonymous" class="anonymous accent-green-500">
+      <label for="anonymous" class="text-2xl">Reserve Anonymously?</label>
     </div>
 
     <!-- Submit Button -->
-    <button type="submit" class="w-full py-2 rounded text-2xl shadow-md transition duration-300 bg-emerald-700 text-white hover:scale-105">
+    <button type="submit" name="confirmRes" class="confirmRes w-full py-2 rounded text-2xl shadow-md text-white">
       Confirm
     </button>
   </form>

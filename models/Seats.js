@@ -19,7 +19,4 @@ const seatSchema = new mongoose.Schema({
     }
 });
 
-const Lab = mongoose.model('Lab', labSchema);
-const Seat = mongoose.model('Seat', seatSchema);
-
-module.exports = { Lab, Seat };
+module.exports = mongoose.model('Seat', seatSchema);
