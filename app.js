@@ -90,7 +90,7 @@ app.post('/register', async (req, res) => {
       userID: Date.now(),
       fName: fname,
       lName: lname,
-      email,
+      email, 
       password,
       isTech: role === 'technician',
       profPic: '',
