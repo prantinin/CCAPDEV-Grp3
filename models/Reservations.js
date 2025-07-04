@@ -7,7 +7,8 @@ const reservSchema = new mongoose.Schema({
     },
     userID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     isAnon: {
         type: Boolean,
@@ -26,7 +27,7 @@ const reservSchema = new mongoose.Schema({
         required: true
     },
     reservDate: {
-        type: String,
+        type: Date,
         required: true
     },
     reqTime: {
@@ -34,7 +35,7 @@ const reservSchema = new mongoose.Schema({
         required: true
     },
     reqDate: {
-        type: String,
+        type: Date,
         required: true
     }
 });
