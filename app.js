@@ -50,7 +50,7 @@ app.get('/reserveiframe', (req, res) => {
     labs: labs,
     areas: areas
   });
-});
+}); 
 
 app.get('/login', (req, res) => {
   res.render('login', {
