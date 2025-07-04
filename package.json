@@ -11,9 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "express": "^5.1.0",
     "express-handlebars": "^8.0.1",
+    "express-session": "^1.18.1",
     "mongodb": "^6.17.0",
-    "mongoose": "^8.16.1"
+    "mongoose": "^8.16.1",
+    "xyz": "^5.0.0"
   }
 }
