@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/CSS/createreserve.css">
-<script src="JS/reserveoptions.js"></script>
+<script src="/JS/reserveoptions.js"></script>
 
 <div class="grid grid-cols-4 gap-5 p-6">
   <!-- Instructions -->
@@ -8,49 +8,49 @@
   </div>
 
   <!-- Slot / Seat Area -->
-<div class="col-span-3 bg-white rounded-xl overflow-hidden shadow-md">
-  <iframe src="/reserveiframe" title="slot-area-contents" class="w-full h-full border"></iframe>
-</div>
+  <div class="col-span-3 bg-white rounded-xl overflow-hidden shadow-md">
+    <iframe src="/reserveiframe" title="slot-area-contents" class="w-full h-full border"></iframe>
+  </div>
 
-  <!-- Time Slot / Reservation Info -->
-  <div class="col-span-1 bg-[#D9F1DD] rounded-xl p-6 text-lg space-y-4 shadow-inner">
+  <!-- Reservation Form -->
+  <form method="POST" action="/submit-reservation" class="col-span-1 bg-[#D9F1DD] rounded-xl p-6 text-lg space-y-4 shadow-inner">
     <!-- Chosen Slot -->
     <div class="flex items-center space-x-2">
-      <p  class="text-2xl">Chosen slot:</p>
-      <div class="chosen-slot bg-white px-4 py-2 border rounded text-xl text-black">Lab 1, seat A1</div>
+      <p class="text-2xl">Chosen slot:</p>
+      <input type="text" name="slot" class="chosen-slot bg-white px-4 py-2 border rounded text-xl text-black w-full" value="Lab 1, seat A1" readonly>
     </div>
 
     <!-- Date Input -->
     <div>
       <label for="res-date" class="text-2xl">Choose a Date</label>
-      <input type="date" id="res-date" name="res-date" class="res-date w-full p-2 rounded text-xl border mt-1">
+      <input type="date" id="res-date" name="date" class="res-date w-full p-2 rounded text-xl border mt-1" required>
     </div>
 
     <!-- Start Time -->
     <div>
       <label for="start-time" class="text-2xl">Choose a Start Time</label>
-      <select name="start-time" class="start-time w-full p-2 rounded border text-xl mt-1">
-        <option value="0"> -- None --</option>
+      <select name="startTime" class="start-time w-full p-2 rounded border text-xl mt-1" required>
+        <option value="">-- None --</option>
       </select>
     </div>
 
     <!-- End Time -->
     <div>
       <label for="end-time" class="text-2xl">Choose an End Time</label>
-      <select name="end-time" class=" end-time w-full p-2 rounded border text-xl mt-1">
-        <option value="0">-- None --</option>
+      <select name="endTime" class="end-time w-full p-2 rounded border text-xl mt-1" required>
+        <option value="">-- None --</option>
       </select>
     </div>
 
     <!-- Anonymous Checkbox -->
     <div class="flex items-center space-x-2">
-      <input type="checkbox" id="anonRes" class="anonRes accent-green-500">
-      <label for="anonRes"  class="text-2xl">Reserve Anonymously?</label>
+      <input type="checkbox" id="anonRes" name="anonymous" class="anonRes accent-green-500">
+      <label for="anonRes" class="text-2xl">Reserve Anonymously?</label>
     </div>
 
-    <!-- Confirm Button -->
-    <button type="button" class="confirm-res w-full py-2 rounded text-2xl shadow-md transition duration-300">
+    <!-- Submit Button -->
+    <button type="submit" class="w-full py-2 rounded text-2xl shadow-md transition duration-300 bg-emerald-700 text-white hover:scale-105">
       Confirm
     </button>
-  </div>
+  </form>
 </div>

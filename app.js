@@ -40,7 +40,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.get('/createreserve', (req, res) => {
-  res.render('createreserve', { title: 'Labubuddies | Reserve' });
+  // Only allow access if user is logged in
+  if (!req.session.user) return res.redirect('/login');
+
+  res.render('createreserve', {
+    title: 'Labubuddies | Reserve',
+    user: req.session.user  // ← lets you access user info in Handlebars
+  });
 });
 
 app.get('/reserveiframe', (req, res) => {
@@ -68,19 +74,29 @@ app.get('/register', (req, res) => {
 
 // POST: Register
 app.post('/register', async (req, res) => {
-  const { fName, lName, password, isTech } = req.body;
+  const { fname, lname, email, password, confirmPassword, role } = req.body;
+
+  if (password !== confirmPassword) {
+    return res.send('Passwords do not match');
+  }
 
   try {
-    const hashedPw = await bcrypt.hash(password, 10);
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.send('An account with this email already exists');
+    }
+
     const newUser = new User({
-      userID: Date.now(), // simplistic unique ID
-      fName,
-      lName,
-      password: hashedPw,
-      isTech: isTech === 'on',
+      userID: Date.now(),
+      fName: fname,
+      lName: lname,
+      email,
+      password,
+      isTech: role === 'technician',
       profPic: '',
       profDesc: ''
     });
+
     await newUser.save();
     res.redirect('/login');
   } catch (err) {
@@ -89,29 +105,47 @@ app.post('/register', async (req, res) => {
   }
 });
 
+
 // POST: Login
 app.post('/login', async (req, res) => {
-  const { fName, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ fName });
-    if (!user) return res.send('User not found');
+    const user = await User.findOne({ email });
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.send('Incorrect password');
+    if (!user) {
+      return res.send('User not found');
+    }
 
+    if (password !== user.password) {
+      return res.send('Incorrect password');
+    }
+
+    // Save user session
     req.session.user = {
       id: user.userID,
-      name: user.fName,
+      fName: user.fName,
+      lName: user.lName,
       isTech: user.isTech
     };
 
-    res.redirect('/createreserve'); 
+    // ✅ Redirect to createreserve after successful login
+    res.redirect('/createreserve');
   } catch (err) {
     console.error(err);
     res.send('Login failed');
   }
 });
+
+app.post('/submit-reservation', (req, res) => {
+  const { slot, date, startTime, endTime, anonymous } = req.body;
+
+  console.log('Reservation received:', { slot, date, startTime, endTime, anonymous });
+
+  // TODO: Save to DB
+  res.send('Reservation submitted!'); // or redirect to a success page
+});
+
 
 // Start server
 const PORT = 3000;
