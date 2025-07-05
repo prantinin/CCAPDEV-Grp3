@@ -34,12 +34,22 @@
       </select>
     </div>
 
-    <p class="text-white text-sm">Already have an account? <a href="/login" class="underline">Log in</a></p>
+    <!-- Login Redirect Button -->
+<form action="/login" method="GET" class="mt-2">
+  <button type="submit"
+    class="w-64 px-4 py-2 rounded-full bg-gray-500 text-white font-semibold shadow-md transition hover:scale-105 hover:shadow-lg">
+    Already have an account? Log in
+  </button>
+</form>
 
-    <button type="submit"
-      class="w-64 px-4 py-2 rounded-full bg-emerald-700 text-white font-bold shadow-lg flex items-center justify-center transition-all hover:scale-105 hover:shadow-lg">
-      Create Account
-    </button>
-  </form>
+<!-- Create Account Button -->
+<form action="/register" method="POST" class="mt-2">
+  <button type="submit"
+    class="w-64 px-4 py-2 rounded-full bg-emerald-700 text-white font-bold shadow-lg flex items-center justify-center transition-all hover:scale-105 hover:shadow-lg">
+    Create Account
+  </button>
+</form>
+
+
 </body>
 </html>
