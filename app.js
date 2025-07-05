@@ -95,7 +95,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-/* -- Gave up trying to fix this TvT. if you wanna try again, remove login.handlebar's "a href" and turn it back into a button
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -116,7 +115,7 @@ app.post('/login', async (req, res) => {
     res.send('Login failed');
   }
 });
-*/
+
 
 app.post('/submit-reservation', async (req, res) => {
   const { chosenSlot, resDate, startTime, endTime, anonymous } = req.body;
