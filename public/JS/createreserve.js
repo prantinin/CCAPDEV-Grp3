@@ -34,7 +34,7 @@ function populateTimeOptions() {
 
     // Reset end time to default
     endSelect.value = "";
-    checkInputs(); // Revalidate immediately
+    checkInputs();
   });
 
     // Date only allows today or 7 days later
