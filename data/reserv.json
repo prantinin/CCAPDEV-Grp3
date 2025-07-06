@@ -1,16 +1,103 @@
 [
   { 
-  "userEmail": 1002, 
-  "isAnon": false, 
-  "slot": 1, 
-  "reservStart": 900, "reservEnd": 1100, "reservDate": "2025-07-01", "reqTime": 800, "reqDate": "2025-06-30" },
-  { "userEmail": 1003, "isAnon": true, "slot": 2, "reservStart": 1300, "reservEnd": 1500, "reservDate": "2025-07-01", "reqTime": 900, "reqDate": "2025-06-30" },
-  { "userEmail": 1004, "isAnon": false, "slot": 3, "reservStart": 1000, "reservEnd": 1200, "reservDate": "2025-07-02", "reqTime": 850, "reqDate": "2025-07-01" },
-  { "userEmail": 1005, "isAnon": true, "slot": 1, "reservStart": 800, "reservEnd": 1000, "reservDate": "2025-07-03", "reqTime": 700, "reqDate": "2025-07-02" },
-  { "userEmail": 1006, "isAnon": false, "slot": 2, "reservStart": 1400, "reservEnd": 1600, "reservDate": "2025-07-04", "reqTime": 1100, "reqDate": "2025-07-03" },
-  { "userEmail": 1007, "isAnon": false, "slot": 3, "reservStart": 900, "reservEnd": 1100, "reservDate": "2025-07-05", "reqTime": 800, "reqDate": "2025-07-04" },
-  { "userEmail": 1008, "isAnon": true, "slot": 1, "reservStart": 1200, "reservEnd": 1400, "reservDate": "2025-07-06", "reqTime": 1000, "reqDate": "2025-07-05" },
-  { "userEmail": 1009, "isAnon": false, "slot": 2, "reservStart": 1300, "reservEnd": 1500, "reservDate": "2025-07-07", "reqTime": 900, "reqDate": "2025-07-06" },
-  { "userEmail": 1010, "isAnon": true, "slot": 3, "reservStart": 1000, "reservEnd": 1200, "reservDate": "2025-07-08", "reqTime": 850, "reqDate": "2025-07-07" },
-  { "userEmail": 1001, "isAnon": false, "slot": 1, "reservStart": 800, "reservEnd": 1000, "reservDate": "2025-07-09", "reqTime": 700, "reqDate": "2025-07-08" }
+    "userID": null, 
+    "userIdNum": null,
+    "isAnon": false, 
+    "slot": 1, 
+    "reservStart": 900, 
+    "reservEnd": 1100, 
+    "reservDate": "2025-07-01", 
+    "reqTime": 800, 
+    "reqDate": "2025-06-30" 
+  },
+  { 
+    "userEmail": 1003, 
+    "isAnon": true, 
+    "slot": 2, 
+    "reservStart": 1300, 
+    "reservEnd": 1500, 
+    "reservDate": "2025-07-01", 
+    "reqTime": 900, 
+    "reqDate": "2025-06-30" 
+  },
+  { 
+    "userEmail": 1004, 
+    "isAnon": false, 
+    "slot": 3, 
+    "reservStart": 1000, 
+    "reservEnd": 1200, 
+    "reservDate": "2025-07-02", 
+    "reqTime": 850, 
+    "reqDate": "2025-07-01" 
+  },
+  { 
+    "userEmail": 1005, 
+    "isAnon": true, 
+    "slot": 1, 
+    "reservStart": 800, 
+    "reservEnd": 1000, 
+    "reservDate": "2025-07-03", 
+    "reqTime": 700, 
+    "reqDate": "2025-07-02" 
+  },
+  { 
+    "userEmail": 1006, 
+    "isAnon": false, 
+    "slot": 2, 
+    "reservStart": 1400, 
+    "reservEnd": 1600, 
+    "reservDate": "2025-07-04", 
+    "reqTime": 1100, 
+    "reqDate": "2025-07-03" 
+  },
+  { 
+    "userEmail": 1007, 
+    "isAnon": false, 
+    "slot": 3, 
+    "reservStart": 900, 
+    "reservEnd": 1100, 
+    "reservDate": "2025-07-05", 
+    "reqTime": 800, 
+    "reqDate": "2025-07-04" 
+  },
+  { 
+    "userEmail": 1008, 
+    "isAnon": true, 
+    "slot": 1, 
+    "reservStart": 1200, 
+    "reservEnd": 1400, 
+    "reservDate": "2025-07-06", 
+    "reqTime": 1000, 
+    "reqDate": "2025-07-05" 
+  },
+  { 
+    "userEmail": 1009, 
+    "isAnon": false, 
+    "slot": 2, 
+    "reservStart": 1300, 
+    "reservEnd": 1500, 
+    "reservDate": "2025-07-07", 
+    "reqTime": 900, 
+    "reqDate": "2025-07-06" 
+  },
+  { 
+    "userEmail": 1010, 
+    "isAnon": true, 
+    "slot": 3, 
+    "reservStart": 1000, 
+    "reservEnd": 1200, 
+    "reservDate": "2025-07-08", 
+    "reqTime": 850, 
+    "reqDate": "2025-07-07" 
+  },
+  { 
+    "userEmail": 1001, 
+    "isAnon": false, 
+    "slot": 1, 
+    "reservStart": 800, 
+    "reservEnd": 1000, 
+    "reservDate": "2025-07-09", 
+    "reqTime": 700, 
+    "reqDate": "2025-07-08" 
+  }
 ]

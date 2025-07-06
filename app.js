@@ -62,7 +62,6 @@ app.get('/register', (req, res) => {
 });
 
 app.get('/createreserve', (req, res) => {
-  console.log('Rendering createreserve page');
   res.render('createreserve', { 
     title: 'Labubuddies | Reserve' 
   });
@@ -76,6 +75,25 @@ app.get('/reserveiframe', (req, res) => {
     areas: areas
   });
 }); 
+
+app.get('/viewprofile', (req, res) => {
+  res.render('viewprofile', {
+    title: 'Labubuddies | View Profile',
+  });
+}); 
+
+app.get('/searchusers', (req, res) => {
+  res.render('searchusers', {
+    title: 'Labubuddies | Search Users',
+  });
+}); 
+
+app.get('/viewreservs', (req, res) => {
+  res.render('viewreservs', {
+    title: 'Labubuddies | View Reservations'
+  });
+}); 
+
 
 
 // Post
