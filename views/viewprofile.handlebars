@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="/CSS/general.css" />
+  <link rel="stylesheet" href="/CSS/viewprofile.css" />
+  <link rel="stylesheet" href="/CSS/fonts.css" />
+  <script src="/JS/general.js"></script>
+
+  <title>LABubuddies - Profile</title>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <button onclick="openSidebar()" class="open-menu">
+      <img src="/Assets/icons/menu-black.svg" />
+    </button>
+
+    <div class="title">
+      <img src="/Assets/icons/logo.svg" class="logo" />
+      <div class="label">
+        <p class="label-main">LABubuddy</p>
+        <p class="label-sub">{{role}}</p>
+      </div>
+    </div>
+
+    <a href="/logout" class="sign-out">Sign Out</a>
+  </header>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-heading">
+      <button onclick="closeSidebar()">
+        <img src="/Assets/icons/menu-white.svg" />
+        <h1>Menu</h1>
+      </button>
+    </div>
+    <hr class="solid-divider" />
+    <a href="/viewprofile">View Profile</a>
+    <a href="/search">Search Other Users</a>
+    <hr class="solid-divider" />
+    <a href="/createreserve">Create Reservation</a>
+    <a href="/viewreservations">View Reservations</a>
+    <hr class="solid-divider" />
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="profile-container">
+      <div class="profile-section">
+        <div class="profile-picture">
+          <img src="{{profileImage}}" alt="Profile Picture" class="profile-picture" />
+        </div>
+
+        <h1 class="profile-name">{{fullName}}</h1>
+
+        <div class="description-section">
+          <p class="description-label">Description</p>
+          <div class="description-box">
+            {{description}}
+          </div>
+        </div>
+
+        <div class="button-group" style="text-align: center;">
+          <a href="/editprofile" class="edit-account-btn" style="text-decoration: none; display: block;">
+            Edit Account
+          </a>
+          <form method="POST"
