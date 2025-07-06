@@ -17,7 +17,7 @@
     <!-- Chosen Slot -->
     <div class="flex items-center space-x-2">
       <p class="text-2xl">Chosen slot:</p>
-      <input type="text" name="chosenSlot" id="chosenSlot" class="chosenSlot bg-white px-4 py-2 border rounded text-xl text-black w-full" value="Lab 1, seat A1" readonly>
+      <input type="text" name="chosenSlot" id="chosenSlot" class="chosenSlot bg-white px-4 py-2 border rounded text-xl text-black w-[10vw]" value="Lab 1, seat A1" readonly>
     </div>
 
     <!-- Date Input -->
@@ -29,7 +29,7 @@
     <!-- Start Time -->
     <div>
       <label for="startTime" class="text-2xl">Choose a Start Time</label>
-      <select name="startTime" class="startTime w-full p-2 rounded border text-xl mt-1" required>
+      <select name="startTime" class="startTime w-full p-2 rounded border text-xl mt-1" required disabled>
         <option value="">-- None --</option>
       </select>
     </div>
@@ -37,7 +37,7 @@
     <!-- End Time -->
     <div>
       <label for="endTime" class="text-2xl">Choose an End Time</label>
-      <select name="endTime" class="endTime w-full p-2 rounded border text-xl mt-1" required>
+      <select name="endTime" class="endTime w-full p-2 rounded border text-xl mt-1" required disabled>
         <option value="">-- None --</option>
       </select>
     </div>
@@ -49,7 +49,7 @@
     </div>
 
     <!-- Submit Button -->
-    <button type="submit" name="confirmRes" class="confirmRes w-full py-2 rounded text-2xl shadow-md text-white">
+    <button type="submit" name="confirmRes" class="confirmRes w-full py-2 rounded text-2xl shadow-md text-white" disabled>
       Confirm
     </button>
   </form>

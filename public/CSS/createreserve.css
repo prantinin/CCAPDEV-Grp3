@@ -1,3 +1,9 @@
+button.confirmRes:disabled {
+  background-color: #9CA3AF;
+  color: #e5e7eb;
+  cursor: not-allowed;
+}
+
 button.confirmRes.active {
   background-color: #34C578;
   color: black;
@@ -9,8 +15,26 @@ button.confirmRes.active:hover {
     transform: scale(1.05);
 }
 
-button.confirmRes {
-  background-color: #9CA3AF;
-  color: #e5e7eb;
-  cursor: not-allowed;
+.startTime:disabled {
+    cursor: not-allowed;
+    background-color: #e5e7eb;
+    color: #9CA3AF;
+}
+
+.startTime.active {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}
+
+.endTime:disabled {
+    cursor: not-allowed;
+    background-color: #e5e7eb;
+    color: #9CA3AF;
+}
+
+.endTime.active {
+    cursor: pointer;
+    background-color: white;
+    color: black;
 }

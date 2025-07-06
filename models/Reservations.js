@@ -1,33 +1,38 @@
 const mongoose = require('mongoose');
 
 const reservSchema = new mongoose.Schema({
-    userEmail: {
+    userID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: false     // will change to true once sessionhandling is taught
+    },
+    userIdNum: {
+        type: Number,
+        required: false     // will change to true once sessionhandling is taught
     },
     isAnon: {
         type: Boolean,
         required: false
     },
-    slot: {
+    slotID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Seat'
-    },
-    reservStart: {
-        type: Number,
+        ref: 'Slot',
         required: true
     },
-    reservEnd: {
-        type: Number,
+    slotName: {
+        type: String,
         required: true
     },
-    reservDate: {
-        type: Date,
+    startTime: {
+        type: String,   // String in timeLabels array
+        required: true
+    },
+    endTime: {
+        type: String,   // String in timeLabels array
         required: true
     },
     reqMade: {
-        type: Number,
+        type: Date,
         required: true
     }
 });

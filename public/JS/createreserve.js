@@ -21,7 +21,7 @@ function populateTimeOptions() {
     startSelect.innerHTML += `<option value="${index}">${label}</option>`;
   });
 
-  // End time options — only times >= start
+  // End time options: only >= startTime
   startSelect.addEventListener("change", () => {
     const startIndex = parseInt(startSelect.value);
 
@@ -50,18 +50,6 @@ function populateTimeOptions() {
     dateInput.setAttribute("max", maxDate);
 }
 
-// DYNAMIC CHOSEN SLOT
-window.addEventListener('message', (event) => {
-  const data = event.data;
-  if (data.lab && data.seat) {
-    const chosenSlot = document.querySelector('.chosenSlot');
-    if (chosenSlot) {
-      chosenSlot.value = `${data.lab}, seat ${data.seat}`;
-      checkInputs();
-    }
-  }
-});
-
 // FORM VALIDATION
 function checkInputs() {
   const confirmBtn = document.querySelector(".confirmRes");
@@ -75,6 +63,31 @@ function checkInputs() {
   const endFilled = endTime.value !== "";
   const seatFilled = chosenSlot.value.trim() !== "";
 
+  // Timeslots avail when seat and date are filled
+  if (seatFilled && dateFilled) {
+    startTime.disabled = false;
+    startTime.classList.add("active");
+
+    if (startFilled) {
+      endTime.disabled = false;
+      endTime.classList.add("active");
+    } else {
+      endTime.disabled = true;
+      endTime.classList.remove("active");
+      endTime.value = "";
+    }
+
+  } else {
+    startTime.disabled = true;
+    startTime.classList.remove("active");
+    startTime.value = "";
+
+    endTime.disabled = true;
+    endTime.classList.remove("active");
+    endTime.value = "";
+  }
+
+  // Confirm only when the whole form is filled
   if (dateFilled && startFilled && endFilled && seatFilled) {
     confirmBtn.disabled = false;
     confirmBtn.classList.add("active");
@@ -83,6 +96,18 @@ function checkInputs() {
     confirmBtn.classList.remove("active");
   }
 }
+
+// DYNAMIC CHOSEN SLOT
+window.addEventListener('message', (event) => {
+  const data = event.data;
+  if (data.lab && data.seat) {
+    const chosenSlot = document.querySelector('.chosenSlot');
+    if (chosenSlot) {
+      chosenSlot.value = `${data.lab}, seat ${data.seat}`;
+      checkInputs();
+    }
+  }
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelector("#resDate").addEventListener("input", checkInputs);

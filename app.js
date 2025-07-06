@@ -4,12 +4,26 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 const User = require('./models/Users');
-const Lab = require('./models/Labs');
-const Seat = require('./models/Seats');
 const Reserve = require('./models/Reservations');
+const Slot = require('./models/Slots');
+const Seat = require('./models/Seats');
+const Lab = require('./models/Labs');
 const { labs, areas } = require('./data/areas');
 
 const app = express();
+
+// for logic
+const timeLabels = [
+    "7:30 AM - 8:00 AM", "8:00 AM - 8:30 AM", "8:30 AM - 9:00 AM",
+    "9:00 AM - 9:30 AM", "9:30 AM - 10:00 AM", "10:00 AM - 10:30 AM",
+    "10:30 AM - 11:00 AM", "11:00 AM - 11:30 AM", "11:30 AM - 12:00 PM",
+    "12:00 PM - 12:30 PM", "12:30 PM - 1:00 PM", "1:00 PM - 1:30 PM",
+    "1:30 PM - 2:00 PM", "2:00 PM - 2:30 PM", "2:30 PM - 3:00 PM",
+    "3:00 PM - 3:30 PM", "3:30 PM - 4:00 PM", "4:00 PM - 4:30 PM",
+    "4:30 PM - 5:00 PM", "5:00 PM - 5:30 PM", "5:30 PM - 6:00 PM",
+    "6:00 PM - 6:30 PM", "6:30 PM - 7:00 PM", "7:00 PM - 7:30 PM",
+    "7:30 PM - 8:00 PM", "8:00 PM - 8:30 PM", "8:30 PM - 9:00 PM"
+  ];
 
 
 // MongoDB connection
@@ -35,23 +49,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.get('/login', (req, res) => {
   res.render('login', {
-    title: 'Login',
+    title: 'Labubuddies | Login',
     layout: false
   });
 });
 
 app.get('/register', (req, res) => {
   res.render('register', {
-    title: 'Register',
+    title: 'Labubuddies | Register',
     layout: false
   });
 });
 
 app.get('/createreserve', (req, res) => {
   console.log('Rendering createreserve page');
-  res.render('createreserve', { title: 'Labubuddies | Reserve' });
+  res.render('createreserve', { 
+    title: 'Labubuddies | Reserve' 
+  });
 });
-
 
 app.get('/reserveiframe', (req, res) => {
   res.render('reserveiframe', {
@@ -120,28 +135,39 @@ app.post('/login', async (req, res) => {
 app.post('/submit-reservation', async (req, res) => {
   const { chosenSlot, resDate, startTime, endTime, anonymous } = req.body;
 
-  // chosenSlot: "Lab 1, seat A1"
+  // Searching for slot in database data
   const [ labNamePart, seatCodePart ] = chosenSlot.split(', seat ');
 
-  // 🔍 Find the Seat (and maybe Lab)
+  const lab = await Lab.findOne({ labName : labNamePart }).exec();
   const seat = await Seat.findOne({ seatCode: seatCodePart }).exec();
-  const user = await User.findOne({ email: "test@email.com" }).exec();
 
-  const newRes = new Reserve({
-    userEmail: user._id,
-    isAnon: anonymous === "on",
-    slot: seat,
-    reservStart: startTime,
-    reservEnd: endTime,
-    reservDate: resDate,
-    reqMade: Date.now()
-  });
+  const startIndex = timeLabels.indexOf(startTime);
+  const endIndex = timeLabels.indexOf(endTime);
+  
+  for (i = startIndex; i <= endIndex; i++) {
+    slotInstance = await Slot.findOne({
+      labName: lab._id,
+      seatName: seat._id,
+      slotTime: i,
+      slotDate: new Date(resDate)
+    });
 
-  await newRes.save();
-  res.send("Reservation submitted!");
+    
+    // Creating a new reservation
+    const newRes = new Reserve({
+      userID: null,   // null for students page. will fix in session handling
+      userIdNum: null,
+      isAnon: anonymous,
+      slotID: slotInstance._id,
+      slotName: chosenSlot,
+      startTime: startTime,
+      endTime: endTime,
+      reqMade: Date.now()
+    });
+
+    await newRes.save();
+  }
 });
-
-
 
 
 // Start server
