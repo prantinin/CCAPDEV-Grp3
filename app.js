@@ -166,13 +166,10 @@ app.post('/submit-reservation', async (req, res) => {
     const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
     const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
 
-    const startIndex = timeLabels.indexOf(startTime);
-    const endIndex = timeLabels.indexOf(endTime);
-
     // Checking if the slot already exists  
     let slotsExist = false;
     
-    for (i = startIndex; i <= endIndex; i++) {
+    for (let i = startTime; i <= endTime; i++) {
       slotInstance = await SlotSchema.findOne({
         labName: lab._id,
         seatCode: seat._id,
@@ -191,7 +188,7 @@ app.post('/submit-reservation', async (req, res) => {
         
         // Creating the slots array
         const slotIDs = [];
-        for (i = startIndex; i < endIndex; i++) {
+        for (let i = startTime; i <= endTime; i++) {
           const slotInstance = new SlotSchema({
             labName: lab._id,
             seatCode: seat._id,
@@ -231,75 +228,6 @@ app.post('/submit-reservation', async (req, res) => {
     });
   }
 });
-
-
-// For loading pre-made data
-const seedDatabase = async () => {
-  await mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB');
-
-  // Clear schema's existing data
-  await UserSchema.deleteMany({});
-  await ReserveSchema.deleteMany({});
-  await SlotSchema.deleteMany({});
-  await SeatSchema.deleteMany({});
-  await LabSchema.deleteMany({});
-
-  // Load dynamic JSON files
-  const reservedata = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/reservedata.json'), 'utf-8'));
-
-  // Load static JSON files
-  const usersdata = require('./data/usersdata.json');
-  const seatsdata = require('./data/seatsdata.json');
-  const labsdata = require('./data/labsdata.json');
-
-  await UserSchema.insertMany(usersdata);
-  await SeatSchema.insertMany(seatsdata);
-  await LabSchema.insertMany(labsdata);
-
-  // Replacing reservations' null values
-  for (const reserve of reservedata) {
-    
-    // updating userID
-    const userSchoolId = reserve.userIdNum;
-    const user = await UserSchema.findOne({ idNum : userSchoolId }).exec();
-
-    // making new slots and adding to slot array
-    const [ labNamePart, seatCodePart ] = reserve.slotName.split(', seat ');
-
-    const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
-    const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
-
-    const startIndex = timeLabels.indexOf(reserve.startTime);
-    const endIndex = timeLabels.indexOf(reserve.endTime);
-
-    const slotIDs = [];
-    for (i = startIndex; i < endIndex; i++) {
-      const slotInstance = new SlotSchema({
-        labName: lab._id,
-        seatCode: seat._id,
-        slotTime: i,
-        slotDate: reserve.reservDate
-      });
-      await slotInstance.save();
-      slotIDs.push(slotInstance._id);
-    }
-
-    const newRes = new ReserveSchema({
-      userID: user._id,
-      userIdNum: reserve.userIdNum,
-      isAnon: reserve.isAnon,
-      slotID: slotIDs,
-      slotName: reserve.slotName,
-      startTime: reserve.startTime,
-      endTime: reserve.endTime,
-      reservDate: reserve.reservDate,
-      reqMade: reserve.reqMade
-    });
-    await newRes.save();
-  }
-}
-
-seedDatabase();
 
 // Start server
 app.listen(port, () => {

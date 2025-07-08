@@ -5,8 +5,8 @@
     "isAnon": false,
     "slotID": [null, null],
     "slotName": "Lab 5, seat A2",
-    "startTime": "10:00 AM - 10:30 AM",
-    "endTime": "1:30 PM - 2:00 PM",
+    "startTime": "5",
+    "endTime": "12",
     "reservDate": "2025-07-04",
     "reqMade": "2023-07-01T10:40:00"
   },
@@ -16,8 +16,8 @@
     "isAnon": true,
     "slotID": [null, null],
     "slotName": "Lab 2, seat D4",
-    "startTime": "6:00 PM - 6:30 PM",
-    "endTime": "7:00 PM - 7:30 PM",
+    "startTime": "21",
+    "endTime": "23",
     "reservDate": "2025-07-10",
     "reqMade": "2025-07-09T23:00:00"
   },
@@ -27,8 +27,8 @@
     "isAnon": false,
     "slotID": [null, null],
     "slotName": "Lab 3, seat C1",
-    "startTime": "7:30 AM - 8:00 AM",
-    "endTime": "4:00 PM - 4:30 PM",
+    "startTime": "0",
+    "endTime": "18",
     "reservDate": "2025-07-09",
     "reqMade": "2025-07-01T16:23:00"
   },
@@ -38,8 +38,8 @@
     "isAnon": true,
     "slotID": [null, null],
     "slotName": "Lab 1, seat B3",
-    "startTime": "1:00 PM - 1:30 PM",
-    "endTime": "7:30 PM - 8:00 PM",
+    "startTime": "12",
+    "endTime": "24",
     "reservDate": "2025-07-04",
     "reqMade": "2025-06-28T01:00:00"
   },
@@ -49,8 +49,8 @@
     "isAnon": false,
     "slotID": [null, null],
     "slotName": "Lab 1, seat A4",
-    "startTime": "4:30 PM - 5:00 PM",
-    "endTime": "4:30 PM - 5:00 PM",
+    "startTime": "18",
+    "endTime": "18",
     "reservDate": "2025-07-04",
     "reqMade": "2025-06-29T20:00:00"
   },
@@ -60,8 +60,8 @@
     "isAnon": true,
     "slotID": [null, null],
     "slotName": "Lab 3, seat B3",
-    "startTime": "3:00 PM - 3:30 PM",
-    "endTime": "6:30 PM - 7:00 PM",
+    "startTime": "15",
+    "endTime": "22",
     "reservDate": "2025-07-08",
     "reqMade": "2025-07-05T09:00:00"
   },
@@ -71,8 +71,8 @@
     "isAnon": false,
     "slotID": [null, null],
     "slotName": "Lab 4, seat B5",
-    "startTime": "3:00 PM - 3:30 PM",
-    "endTime": "8:30 PM - 9:00 PM",
+    "startTime": "15",
+    "endTime": "26",
     "reservDate": "2025-07-09",
     "reqMade": "2025-07-04T16:57:00"
   },
@@ -82,8 +82,8 @@
     "isAnon": true,
     "slotID": [null, null],
     "slotName": "Lab 2, seat E5",
-    "startTime": "7:30 AM - 8:00 AM",
-    "endTime": "9:00 AM - 9:30 AM",
+    "startTime": "0",
+    "endTime": "3",
     "reservDate": "2025-07-11",
     "reqMade": "2025-07-07T01:32:00"
   }

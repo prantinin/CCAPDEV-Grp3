@@ -24,11 +24,11 @@ const reservSchema = new mongoose.Schema({
         required: true
     },
     startTime: {
-        type: String,   // String in timeLabels array
+        type: String,   // index in timeLabels array
         required: true
     },
     endTime: {
-        type: String,   // String in timeLabels array
+        type: String,   // index in timeLabels array
         required: true
     },
     reservDate: {
