@@ -1,3 +1,9 @@
+console.log('test');
+
+function toISO(date) {
+  return date.toISOString().split('T')[0];
+}
+
 document.addEventListener
 ('DOMContentLoaded', () =>
 {
