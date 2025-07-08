@@ -98,7 +98,7 @@ app.get('/viewreservs', (req, res) => {
 
 // Post
 app.post('/register', async (req, res) => {
-  const { fname, lname, email, password, confirmPassword, role } = req.body;
+  const { fname, lname, email, password, confirmPassword, role, idNum } = req.body;
 
   if (password !== confirmPassword) {
     return res.send('Passwords do not match');
@@ -115,6 +115,7 @@ app.post('/register', async (req, res) => {
       lName: lname,
       email, 
       password,
+      idNum,
       isTech: role === 'technician',
       profPic: '',
       profDesc: ''
