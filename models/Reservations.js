@@ -14,11 +14,11 @@ const reservSchema = new mongoose.Schema({
         type: Boolean,
         required: false
     },
-    slotID: {
+    slotID: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Slot',
-        required: true
-    },
+        required: false
+    }],
     slotName: {
         type: String,
         required: true
@@ -29,6 +29,10 @@ const reservSchema = new mongoose.Schema({
     },
     endTime: {
         type: String,   // String in timeLabels array
+        required: true
+    },
+    reservDate: {
+        type: Date,
         required: true
     },
     reqMade: {
