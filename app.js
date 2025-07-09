@@ -78,11 +78,49 @@ app.get('/searchusers', (req, res) => {
   });
 }); 
 
-app.get('/viewreservs', (req, res) => {
-  res.render('viewreservs', {
-    title: 'Labubuddies | View Reservations'
-  });
-}); 
+app.get('/viewreservs', async (req, res) => {
+  try {
+    const rawReservations = await ReserveSchema.find().lean();
+
+    const formattedReservations = rawReservations.map(r => {
+      const [labName, seatCode] = r.slotName.split(', seat ');
+
+      return {
+        id: r._id,
+        lab: labName.trim(),
+        seat: seatCode.trim(),
+        reservDate: new Date(r.reservDate).toLocaleDateString('en-PH', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }),
+        startTime: r.startTime,
+        endTime: r.endTime,
+        reqMade: new Date(r.reqMade).toLocaleString('en-PH', {
+          weekday: 'short',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        })
+      };
+    });
+
+    res.render('viewreservs', {
+      title: 'Labubuddies | View Reservations',
+      reservations: formattedReservations
+    });
+
+  } catch (error) {
+    console.error('Error fetching reservations:', error);
+    res.render('error', {
+      title: 'Error',
+      message: 'Could not load reservations. Please try again later.'
+    });
+  }
+});
 
 
 
