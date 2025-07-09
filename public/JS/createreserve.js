@@ -1,5 +1,5 @@
 // RESERVATION TIME SLOTS
-function populateTimeOptions() {
+function populateDateAndTime() {
   const timeLabels = [
     "7:30 AM - 8:00 AM", "8:00 AM - 8:30 AM", "8:30 AM - 9:00 AM",
     "9:00 AM - 9:30 AM", "9:30 AM - 10:00 AM", "10:00 AM - 10:30 AM",
@@ -12,85 +12,52 @@ function populateTimeOptions() {
     "7:30 PM - 8:00 PM", "8:00 PM - 8:30 PM", "8:30 PM - 9:00 PM"
   ];
 
-  const startSelect = document.querySelector("select.startTime");
-  const endSelect = document.querySelector("select.endTime");
-
-  // Start time options
-  startSelect.innerHTML = `<option value="">-- None --</option>`;
+  // Time slot options
+  const timeSelect = document.querySelector("select.timeSlot");
+  timeSelect.innerHTML = `<option value="">-- None --</option>`;
 
   timeLabels.forEach((label, index) => {
-    startSelect.innerHTML += `<option value="${index}">${label}</option>`;
+    timeSelect.innerHTML += `<option value="${index}">${label}</option>`;
   });
 
-  
-  // End time options: only >= startTime
-  startSelect.addEventListener("change", () => {
-    const startIndex = parseInt(startSelect.value);
+  // Date only allows today or 7 days later
+  const today = new Date();
+  const minDate = today.toISOString().split("T")[0];
 
-    endSelect.innerHTML = `<option value="">-- None --</option>`;
-    if (!isNaN(startIndex)) {
-      for (let i = startIndex; i < timeLabels.length; i++) {
-        endSelect.innerHTML += `<option value="${i}">${timeLabels[i]}</option>`;
-      }
-    }
+  const maxDateObj = new Date();
+  maxDateObj.setDate(today.getDate() + 7);
+  const maxDate = maxDateObj.toISOString().split("T")[0];
 
-    // Reset end time to default
-    endSelect.value = "";
-    checkInputs();
-  });
-
-    // Date only allows today or 7 days later
-    const today = new Date();
-    const minDate = today.toISOString().split("T")[0];
-
-    const maxDateObj = new Date();
-    maxDateObj.setDate(today.getDate() + 7);
-    const maxDate = maxDateObj.toISOString().split("T")[0];
-
-    const dateInput = document.getElementById("resDate");
-    dateInput.setAttribute("min", minDate);
-    dateInput.setAttribute("max", maxDate);
+  const dateInput = document.getElementById("resDate");
+  dateInput.setAttribute("min", minDate);
+  dateInput.setAttribute("max", maxDate);
 }
 
 // FORM VALIDATION
 function checkInputs() {
   const confirmBtn = document.querySelector(".confirmRes");
   const resDate = document.querySelector("#resDate");
-  const startTime = document.querySelector(".startTime");
-  const endTime = document.querySelector(".endTime");
+  const timeSlot = document.querySelector(".timeSlot");
   const chosenSlot = document.querySelector(".chosenSlot");
 
-  const dateFilled = resDate.value.trim() !== "";
-  const startFilled = startTime.value !== "";
-  const endFilled = endTime.value !== "";
-  const seatFilled = chosenSlot.value.trim() !== "";
+  const dateFilled = resDate.value;
+  const timeFilled = timeSlot.value;
+  const seatFilled = chosenSlot.value;
 
-  // Timeslots avail when seat and date are filled
-  if (seatFilled && dateFilled) {
-    startTime.disabled = false;
-    startTime.classList.add("active");
-
-    if (startFilled) {
-      endTime.disabled = false;
-      endTime.classList.add("active");
-    } else {
-      endTime.disabled = true;
-      endTime.classList.remove("active");
-      endTime.value = "";
-    }
-
+  // Timeslots avail when date is filled
+  if (dateFilled) {
+    timeSlot.disabled = false;
+    timeSlot.classList.add("active");
   } else {
-    startTime.disabled = true;
-    startTime.classList.remove("active");
-    startTime.value = "";
-
-    endTime.disabled = true;
-    endTime.classList.remove("active");
-    endTime.value = "";
+    timeSlot.disabled = true;
+    timeSlot.classList.remove("active");
+    timeSlot.value = "";
   }
 
-  // Confirm only when the whole form is filled
-  if (dateFilled && startFilled && endFilled && seatFilled) {
+  // TO DO: slot decision thingy only avail when date and time filled in
+
+  // Confirm avail only when the whole form is filled
+  if (dateFilled && timeFilled && seatFilled) {
     confirmBtn.disabled = false;
     confirmBtn.classList.add("active");
   } else {
@@ -113,8 +80,7 @@ window.addEventListener('message', (event) => {
 
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelector("#resDate").addEventListener("input", checkInputs);
-  document.querySelector(".startTime").addEventListener("change", checkInputs);
-  document.querySelector(".endTime").addEventListener("change", checkInputs);
+  document.querySelector(".timeSlot").addEventListener("change", checkInputs);
 
-  populateTimeOptions();
+  populateDateAndTime();
 });

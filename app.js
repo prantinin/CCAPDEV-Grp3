@@ -6,7 +6,6 @@ const fs = require('fs');
 
 const UserSchema = require('./models/Users');
 const ReserveSchema = require('./models/Reservations');
-const SlotSchema = require('./models/ReservedSlots');
 const SeatSchema = require('./models/Seats');
 const LabSchema = require('./models/Labs');
 const { labs, areas } = require('./data/areas');
@@ -38,6 +37,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 
 
 // Handlebars setup (.handlebars ext)
@@ -159,66 +159,41 @@ app.post('/login', async (req, res) => {
 
 app.post('/submit-reservation', async (req, res) => {
   try {
-    const { chosenSlot, resDate, startTime, endTime, anonymous } = req.body;
+    const { chosenSlot, resDate, timeSlot, anonymous } = req.body;
 
     const [ labNamePart, seatCodePart ] = chosenSlot.split(', seat ');
 
     const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
     const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
-
-    // Checking if the slot already exists  
-    let slotsExist = false;
     
-    for (let i = startTime; i <= endTime; i++) {
-      slotInstance = await SlotSchema.findOne({
-        labName: lab._id,
-        seatCode: seat._id,
-        slotTime: i,
-        slotDate: new Date(resDate)
-      });
+    reservedSlot = await ReserveSchema.findOne({
+      slotName: chosenSlot,
+      lab: lab._id,
+      seat: seat._id,
+      timeSlot: timeSlot,
+      reservDate: new Date(resDate),
+    });
 
-      if (slotInstance) {
-        slotsExist = true;
-        break;
-      }
-    }
-
-    // only makes new reservation if the slot doesn't exist (isn't booked)
-    if (!slotsExist) {
-        
-        // Creating the slots array
-        const slotIDs = [];
-        for (let i = startTime; i <= endTime; i++) {
-          const slotInstance = new SlotSchema({
-            labName: lab._id,
-            seatCode: seat._id,
-            slotTime: i,
-            slotDate: new Date(resDate)
-          });
-          await slotInstance.save();
-          slotIDs.push(slotInstance._id);
-        }
-
-        // making the reservation/s
+    // only makes new reservation if it doesn't exist (isn't booked)
+    if (!reservedSlot) {
         const newRes = new ReserveSchema({
           userID: null,   // null for students page. will fix in session handling
           userIdNum: null,
           isAnon: anonymous,
-          slotID: slotIDs,
           slotName: chosenSlot,
-          startTime: startTime,
-          endTime: endTime,
+          lab: lab._id,
+          seat: seat._id,
+          timeSlot: timeSlot,
           reservDate: new Date(resDate),
           reqMade: Date.now()
         });
 
         await newRes.save();
     } else {
-
       // In case user reserving a taken slot
       return res.render('error', {
         title: 'Reservation Error',
-        message: 'Oops one or more slots you selected are already reserved.'
+        message: 'Oops! the slot you selected is already reserved.'
       });
     }
   } catch (err) {

@@ -14,20 +14,21 @@ const reservSchema = new mongoose.Schema({
         type: Boolean,
         required: false
     },
-    slotID: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Slot',
-        required: false
-    }],
     slotName: {
         type: String,
         required: true
     },
-    startTime: {
-        type: String,   // index in timeLabels array
+    lab: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Lab',
         required: true
     },
-    endTime: {
+    seat: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Seat',
+        required: true
+    },
+    timeSlot: {
         type: String,   // index in timeLabels array
         required: true
     },

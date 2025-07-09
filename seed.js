@@ -6,7 +6,6 @@ const fs = require('fs');
 
 const UserSchema = require('./models/Users');
 const ReserveSchema = require('./models/Reservations');
-const SlotSchema = require('./models/ReservedSlots');
 const SeatSchema = require('./models/Seats');
 const LabSchema = require('./models/Labs');
 
@@ -33,7 +32,6 @@ const seedDatabase = async () => {
   // Clear schema's existing data
   await UserSchema.deleteMany({});
   await ReserveSchema.deleteMany({});
-  await SlotSchema.deleteMany({});
   await SeatSchema.deleteMany({});
   await LabSchema.deleteMany({});
 
