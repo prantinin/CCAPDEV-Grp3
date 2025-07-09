@@ -17,10 +17,12 @@ function populateTimeOptions() {
 
   // Start time options
   startSelect.innerHTML = `<option value="">-- None --</option>`;
+
   timeLabels.forEach((label, index) => {
     startSelect.innerHTML += `<option value="${index}">${label}</option>`;
   });
 
+  
   // End time options: only >= startTime
   startSelect.addEventListener("change", () => {
     const startIndex = parseInt(startSelect.value);
