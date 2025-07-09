@@ -1,13 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"> </script>
+
+    <link rel="stylesheet" href="../CSS/general.css">
+    <link rel="stylesheet" href="../CSS/reserve.css">
+    <script src="../JS/ViewSlotReservation.js"></script>
+    <script src="../JS/general.js"></script>
+    <script src="../JS/reservepage.js"></script>
+
+    <title>Labubuddies - View Reservations</title>
+</head>
+
+<body>
+
+<body>
+    <!-- HEADING OPTIONS -->
+    <header class="header">
+        <button onclick="openSidebar()" class="open-menu">
+            <img src="../Assets/icons/menu-black.svg">
+        </button>
+
+        <div class="title">
+            <img src="../Assets/icons/logo.svg" class="logo">
+
+            <div class="label">
+                <p class="label-main">LABubuddy</p>
+                <p class="label-sub">Student</p>
+            </div>
+        </div>
+
+        <a href="LoginPage.html" class="sign-out">Log Out</a>
+    </header>
+
+    <!-- MENU SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-heading">
+            <button onclick="closeSidebar()">
+                <img src="../Assets/icons/menu-white.svg">
+                <h1>Menu</h1>
+            </button>
+        </div>
+        <hr class="solid-divider">
+        <a href = "ViewProfile.html">View Profile</a>
+        <a href = "SearchProfile.html">Search Other Users</a>
+        <hr class="solid-divider">
+        <a href = "ReserveSlotPage.html">Create Reservation</a>
+        <a href="../SlotReservation/Maricarmen-ViewSlotReservation.html">View Reservations</a>
+        <hr class="solid-divider">
+    </div>
+
 <!-- RESERVATION LIST -->
 <div class="reserve-list flex flex-col items-center space-y-4">
-  {{#each reservations}}
+  {{#each reservations}}        
   <div class="reserve-item flex justify-center w-[90%]">
     <div class="flex bg-[#1C9259] bg-opacity-40 rounded-3xl mt-8 w-full h-[160px] shadow-md">
       <div class="text-[#2C2C2C] ml-4 mt-3 p-4">
-        <h3 class="text-[30px] font-bold">{{lab}}</h3>
-        <strong><p class="text-sm">{{seat}}</p></strong>
-        <p class="text-sm">{{date}} - {{time}}</p>
-        <p class="text-sm">Reserved on: {{reservedOn}}</p>
+        <h3 class="text-[30px] font-bold">{{lab}}</h3>    <!-- LAB AND SEAT-->
+        <strong><p class="text-sm">{{seat}}</p></strong>  <!-- SEAT -->
+        <p class="text-sm">{{reservDate}} - {{startTime}} to {{endTime}}</p>        <!-- RESERVATION -->
+        <p class="text-sm">Reserved on: {{reqMade}}</p> <!-- RESERVED DATE AND TIME-->
       </div>
 
       <div class="flex flex-col p-4 ml-auto">
@@ -40,23 +95,7 @@
   </div>
 </div>
 
-<!-- Scripts -->
-<script>
-  document.getElementById("add-item").addEventListener("click", function () {
-    const reserveList = document.querySelector(".reserve-list");
-    const clone = reserveList.children[0].cloneNode(true);
-    reserveList.appendChild(clone);
-  });
+</body>
 
-  document.addEventListener("click", function (e) {
-    if (
-      e.target.classList.contains("delete-item") ||
-      e.target.parentElement.classList.contains("delete-item")
-    ) {
-      const itemToDelete = e.target.closest(".reserve-item");
-      if (itemToDelete) {
-        itemToDelete.remove();
-      }
-    }
-  });
-</script>
+</html>
+
