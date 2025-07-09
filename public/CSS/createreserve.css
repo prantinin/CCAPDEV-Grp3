@@ -15,25 +15,13 @@ button.confirmRes.active:hover {
     transform: scale(1.05);
 }
 
-.startTime:disabled {
+.timeSlot:disabled {
     cursor: not-allowed;
     background-color: #e5e7eb;
     color: #9CA3AF;
 }
 
-.startTime.active {
-    cursor: pointer;
-    background-color: white;
-    color: black;
-}
-
-.endTime:disabled {
-    cursor: not-allowed;
-    background-color: #e5e7eb;
-    color: #9CA3AF;
-}
-
-.endTime.active {
+.timeSlot.active {
     cursor: pointer;
     background-color: white;
     color: black;

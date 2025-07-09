@@ -51,6 +51,10 @@
     <button type="submit" name="confirmRes" class="confirmRes w-full py-2 rounded text-2xl shadow-md text-white" disabled>
       Confirm
     </button>
+
+    {{#if success}}
+      <p id="reservSuccess" class="reservSuccess text-red text-xl mt-4 font-light">Reservation successful!</p>
+    {{/if}}
   </form>
 
 </div>

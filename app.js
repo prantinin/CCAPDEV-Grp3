@@ -53,7 +53,7 @@ app.get('/register', (req, res) => {
 
 app.get('/createreserve', (req, res) => {
   res.render('createreserve', { 
-    title: 'Labubuddies | Reserve' 
+    title: 'Labubuddies | Reserve'
   });
 });
 
@@ -173,6 +173,10 @@ app.post('/submit-reservation', async (req, res) => {
         });
 
         await newRes.save();
+        return res.render('createreserve', {
+          title: 'Labubuddies | Reserve',
+          success: true
+        });
     } else {
       // In case user reserving a taken slot
       return res.render('error', {

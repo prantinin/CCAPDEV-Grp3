@@ -79,8 +79,17 @@ window.addEventListener('message', (event) => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Disable fields whenever one is changed
   document.querySelector("#resDate").addEventListener("input", checkInputs);
   document.querySelector(".timeSlot").addEventListener("change", checkInputs);
 
+  // Populate options accordingly
   populateDateAndTime();
+
+  // Success message when reservation is made
+  if (reservSuccess) {
+    setTimeout(() => {
+      reservSuccess.remove();
+    }, 4000);
+  }
 });
