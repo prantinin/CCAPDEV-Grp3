@@ -28,14 +28,19 @@
   </div>
 
   <!-- Main Slot Area -->
- <div class="grid grid-cols-[0.2fr_2fr_2fr_2fr_2fr] grid-rows-[auto_auto] gap-0 p-0">
+  <div class="grid grid-cols-[200px_repeat(3,1fr)] grid-rows-[auto_auto_auto] gap-4 p-4">
   <!-- Door -->
   <div class="w-[200px] col-start-1 row-start-1">
     <img src="/Assets/icons/labdoor.svg" class="w-full" alt="Door" />
   </div>
 
-  <!-- Board -->
+  <!-- Board 1 -->
   <div class="col-start-1 row-start-2">
+    <img src="/Assets/icons/board.svg" class="w-[50px]" alt="Board" />
+  </div>
+
+  <!-- Board 2 -->
+  <div class="col-start-1 row-start-3">
     <img src="/Assets/icons/board.svg" class="w-[50px]" alt="Board" />
   </div>
 
@@ -53,7 +58,7 @@
           {{/each}}
         </div>
 
-        <!-- Middle Row (Table + Mid Chair) -->
+        <!-- Middle Row (Table) -->
         <div class="flex items-center justify-start -mt-10 -mb-10 -ml-8">
           <div class="flex items-center justify-start w-full h-[5%]">
             <pre>             </pre>
@@ -70,8 +75,9 @@
             </button>
           {{/each}}
         </div>
-
       </div>
+
+        <!-- Middle Chair -->
         <div class="flex items-center justify-center -mt-10 -mb-10 -ml-8 w-20">
           {{#if this.mid}}
             <button id="{{this.mid.id}}" class="chairs bg-transparent border-none w-21 flex 

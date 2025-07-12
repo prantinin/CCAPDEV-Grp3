@@ -2,7 +2,6 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const path = require('path');
-const fs = require('fs');
 
 const UserSchema = require('./models/Users');
 const ReserveSchema = require('./models/Reservations');
@@ -53,7 +52,8 @@ app.get('/register', (req, res) => {
 
 app.get('/createreserve', (req, res) => {
   res.render('createreserve', { 
-    title: 'Labubuddies | Reserve'
+    title: 'Labubuddies | Reserve',
+    success: req.query.success === 'true'
   });
 });
 
@@ -63,6 +63,13 @@ app.get('/reserveiframe', (req, res) => {
     layout: false,
     labs: labs,
     areas: areas
+  });
+}); 
+
+app.get('/unavailiframe', (req, res) => {
+  res.render('unavailiframe', {
+    title: 'Slots Unavailable',
+    layout: false
   });
 }); 
 
@@ -211,10 +218,7 @@ app.post('/submit-reservation', async (req, res) => {
         });
 
         await newRes.save();
-        return res.render('createreserve', {
-          title: 'Labubuddies | Reserve',
-          success: true
-        });
+        return res.redirect('/createreserve?success=true');
     } else {
       // In case user reserving a taken slot
       return res.render('error', {

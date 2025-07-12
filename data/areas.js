@@ -90,6 +90,30 @@ const areas = [
       { id: 'G3', img: '/Assets/icons/chair3.svg' },
       { id: 'G4', img: '/Assets/icons/chair4.svg' }
     ]
+  },
+  {
+    upper: [
+      { id: 'H1', img: '/Assets/icons/chair1.svg' },
+      { id: 'H2', img: '/Assets/icons/chair2.svg' }
+    ],
+    table: '/Assets/icons/tableH.svg',
+    mid: { id: 'H5', img: '/Assets/icons/chair5.svg', onclick: 'openPopRes(event)' },
+    lower: [
+      { id: 'H3', img: '/Assets/icons/chair3.svg' },
+      { id: 'H4', img: '/Assets/icons/chair4.svg' }
+    ]
+  },
+  {
+    upper: [
+      { id: 'I1', img: '/Assets/icons/chair1.svg' },
+      { id: 'I2', img: '/Assets/icons/chair2.svg' }
+    ],
+    table: '/Assets/icons/tableI.svg',
+    mid: { id: 'I5', img: '/Assets/icons/chair5.svg', onclick: 'openPopRes(event)' },
+    lower: [
+      { id: 'I3', img: '/Assets/icons/chair3.svg' },
+      { id: 'I4', img: '/Assets/icons/chair4.svg' }
+    ]
   }
 ];
 

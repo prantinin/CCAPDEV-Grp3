@@ -39,6 +39,7 @@ function checkInputs() {
   const resDate = document.querySelector("#resDate");
   const timeSlot = document.querySelector(".timeSlot");
   const chosenSlot = document.querySelector(".chosenSlot");
+  const slotIframe = document.getElementById("slotAreaContents");
 
   const dateFilled = resDate.value;
   const timeFilled = timeSlot.value;
@@ -54,7 +55,12 @@ function checkInputs() {
     timeSlot.value = "";
   }
 
-  // TO DO: slot decision thingy only avail when date and time filled in
+  // Slots unavailable if date and time not filled
+  if (dateFilled && timeFilled) {
+    slotIframe.src = "/reserveiframe";
+  } else {
+    slotIframe.src = "/unavailiframe";
+  }
 
   // Confirm avail only when the whole form is filled
   if (dateFilled && timeFilled && seatFilled) {
@@ -87,9 +93,18 @@ document.addEventListener("DOMContentLoaded", function () {
   populateDateAndTime();
 
   // Success message when reservation is made
+  const reservSuccess = document.getElementById("reservSuccess");
   if (reservSuccess) {
     setTimeout(() => {
+      
+      // disappearing message
       reservSuccess.remove();
-    }, 4000);
+
+      // ensures page reload does not have the message
+      const url = new URL(window.location);
+      url.searchParams.delete('success');
+      window.history.replaceState({}, document.title, url);
+
+    }, 3000);
   }
 });
