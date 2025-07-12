@@ -3,7 +3,7 @@
     <div class="flex flex-col justify-center items-center">
       <!-- Filter Header -->
       <div id="filter-details" class="flex flex-row w-[90%] mt-8">
-        <a href="/filterreservations">
+        <form method="GET" action="/tfilterreservs">
           <div class="flex flex-row w-[300px] bg-white px-50 py-6 rounded-full shadow">
             <div class="flex ml-4 mt-3 h-8 w-8">
               <img src="/Assets/images/searchicon.png" />
@@ -13,16 +13,16 @@
               <p>{{filter.date}} - {{filter.time}}</p>
             </div>
           </div>
-        </a>
+        </form>
 
         <div id="edit-stuff" class="flex flex-col ml-auto">
           <div class="flex items-center justify-center">
             <p><strong>{{availableSeats}}</strong> Seats Available</p>
           </div>
           <div class="flex justify-center w-52 bg-[#14AE5C] px-6 py-1.5 rounded-full text-white text-xl font-medium mt-3 shadow">
-            <a href="/createreserve">
-              <p>New Reservation</p>
-            </a>
+            <form method="GET" action="/TReserveSlotPage">
+              <button type="submit">New Reservation</button>
+            </form>
           </div>
         </div>
       </div>
@@ -81,35 +81,16 @@
       <div class="flex justify-center">
         <div class="flex justify-center w-[90%] h-[150px]">
           <div class="flex items-center justify-center mt-6 h-8 w-8">
-            <button id="add-item">
-              <img src="/Assets/images/plus-circle.svg" alt="Add" />
-            </button>
+            <form method="GET" action="/TReserveSlotPage">
+              <button id="add-item">
+                <img src="/Assets/images/plus-circle.svg" alt="Add" />
+              </button>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Add/Delete Script -->
-  <script>
-    document.getElementById("add-item").addEventListener("click", function () {
-      const reserveList = document.querySelector(".reserve-list");
-      const clone = reserveList.cloneNode(true);
-      clone.removeAttribute("id");
-      reserveList.parentNode.insertBefore(clone, reserveList.nextSibling);
-    });
-
-    document.addEventListener("click", function (e) {
-      if (
-        e.target.classList.contains("delete-item") ||
-        e.target.parentElement.classList.contains("delete-item")
-      ) {
-        const itemToDelete = e.target.closest(".reserve-list");
-        if (itemToDelete) {
-          itemToDelete.remove();
-        }
-      }
-    });
-  </script>
 </body>
 </html>

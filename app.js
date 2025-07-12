@@ -300,6 +300,11 @@ app.post('/deletereservation/:id', async (req, res) => {
   res.redirect('/viewreservs');
 });
 
+//ADD
+
+
+//EDIT
+
 
 // Start server
 app.listen(port, () => {
