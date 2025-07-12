@@ -1,0 +1,37 @@
+<div id="content-area" class="flex items-center justify-center">
+  <div class="bg-[#1C9259] bg-opacity-40 mt-16 rounded-lg w-[700px] h-auto text-[#2C2C2C] p-8">
+
+    <p class="flex justify-center text-[30px] font-medium mb-6">Filter Reservations</p>
+
+    <form method="GET" action="/tviewreservs" class="flex flex-col items-center space-y-4">
+
+      <!-- LAB dropdown -->
+      <label for="lab" class="text-sm font-medium">Choose Laboratory:</label>
+      <select name="lab" id="lab" class="w-80 p-2 rounded-full border shadow-sm">
+        <option value="">All Labs</option>
+        {{#each labs}}
+          <option value="{{this._id}}">{{this.labName}}</option>
+        {{/each}}
+      </select>
+
+      <!-- DATE picker -->
+      <label for="date" class="text-sm font-medium">Choose a Date:</label>
+      <input type="date" name="date" id="date" class="w-80 p-2 rounded-full border shadow-sm" />
+
+      <!-- TIME dropdown -->
+      <label for="time" class="text-sm font-medium">Choose Time:</label>
+      <select name="time" id="time" class="w-80 p-2 rounded-full border shadow-sm">       <!-- need for time -->
+        <option value="">-- Select --</option>
+        {{#each timeLabels}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      </select>
+
+      <button type="submit" class="bg-[#14AE5C] px-6 py-3 rounded-full text-white text-xl font-medium mt-4">
+        Search
+      </button>
+
+      <a href="/tviewreservs" class="mt-2 text-sm underline hover:text-green-700">View All Instead</a>
+    </form>
+  </div>
+</div>

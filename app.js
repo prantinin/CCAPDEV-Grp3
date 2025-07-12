@@ -13,7 +13,7 @@ const app = express();
 const port = 3000;
 
 
-// MongoDB connection
+// MongoDB connection (put this in a .env)
 mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
   .then(() => console.log('Connected to MongoDB...'))
   .catch(err => console.log('Could not connect to MongoDB...', err));
@@ -85,47 +85,102 @@ app.get('/searchusers', (req, res) => {
   });
 }); 
 
-app.get('/viewreservs', async (req, res) => {
+function formatReservation(r) {
+  return {
+    id: r._id,
+    lab: r.lab.labName,
+    seat: r.seat.seatCode,
+    reservDate: new Date(r.reservDate).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' }),
+    time: r.timeSlot,
+    startTime: r.timeSlot.split(' to ')[0],
+    endTime: r.timeSlot.split(' to ')[1],
+    reqMade: new Date(r.reqMade).toLocaleString('en-PH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }),
+    name: r.isAnon ? 'Anonymous' : `${r.userID?.fName} ${r.userID?.lName}`,
+    email: r.isAnon ? null : r.userID?.email,
+    anonymous: r.isAnon
+  };
+}
+
+app.get('/viewreservs', async (req, res) => {   //student view
   try {
-    const rawReservations = await ReserveSchema.find().lean();
+    const rawReservations = await ReserveSchema.find()
+      .populate('lab')
+      .populate('seat')
+      .populate('userID')
+      .lean();
 
-    const formattedReservations = rawReservations.map(r => {
-      const [labName, seatCode] = r.slotName.split(', seat ');
-
-      return {
-        id: r._id,
-        lab: labName.trim(),
-        seat: seatCode.trim(),
-        reservDate: new Date(r.reservDate).toLocaleDateString('en-PH', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        }),
-        startTime: r.startTime,
-        endTime: r.endTime,
-        reqMade: new Date(r.reqMade).toLocaleString('en-PH', {
-          weekday: 'short',
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true
-        })
-      };
-    });
+    const formattedReservations = rawReservations.map(formatReservation);
 
     res.render('viewreservs', {
       title: 'Labubuddies | View Reservations',
       reservations: formattedReservations
     });
-
+    
   } catch (error) {
-    console.error('Error fetching reservations:', error);
+    console.error('Student view error:', error);
     res.render('error', {
       title: 'Error',
-      message: 'Could not load reservations. Please try again later.'
+      message: 'Could not load reservations.'
     });
+  }
+});
+
+
+app.get('/tfilterreservs', async (req, res) => {
+    //const labs = await Lab.find().lean(); // load all lab options
+    const labs = await LabSchema.find().lean(); // ✅ Uses the defined LabSchema
+
+    res.render('tfilterreservs', {
+      title: 'Labubuddies | Technician Filter',
+      labs
+    });
+});
+
+
+app.get('/tviewreservs', async (req, res) => {
+  const { lab, date, time } = req.query;
+  const filter = {};
+
+  if (lab) filter.lab = lab;
+  if (date) filter.reservDate = new Date(date);
+  if (time) filter.timeSlot = time;
+
+  try {
+    const reservations = await ReserveSchema.find(filter)
+      .populate('lab')
+      .populate('seat')
+      .populate('userID')
+      .lean();
+
+    const formatted = reservations.map(formatReservation);
+    const availableSeats = 40 - reservations.length;
+
+    res.render('tviewreservs', {
+      title: 'Labubuddies | Filtered Reservations',
+      filter: { lab, date, time },
+      availableSeats,
+      reservations: formatted
+    });
+
+  } catch (error) {
+    console.error('Technician filter error:', error);
+    res.render('error', {
+      title: 'Error',
+      message: 'Could not fetch filtered results.'
+    });
+  }
+});
+
+
+
+
+//[tech] - view profile if clicked
+app.get('/profile/:email', async (req, res) => {
+  const user = await User.findOne({ email: req.params.email }).lean();
+  if (user) {
+    res.render('viewprofile', { user });
+  } else {
+    res.status(404).render('error', { title: 'User Not Found' });
   }
 });
 
@@ -233,6 +288,15 @@ app.post('/submit-reservation', async (req, res) => {
     });
   }
 });
+
+//delete reservation
+app.post('/deletereservation/:id', async (req, res) => {
+  await Reserve.findByIdAndDelete(req.params.id);
+  res.redirect('/viewreservs');
+});
+
+//EDIT
+
 
 // Start server
 app.listen(port, () => {
