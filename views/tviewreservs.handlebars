@@ -69,6 +69,14 @@
       </div>
       {{/each}}
 
+      {{#unless reservations.length}}
+      <div class="flex justify-center mt-8">
+        <p class="text-gray-500 text-sm italic">
+          No reservations matched your filter. Try adjusting lab, date, or time.
+        </p>
+      </div>
+    {{/unless}}
+
       <!-- Add Button -->
       <div class="flex justify-center">
         <div class="flex justify-center w-[90%] h-[150px]">

@@ -78,36 +78,33 @@ app.get('/searchusers', (req, res) => {
   });
 }); 
 
-//view reservs - student
-app.get('/viewreservs', async (req, res) => {
+function formatReservation(r) {
+  return {
+    id: r._id,
+    lab: r.lab.labName,
+    seat: r.seat.seatCode,
+    reservDate: new Date(r.reservDate).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' }),
+    time: r.timeSlot,
+    startTime: r.timeSlot.split(' to ')[0],
+    endTime: r.timeSlot.split(' to ')[1],
+    reqMade: new Date(r.reqMade).toLocaleString('en-PH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }),
+    name: r.isAnon ? 'Anonymous' : `${r.userID?.fName} ${r.userID?.lName}`,
+    email: r.isAnon ? null : r.userID?.email,
+    anonymous: r.isAnon
+  };
+}
+
+app.get('/viewreservs', async (req, res) => {     //student view
   try {
-    const rawReservations = await ReserveSchema.find().lean();
+    if (req.session.user?.isTech) return res.redirect('/tfilterreservs');
 
-    const formattedReservations = rawReservations.map(r => {
-      const [labName, seatCode] = r.slotName.split(', seat ');
+    const rawReservations = await ReserveSchema.find()
+      .populate('lab')
+      .populate('seat')
+      .populate('userID')
+      .lean();
 
-      return {
-        id: r._id,
-        lab: labName.trim(),
-        seat: seatCode.trim(),
-        reservDate: new Date(r.reservDate).toLocaleDateString('en-PH', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        }),
-        startTime: r.startTime,
-        endTime: r.endTime,
-        reqMade: new Date(r.reqMade).toLocaleString('en-PH', {
-          weekday: 'short',
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true
-        })
-      };
-    });
+    const formattedReservations = rawReservations.map(formatReservation);
 
     res.render('viewreservs', {
       title: 'Labubuddies | View Reservations',
@@ -115,16 +112,34 @@ app.get('/viewreservs', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error fetching reservations:', error);
+    console.error('Student view error:', error);
     res.render('error', {
       title: 'Error',
-      message: 'Could not load reservations. Please try again later.'
+      message: 'Could not load reservations.'
     });
   }
 });
 
-//view reservs -technician
-app.get('/viewreservs', async (req, res) => {
+app.get('/tfilterreservs', async (req, res) => {
+  try {
+    if (!req.session.user?.isTech) return res.redirect('/viewreservs');
+
+    const labs = await Lab.find().lean(); // load all lab options
+    res.render('tfilterreservs', {
+      title: 'Labubuddies | Technician Filter',
+      labs
+    });
+  } catch (err) {
+    console.error('Error loading filter:', err);
+    res.render('error', {
+      title: 'Error',
+      message: 'Could not load technician filter options.'
+    });
+  }
+});
+
+
+app.get('/tviewreservs', async (req, res) => {
   const { lab, date, time } = req.query;
   const filter = {};
 
@@ -133,39 +148,31 @@ app.get('/viewreservs', async (req, res) => {
   if (time) filter.timeSlot = time;
 
   try {
-    const reservations = await Reserve.find(filter)
+    const reservations = await ReserveSchema.find(filter)
       .populate('lab')
       .populate('seat')
       .populate('userID')
       .lean();
 
-    const formatted = reservations.map(r => ({
-      id: r._id,
-      name: r.userID ? `${r.userID.fName} ${r.userID.lName}` : null,
-      email: r.userID ? r.userID.email : null,
-      anonymous: r.isAnon,
-      lab: r.lab.labName,
-      seat: r.seat.seatCode,
-      date: new Date(r.reservDate).toLocaleDateString('en-PH'),
-      time: r.timeSlot
-    }));
-
-    const availableSeats = 40 - reservations.length; // placeholder logic
+    const formatted = reservations.map(formatReservation);
+    const availableSeats = 40 - reservations.length;
 
     res.render('viewreservs', {
       title: 'Labubuddies | Filtered Reservations',
-      filter: { lab, date, time },  // display filter summary
+      filter: { lab, date, time },
       availableSeats,
       reservations: formatted
     });
-  } catch (err) {
-    console.error('Error loading filtered reservations:', err);
+
+  } catch (error) {
+    console.error('Technician filter error:', error);
     res.render('error', {
       title: 'Error',
-      message: 'Could not fetch reservation results.'
+      message: 'Could not fetch filtered results.'
     });
   }
 });
+
 
 
 
