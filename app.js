@@ -94,10 +94,8 @@ function formatReservation(r) {
   };
 }
 
-app.get('/viewreservs', async (req, res) => {     //student view
+app.get('/viewreservs', async (req, res) => {   //student view
   try {
-    if (req.session.user?.isTech) return res.redirect('/tfilterreservs');
-
     const rawReservations = await ReserveSchema.find()
       .populate('lab')
       .populate('seat')
@@ -110,7 +108,7 @@ app.get('/viewreservs', async (req, res) => {     //student view
       title: 'Labubuddies | View Reservations',
       reservations: formattedReservations
     });
-
+    
   } catch (error) {
     console.error('Student view error:', error);
     res.render('error', {
@@ -120,22 +118,15 @@ app.get('/viewreservs', async (req, res) => {     //student view
   }
 });
 
-app.get('/tfilterreservs', async (req, res) => {
-  try {
-    if (!req.session.user?.isTech) return res.redirect('/viewreservs');
 
-    const labs = await Lab.find().lean(); // load all lab options
+app.get('/tfilterreservs', async (req, res) => {
+    //const labs = await Lab.find().lean(); // load all lab options
+    const labs = await LabSchema.find().lean(); // ✅ Uses the defined LabSchema
+
     res.render('tfilterreservs', {
       title: 'Labubuddies | Technician Filter',
       labs
     });
-  } catch (err) {
-    console.error('Error loading filter:', err);
-    res.render('error', {
-      title: 'Error',
-      message: 'Could not load technician filter options.'
-    });
-  }
 });
 
 
@@ -157,7 +148,7 @@ app.get('/tviewreservs', async (req, res) => {
     const formatted = reservations.map(formatReservation);
     const availableSeats = 40 - reservations.length;
 
-    res.render('viewreservs', {
+    res.render('tviewreservs', {
       title: 'Labubuddies | Filtered Reservations',
       filter: { lab, date, time },
       availableSeats,
@@ -299,9 +290,6 @@ app.post('/deletereservation/:id', async (req, res) => {
   await Reserve.findByIdAndDelete(req.params.id);
   res.redirect('/viewreservs');
 });
-
-//ADD
-
 
 //EDIT
 
