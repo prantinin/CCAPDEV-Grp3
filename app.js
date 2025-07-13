@@ -244,6 +244,12 @@ app.post('/register', async (req, res) => {
     return res.send('Passwords do not match');
   }
 
+  // Validate idNum format
+  const idNumPattern = /^1(2[0-9]|3[0-9])\d{5}$/; // DLSU id number format
+  if (!idNumPattern.test(idNum)) {
+    return res.send('Invalid ID Number format. Must be 8 digits, start with 1, and include valid entry year (e.g., 12345678)');
+  }
+
   try {
     const existingUser = await UserSchema.findOne({ email });
     if (existingUser) {
