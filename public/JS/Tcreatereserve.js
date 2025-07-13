@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const studentID = document.querySelector(".studentID");
   
   // Disable fields whenever one is changed
-  document.querySelector("#studentID").addEventListener("change", checkInputs);
+  document.querySelector("#studentID").addEventListener("input", checkInputs);
   document.querySelector("#resDate").addEventListener("change", checkInputs);
   document.querySelector(".timeSlot").addEventListener("change", checkInputs);
   document.querySelector(".labSelect").addEventListener("change", checkInputs);

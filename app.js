@@ -74,7 +74,7 @@ app.get('/reserveiframe', async (req, res) => {
   let reservedSeats = [];
   if (lab && date && time) {
     reservedSeats = await ReserveSchema.find({
-      lab: lab,
+      lab: lab._id,
       reservDate: new Date(date),
       timeSlot: time
     }).distinct('seat');
@@ -93,7 +93,7 @@ app.get('/api/reservedSeats', async (req, res) => {
 
   let filter = {};
   if (lab) {
-    filter.lab = mongoose.Types.ObjectId(lab);  // 👉 Cast to ObjectId
+    filter.lab = mongoose.Types.ObjectId(lab);
   }
   if (date) {
     filter.reservDate = new Date(date);
@@ -103,8 +103,12 @@ app.get('/api/reservedSeats', async (req, res) => {
   }
 
   try {
-    const reservedSeats = await ReserveSchema.find(filter).distinct('seat');
-    res.json(reservedSeats.map(id => id.toString()));
+    const reservations = await ReserveSchema.find(filter)
+      .populate('seat')
+      .lean();
+
+    const reservedSeats = reservations.map(r => r.seat?.seatCode);
+    res.json(reservedSeats);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Something went wrong.' });
