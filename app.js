@@ -53,6 +53,7 @@ app.get('/register', (req, res) => {
 app.get('/createreserve', (req, res) => {
   res.render('createreserve', { 
     title: 'Labubuddies | Reserve',
+    roleTitle: 'Student',
     success: req.query.success === 'true',
     labs: labs
   });
@@ -61,6 +62,7 @@ app.get('/createreserve', (req, res) => {
 app.get('/Tcreatereserve', (req, res) => {
   res.render('Tcreatereserve', { 
     title: 'Labubuddies | TReserve',
+    roleTitle: 'Technician',
     success: req.query.success === 'true',
     labs: labs
   });
@@ -119,12 +121,14 @@ app.get('/unavailiframe', (req, res) => {
 app.get('/viewprofile', (req, res) => {
   res.render('viewprofile', {
     title: 'Labubuddies | View Profile',
+    roleTitle: 'Student',
   });
 }); 
 
 app.get('/searchusers', (req, res) => {
   res.render('searchusers', {
     title: 'Labubuddies | Search Users',
+    roleTitle: 'Student',
   });
 }); 
 
@@ -156,6 +160,7 @@ app.get('/viewreservs', async (req, res) => {   //student view
 
     res.render('viewreservs', {
       title: 'Labubuddies | View Reservations',
+      roleTitle: 'Student',
       reservations: formattedReservations
     });
     
@@ -175,6 +180,7 @@ app.get('/tfilterreservs', async (req, res) => {
 
     res.render('tfilterreservs', {
       title: 'Labubuddies | Technician Filter',
+      roleTitle: 'Technician',
       labs
     });
 });
@@ -209,6 +215,7 @@ app.get('/tviewreservs', async (req, res) => {
     console.error('Technician filter error:', error);
     res.render('error', {
       title: 'Error',
+      roleTitle: 'Technician',
       message: 'Could not fetch filtered results.'
     });
   }

@@ -1,3 +1,13 @@
+// ERROR WHEN ID INVALID
+function openPop(event) {
+  const popup = document.getElementById("popInvalid");
+  popup.classList.remove("hidden");
+
+  setTimeout(() => {
+      popup.classList.add("hidden");
+  }, 1500);
+}
+
 // RESERVATION TIME SLOTS
 function populateDateAndTime() {
   const timeLabels = [
@@ -54,7 +64,7 @@ function checkInputs() {
   const timeFilled = timeSlot.value;
   const labFilled = labSelect.value;
 
-
+  // Active date selection
   if (idFilled) {
     resDate.disabled = false;
     resDate.classList.add("active");
@@ -121,6 +131,10 @@ window.addEventListener('message', (event) => {
 
 
 document.addEventListener("DOMContentLoaded", function () {
+  // ID number validation
+  const confirmBtn = document.querySelector(".confirmRes");
+  const studentID = document.querySelector(".studentID");
+  
   // Disable fields whenever one is changed
   document.querySelector("#studentID").addEventListener("change", checkInputs);
   document.querySelector("#resDate").addEventListener("change", checkInputs);
@@ -129,6 +143,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Populate options accordingly
   populateDateAndTime();
+
+  // Form validation before confirmation
+  confirmBtn.addEventListener("click", function (e) {
+    if (!/^1(0[1-9]|1[0-9]|2[0-5])\d{4}$/.test(studentID.value)) {
+      e.preventDefault();
+      openPop();
+    }
+  });
 
   // Success message when reservation is made
   const reservSuccess = document.getElementById("reservSuccess");
