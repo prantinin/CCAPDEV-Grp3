@@ -32,6 +32,11 @@ const seedDatabase = async () => {
   // Replacing reservations' null values
   for (const reserve of reservedata) {
     
+    const now = new Date();
+
+    const phTime = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
+    now.setDate(now.getDate() - 7);
+
     // finding userID
     const userSchoolId = reserve.userIdNum;
     const user = await UserSchema.findOne({ idNum : userSchoolId }).exec();
@@ -51,8 +56,8 @@ const seedDatabase = async () => {
       lab: lab._id,
       seat: seat._id,
       timeSlot: reserve.timeSlot,
-      reservDate: reserve.reservDate,
-      reqMade: reserve.reqMade
+      reservDate: phTime,
+      reqMade: now
     });
     await newRes.save();
   }

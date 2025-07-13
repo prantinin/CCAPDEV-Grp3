@@ -6,8 +6,7 @@
     "slotName": "Lab 5, seat A2",
     "lab": null,
     "seat": null,
-    "timeSlot": "5",
-    "reservDate": "2025-07-04",
+    "timeSlot": "0",
     "reqMade": "2023-07-01T10:40:00"
   },
   {
@@ -17,8 +16,7 @@
     "slotName": "Lab 2, seat D4",
     "lab": null,
     "seat": null,
-    "timeSlot": "21",
-    "reservDate": "2025-07-10",
+    "timeSlot": "0",
     "reqMade": "2025-07-09T23:00:00"
   },
   {
@@ -29,7 +27,6 @@
     "lab": null,
     "seat": null,
     "timeSlot": "0",
-    "reservDate": "2025-07-09",
     "reqMade": "2025-07-01T16:23:00"
   },
   {
@@ -39,8 +36,7 @@
     "slotName": "Lab 1, seat B3",
     "lab": null,
     "seat": null,
-    "timeSlot": "12",
-    "reservDate": "2025-07-04",
+    "timeSlot": "0",
     "reqMade": "2025-06-28T01:00:00"
   },
   {
@@ -50,8 +46,7 @@
     "slotName": "Lab 1, seat A4",
     "lab": null,
     "seat": null,
-    "timeSlot": "18",
-    "reservDate": "2025-07-04",
+    "timeSlot": "0",
     "reqMade": "2025-06-29T20:00:00"
   },
   {
@@ -61,8 +56,7 @@
     "slotName": "Lab 3, seat B3",
     "lab": null,
     "seat": null,
-    "timeSlot": "15",
-    "reservDate": "2025-07-08",
+    "timeSlot": "0",
     "reqMade": "2025-07-05T09:00:00"
   },
   {
@@ -72,8 +66,7 @@
     "slotName": "Lab 4, seat B5",
     "lab": null,
     "seat": null,
-    "timeSlot": "15",
-    "reservDate": "2025-07-09",
+    "timeSlot": "0",
     "reqMade": "2025-07-04T16:57:00"
   },
   {
@@ -84,7 +77,6 @@
     "lab": null,
     "seat": null,
     "timeSlot": "0",
-    "reservDate": "2025-07-11",
     "reqMade": "2025-07-07T01:32:00"
   }
 ]

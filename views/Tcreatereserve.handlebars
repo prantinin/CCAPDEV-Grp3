@@ -1,12 +1,12 @@
 <link rel="stylesheet" href="/CSS/createreserve.css">
-<script src="/JS/createreserve.js"></script>
+<script src="/JS/Tcreatereserve.js"></script>
 
 <div class="grid grid-cols-4 gap-5 p-6">
 
   <!-- Instructions -->
   <div class="col-span-4 flex justify-between font-[Dongle-Bold]">
     <h2 class="text-3xl font-bold">Choose a laboratory.</h2>
-    <a href="/Tcreatereserve"><h3 class="text-3xl font-[Dongle-Light]">To technician side</h3></a>
+    <a href="/createreserve"><h3 class="text-3xl font-[Dongle-Light]">To student side</h3></a>
   </div>
 
   <!-- Slot / Seat Area -->
@@ -28,7 +28,7 @@
   </div>
 
   <!-- Reservation Form -->
-  <form method="POST" action="/submit-reservation" class="col-span-1 bg-[#D9F1DD] rounded-xl p-6 text-lg space-y-4 shadow-inner">
+  <form method="POST" action="/Tsubmit-reservation" class="col-span-1 bg-[#D9F1DD] rounded-xl p-6 text-lg space-y-4 shadow-inner">
   
     
     <!-- Chosen Slot -->
@@ -37,10 +37,16 @@
       <input type="text" name="chosenSlot" id="chosenSlot" class="chosenSlot bg-white px-4 py-2 border rounded text-xl text-black w-[10vw]" value="-- None --" readonly disabled>
     </div>
 
+    <!-- Student ID Number -->
+    <div>
+        <p class="text-2xl">Student's ID Number:</p>
+      <input type="text" name="studentID" id="studentID" class="studentID bg-white px-4 py-2 border rounded text-xl text-black w-[10vw]">
+    </div>
+
     <!-- Date Input -->
     <div>
       <label for="resDate" class="text-2xl">Choose a Date</label>
-      <input type="date" id="resDate" name="resDate" class="resDate w-full p-2 rounded text-xl border mt-1" required>
+      <input type="date" id="resDate" name="resDate" class="resDate w-full p-2 rounded text-xl border mt-1" required disabled>
     </div>
 
     <!-- Time Slot -->
@@ -51,8 +57,6 @@
       </select>
     </div>
 
-    <br/>
-    <br/>
     <br/>
     <br/>
 

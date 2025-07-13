@@ -38,8 +38,10 @@ function populateDateAndTime() {
   })
 }
 
+
 // FORM VALIDATION
 function checkInputs() {
+  const studentID = document.querySelector(".studentID");
   const resDate = document.querySelector("#resDate");
   const timeSlot = document.querySelector(".timeSlot");
   const chosenSlot = document.querySelector(".chosenSlot");
@@ -47,13 +49,23 @@ function checkInputs() {
   const slotIframe = document.getElementById("slotAreaContents");
   const confirmBtn = document.querySelector(".confirmRes");
 
+  const idFilled = studentID.value;
   const dateFilled = resDate.value;
   const timeFilled = timeSlot.value;
   const labFilled = labSelect.value;
 
 
+  if (idFilled) {
+    resDate.disabled = false;
+    resDate.classList.add("active");
+  } else {
+    resDate.disabled = true;
+    resDate.classList.remove("active");
+    resDate.value = "";
+  }
+
   // Active timeslots
-  if (dateFilled) {
+  if (idFilled && dateFilled) {
     timeSlot.disabled = false;
     timeSlot.classList.add("active");
   } else {
@@ -63,7 +75,7 @@ function checkInputs() {
   }
 
   // Active lab selection
-  if (dateFilled && timeFilled) {
+  if (idFilled && dateFilled && timeFilled) {
     labSelect.disabled = false;
     labSelect.classList.add("active");
     chosenSlot.disabled = false;
@@ -77,7 +89,7 @@ function checkInputs() {
   }
 
   // Active seats iframe
-  if (dateFilled && timeFilled && labFilled) {
+  if (idFilled && dateFilled && timeFilled && labFilled) {
     chosenSlot.value = `Lab ${labSelect.value}, no seat`;
     slotIframe.src = `/reserveiframe?date=${dateFilled}&time=${timeFilled}&lab=${labFilled}`;
   } else {
@@ -85,7 +97,7 @@ function checkInputs() {
   }
 
   // Active confirm button
-  if (dateFilled && timeFilled && labFilled) {
+  if (idFilled && dateFilled && timeFilled && labFilled && chosenSlot) {
     confirmBtn.disabled = false;
     confirmBtn.classList.add("active");
   } else {
@@ -110,6 +122,7 @@ window.addEventListener('message', (event) => {
 
 document.addEventListener("DOMContentLoaded", function () {
   // Disable fields whenever one is changed
+  document.querySelector("#studentID").addEventListener("change", checkInputs);
   document.querySelector("#resDate").addEventListener("change", checkInputs);
   document.querySelector(".timeSlot").addEventListener("change", checkInputs);
   document.querySelector(".labSelect").addEventListener("change", checkInputs);

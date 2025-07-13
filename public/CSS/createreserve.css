@@ -1,3 +1,43 @@
+.labSelect:disabled {
+    cursor: not-allowed;
+}
+
+.chosenSlot:disabled {
+    cursor: not-allowed;
+    background-color: #e5e7eb;
+    color: #9CA3AF;
+}
+
+.chosenSlot.active {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}
+
+.resDate:disabled {
+    cursor: not-allowed;
+    background-color: #e5e7eb;
+    color: #9CA3AF;
+}
+
+.resDate.active {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}
+
+.timeSlot:disabled {
+    cursor: not-allowed;
+    background-color: #e5e7eb;
+    color: #9CA3AF;
+}
+
+.timeSlot.active {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}
+
 button.confirmRes:disabled {
   background-color: #9CA3AF;
   color: #e5e7eb;
@@ -13,16 +53,4 @@ button.confirmRes.active {
 
 button.confirmRes.active:hover {
     transform: scale(1.05);
-}
-
-.timeSlot:disabled {
-    cursor: not-allowed;
-    background-color: #e5e7eb;
-    color: #9CA3AF;
-}
-
-.timeSlot.active {
-    cursor: pointer;
-    background-color: white;
-    color: black;
 }

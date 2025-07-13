@@ -53,18 +53,61 @@ app.get('/register', (req, res) => {
 app.get('/createreserve', (req, res) => {
   res.render('createreserve', { 
     title: 'Labubuddies | Reserve',
-    success: req.query.success === 'true'
+    success: req.query.success === 'true',
+    labs: labs
   });
 });
 
-app.get('/reserveiframe', (req, res) => {
+app.get('/Tcreatereserve', (req, res) => {
+  res.render('Tcreatereserve', { 
+    title: 'Labubuddies | TReserve',
+    success: req.query.success === 'true',
+    labs: labs
+  });
+});
+
+app.get('/reserveiframe', async (req, res) => {
+  const { lab, date, time } = req.query;
+
+  let reservedSeats = [];
+  if (lab && date && time) {
+    reservedSeats = await ReserveSchema.find({
+      lab: lab,
+      reservDate: new Date(date),
+      timeSlot: time
+    }).distinct('seat');
+  }
+
   res.render('reserveiframe', {
     title: 'Reservation Slots',
     layout: false,
-    labs: labs,
-    areas: areas
+    areas: areas,
+    reservedSeats: reservedSeats.map(s => s.toString())
   });
-}); 
+});
+
+app.get('/api/reservedSeats', async (req, res) => {
+  const { lab, date, time } = req.query;
+
+  let filter = {};
+  if (lab) {
+    filter.lab = mongoose.Types.ObjectId(lab);  // 👉 Cast to ObjectId
+  }
+  if (date) {
+    filter.reservDate = new Date(date);
+  }
+  if (time) {
+    filter.timeSlot = time;
+  }
+
+  try {
+    const reservedSeats = await ReserveSchema.find(filter).distinct('seat');
+    res.json(reservedSeats.map(id => id.toString()));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Something went wrong.' });
+  }
+});
 
 app.get('/unavailiframe', (req, res) => {
   res.render('unavailiframe', {
@@ -249,6 +292,8 @@ app.post('/submit-reservation', async (req, res) => {
 
     const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
     const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
+    const now = new Date();
+    const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
     
     reservedSlot = await ReserveSchema.findOne({
       slotName: chosenSlot,
@@ -269,7 +314,59 @@ app.post('/submit-reservation', async (req, res) => {
           seat: seat._id,
           timeSlot: timeSlot,
           reservDate: new Date(resDate),
-          reqMade: Date.now()
+          reqMade: phTimeNow
+        });
+
+        await newRes.save();
+        return res.redirect('/createreserve?success=true');
+    } else {
+      // In case user reserving a taken slot
+      return res.render('error', {
+        title: 'Reservation Error',
+        message: 'Oops! the slot you selected is already reserved.'
+      });
+    }
+  } catch (err) {
+    return res.render('error', {
+      title: 'Render Error',
+      message: 'Something went wrong.'
+    });
+  }
+});
+
+// submit reservation (technician side)
+app.post('/Tsubmit-reservation', async (req, res) => {
+  try {
+    const { studentID, chosenSlot, resDate, timeSlot, anonymous } = req.body;
+
+    const [ labNamePart, seatCodePart ] = chosenSlot.split(', seat ');
+
+    const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
+    const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
+    const studentUserID = await UserSchema.findOne({ idNum: studentID }).exec();
+    const now = new Date();
+    const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
+    
+    reservedSlot = await ReserveSchema.findOne({
+      slotName: chosenSlot,
+      lab: lab._id,
+      seat: seat._id,
+      timeSlot: timeSlot,
+      reservDate: new Date(resDate),
+    }).exec();
+
+    // only makes new reservation if it doesn't exist (isn't booked)
+    if (!reservedSlot) {
+        const newRes = new ReserveSchema({
+          userID: studentUserID._id,
+          userIdNum: studentID,
+          isAnon: anonymous,
+          slotName: chosenSlot,
+          lab: lab._id,
+          seat: seat._id,
+          timeSlot: timeSlot,
+          reservDate: new Date(resDate),
+          reqMade: phTimeNow
         });
 
         await newRes.save();
