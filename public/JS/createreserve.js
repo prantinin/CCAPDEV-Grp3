@@ -38,8 +38,9 @@ function populateDateAndTime() {
   })
 }
 
+
 // FORM VALIDATION
-function checkInputs() {
+function allowFields() {
   const resDate = document.querySelector("#resDate");
   const timeSlot = document.querySelector(".timeSlot");
   const chosenSlot = document.querySelector(".chosenSlot");
@@ -50,7 +51,6 @@ function checkInputs() {
   const dateFilled = resDate.value;
   const timeFilled = timeSlot.value;
   const labFilled = labSelect.value;
-
 
   // Active timeslots
   if (dateFilled) {
@@ -71,48 +71,44 @@ function checkInputs() {
   } else {
     labSelect.disabled = true;
     labSelect.classList.remove("active");
-    labSelect.value = "";
+    labFilled = "";
     chosenSlot.disabled = true;
     chosenSlot.classList.remove("active");
   }
 
   // Active seats iframe
   if (dateFilled && timeFilled && labFilled) {
-    chosenSlot.value = `Lab ${labSelect.value}, no seat`;
     slotIframe.src = `/reserveiframe?date=${dateFilled}&time=${timeFilled}&lab=${labFilled}`;
+    chosenSlot.value = `Lab ${labFilled}, no seat`;
   } else {
     slotIframe.src = "/unavailiframe";
   }
 
-  // Active confirm button
-  if (dateFilled && timeFilled && labFilled) {
-    confirmBtn.disabled = false;
-    confirmBtn.classList.add("active");
-  } else {
-    confirmBtn.disabled = true;
-    confirmBtn.classList.remove("active");
-  }
+  confirmBtn.disabled = true;
+  confirmBtn.classList.remove("active");
 }
 
 
 // DYNAMIC CHOSEN SLOT
 window.addEventListener('message', (event) => {
-  const { seat } = event.data;
-  const chosenSlot = document.querySelector('.chosenSlot');
-  const lab = document.getElementById("labSelect").value;
+  const seat = event.data;
+  const labFilled = document.getElementById("labSelect").value;
+  const chosenSlot = document.querySelector(".chosenSlot");
+  const confirmBtn = document.querySelector(".confirmRes");
 
   if (seat) {
-    chosenSlot.value = `Lab ${lab}, seat ${seat}`;
-    checkInputs();
+    chosenSlot.value = `Lab ${labFilled}, seat ${seat}`;
+    confirmBtn.disabled = false;
+    confirmBtn.classList.add("active");
   }
 });
 
 
 document.addEventListener("DOMContentLoaded", function () {
   // Disable fields whenever one is changed
-  document.querySelector("#resDate").addEventListener("change", checkInputs);
-  document.querySelector(".timeSlot").addEventListener("change", checkInputs);
-  document.querySelector(".labSelect").addEventListener("change", checkInputs);
+  document.querySelector("#resDate").addEventListener("change", allowFields);
+  document.querySelector(".timeSlot").addEventListener("change", allowFields);
+  document.querySelector(".labSelect").addEventListener("change", allowFields);
 
   // Populate options accordingly
   populateDateAndTime();

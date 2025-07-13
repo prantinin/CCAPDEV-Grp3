@@ -1,13 +1,3 @@
-// SENDS THE RESERVATION INFO TO PARENT PAGE
-function sendSlotInfo(seat) {
-    const lab = getCurrentLab();
-    window.parent.postMessage({
-        lab: lab,
-        seat: seat
-    }, '*');
-}
-
-
 // Change reserved seats colors
 function updateSeats(reservedSeats) {
     const chairButtons = document.querySelectorAll('.chairs');
@@ -34,7 +24,7 @@ function updateSeats(reservedSeats) {
 
 // ERROR WHEN CHOOSING RESERVED SEATS
 function openPopRes(event) {
-    const popup = document.querySelector(".popReserved");
+    const popup = document.getElementById("popReserved");
 
     popup.style.display = "block";
 

@@ -31,11 +31,6 @@ const seedDatabase = async () => {
 
   // Replacing reservations' null values
   for (const reserve of reservedata) {
-    
-    const now = new Date();
-
-    const phTime = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
-    now.setDate(now.getDate() - 7);
 
     // finding userID
     const userSchoolId = reserve.userIdNum;
@@ -47,6 +42,11 @@ const seedDatabase = async () => {
     const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
     const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
 
+    // for dates
+    const now = new Date();
+    now.setDate(now.getDate() + 2);
+    const userReservDate = new Date(now.toISOString().split('T')[0]);
+
     // initializing reservations with new ids
     const newRes = new ReserveSchema({
       userID: user._id,
@@ -56,8 +56,8 @@ const seedDatabase = async () => {
       lab: lab._id,
       seat: seat._id,
       timeSlot: reserve.timeSlot,
-      reservDate: phTime,
-      reqMade: now
+      reservDate: userReservDate,
+      reqMade: new Date()
     });
     await newRes.save();
   }

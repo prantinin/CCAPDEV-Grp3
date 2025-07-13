@@ -12,6 +12,18 @@ const { labs, areas } = require('./data/areas');
 const app = express();
 const port = 3000;
 
+const timeLabels = [
+    "7:30 AM - 8:00 AM", "8:00 AM - 8:30 AM", "8:30 AM - 9:00 AM",
+    "9:00 AM - 9:30 AM", "9:30 AM - 10:00 AM", "10:00 AM - 10:30 AM",
+    "10:30 AM - 11:00 AM", "11:00 AM - 11:30 AM", "11:30 AM - 12:00 PM",
+    "12:00 PM - 12:30 PM", "12:30 PM - 1:00 PM", "1:00 PM - 1:30 PM",
+    "1:30 PM - 2:00 PM", "2:00 PM - 2:30 PM", "2:30 PM - 3:00 PM",
+    "3:00 PM - 3:30 PM", "3:30 PM - 4:00 PM", "4:00 PM - 4:30 PM",
+    "4:30 PM - 5:00 PM", "5:00 PM - 5:30 PM", "5:30 PM - 6:00 PM",
+    "6:00 PM - 6:30 PM", "6:30 PM - 7:00 PM", "7:00 PM - 7:30 PM",
+    "7:30 PM - 8:00 PM", "8:00 PM - 8:30 PM", "8:30 PM - 9:00 PM"
+  ];
+
 
 // MongoDB connection (put this in a .env)
 mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
@@ -73,8 +85,10 @@ app.get('/reserveiframe', async (req, res) => {
 
   let reservedSeats = [];
   if (lab && date && time) {
+    const labID = await LabSchema.findOne({ labName : lab }).exec();
+
     reservedSeats = await ReserveSchema.find({
-      lab: lab._id,
+      lab: labID,
       reservDate: new Date(date),
       timeSlot: time
     }).distinct('seat');
@@ -90,17 +104,22 @@ app.get('/reserveiframe', async (req, res) => {
 
 app.get('/api/reservedSeats', async (req, res) => {
   const { lab, date, time } = req.query;
+  
+  const labID = await LabSchema.findOne({ labName : `Lab ${lab}` }).exec();
 
   let filter = {};
-  if (lab) {
-    filter.lab = mongoose.Types.ObjectId(lab);
+  if (labID) {
+    filter.lab = labID;
   }
   if (date) {
-    filter.reservDate = new Date(date);
+    filter.reservDate = date  ;
   }
   if (time) {
     filter.timeSlot = time;
   }
+
+  // testing
+  console.log('Filter:', filter);
 
   try {
     const reservations = await ReserveSchema.find(filter)
@@ -108,6 +127,10 @@ app.get('/api/reservedSeats', async (req, res) => {
       .lean();
 
     const reservedSeats = reservations.map(r => r.seat?.seatCode);
+
+    // testing
+    console.log('Reservations found:', reservations);
+
     res.json(reservedSeats);
   } catch (err) {
     console.error(err);

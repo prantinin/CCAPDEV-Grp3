@@ -4,7 +4,9 @@ During the preparation of this work the author(s) used Gemini and ChatGPT
 for the following purposes:
 
 - checking for errors and why certain elements are not appearing
+- understanding errors
 - understanding javascript syntax
+- looking for other alternatives for certain snippets of code
 
 
 After using this tool/service, the author(s) reviewed and edited the content as needed and take(s)
