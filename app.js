@@ -38,7 +38,7 @@ app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// Prevent browser caching for dynamic routes
+// Prevent browser caching
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   next();
@@ -132,18 +132,12 @@ app.get('/api/reservedSeats', async (req, res) => {
     filter.timeSlot = time;
   }
 
-  // testing
-  console.log('Filter:', filter);
-
   try {
     const reservations = await ReserveSchema.find(filter)
       .populate('seat')
       .lean();
 
     const reservedSeats = reservations.map(r => r.seat?.seatCode);
-
-    // testing
-    console.log('Reservations found:', reservations);
 
     res.json(reservedSeats);
   } catch (err) {
