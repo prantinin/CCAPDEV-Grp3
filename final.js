@@ -36,18 +36,22 @@ app.engine('handlebars', exphbs.engine({
   partialsDir: path.join(__dirname, 'views/partials'),
   helpers: {
     formatDate: function (date) { 
-       if (!date) return '';
-       return new Date(date).toLocaleDateString('en-US', {
+      if (!date) return '';
+      return new Date(date).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
       });
-     },
-      eq: function (a, b) {
-        return a === b;
-       }
- }
+    },
+    eq: function (a, b) {
+      return a === b;
+    },
+    ifEquals: function (arg1, arg2, options) {
+      return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+    }
+  }
 }));
+
 app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));
 
