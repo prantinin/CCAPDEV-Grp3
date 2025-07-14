@@ -145,11 +145,6 @@ document.addEventListener("DOMContentLoaded", function () {
       // disappearing message
       reservSuccess.remove();
 
-      // ensures page reload does not have the message
-      const url = new URL(window.location);
-      url.searchParams.delete('success');
-      window.history.replaceState({}, document.title, url);
-
     }, 3000);
   }
 });

@@ -35,6 +35,13 @@ app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+// Prevent browser caching for dynamic routes
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  next();
+});
+
+
 
 // Routes
 app.get('/', (req, res) => {
@@ -275,7 +282,8 @@ app.post('/register', async (req, res) => {
   }
 
   // Validate idNum format
-  const idNumPattern = /^1(2[0-9]|3[0-9])\d{5}$/; // DLSU id number format
+  const idNumPattern = /^1(0[1-9]|1[0-9]|2[0-5])0\d{4}$/; // DLSU id number format
+
   if (!idNumPattern.test(idNum)) {
     return res.send('Invalid ID Number format. Must be 8 digits, start with 1, and include valid entry year (e.g., 12345678)');
   }
@@ -398,17 +406,6 @@ app.post('/Tsubmit-reservation', async (req, res) => {
       reservDate: new Date(resDate),
     }).exec();
 
-    console.log('during checking')
-    console.log({
-    studentID,
-    studentUserID,
-    chosenSlot,
-    lab,
-    seat,
-    resDate,
-    timeSlot
-    });
-
     // only makes new reservation if it doesn't exist (isn't booked)
     if (!reservedSlot) {
         const newRes = new ReserveSchema({
@@ -424,19 +421,6 @@ app.post('/Tsubmit-reservation', async (req, res) => {
         });
 
         await newRes.save();
-
-        // testing
-        console.log('after saving')
-        console.log({
-        studentID,
-        studentUserID,
-        chosenSlot,
-        lab,
-        seat,
-        resDate,
-        timeSlot
-        });
-
         return res.redirect('/Tcreatereserve?success=true');
     } else {
       // In case user reserving a taken slot
