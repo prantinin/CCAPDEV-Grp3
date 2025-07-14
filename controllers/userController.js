@@ -3,6 +3,10 @@ const ReserveSchema = require('../models/Reservations');
 
 const timeLabels = require('../data/timeLabels');
 
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
 // /viewprofile/:idNum
 exports.getViewProfileStudent = async (req, res) => {
   try {
@@ -77,28 +81,94 @@ exports.getEditProfile = async (req, res) => {
     res.status(500).send("Error loading edit page.");
   }
 };
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = 'public/uploads/profiles';
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const idNum = req.params.idNum;
+    const timestamp = Date.now();
+    const extension = path.extname(file.originalname);
+    cb(null, `${idNum}_${timestamp}${extension}`);
+  }
+});
 
-// /editprofile/:idNum
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB limit
+  },
+  fileFilter: function (req, file, cb) {
+  
+    const allowedTypes = /jpeg|jpg|png|webp/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+    
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed!'));
+    }
+  }
+});
+
+
+exports.uploadProfilePicture = upload.single('profilePicture');
+
 exports.postEditProfile = async (req, res) => {
   try {
     const { description } = req.body;
     const idNum = parseInt(req.params.idNum);
-
+    
+    const updateData = {};
+    
+    if (description !== undefined) {
+      updateData.profDesc = description;
+    }
+    
+    if (req.file) {
+ 
+      const currentUser = await UserSchema.findOne({ idNum: idNum });
+      
+      if (currentUser && currentUser.profPic) {
+        const oldPicturePath = path.join('public', currentUser.profPic);
+        if (fs.existsSync(oldPicturePath)) {
+          fs.unlinkSync(oldPicturePath);
+        }
+      }
+      
+      updateData.profPic = `/uploads/profiles/${req.file.filename}`;
+    }
+    
     const result = await UserSchema.findOneAndUpdate(
       { idNum: idNum },
-      { profDesc: description },
+      updateData,
       { new: true }
     );
     
     if (!result) {
+      
+      if (req.file) {
+        fs.unlinkSync(req.file.path);
+      }
       return res.status(404).send("User not found.");
     }
 
     res.redirect(`/viewprofile/${idNum}`);
     
-
   } catch (error) {
     console.error(error);
+    
+    
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
+    
     res.status(500).send("Error saving profile.");
   }
 };
