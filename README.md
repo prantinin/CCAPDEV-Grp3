@@ -7,6 +7,7 @@ Before starting the application, ensure you have Node.js npm, and MongoDB instal
 
 ```bash
 npm install
+npm install multer
 ```
 
 This will perform the following:
