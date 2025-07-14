@@ -1,3 +1,6 @@
+const UserSchema = require('./models/Users');
+const ReserveSchema = require('./models/Reservations');
+
 const timeLabels = require('../data/timeLabels');
 
 // /viewprofile/:idNum

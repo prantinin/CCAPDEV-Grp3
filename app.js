@@ -166,7 +166,7 @@ app.get('/unavailiframe', (req, res) => {
   });
 }); 
 
-const timeLabels = require('./public/JS/viewprofile.js');
+const timeLabels = require('/data/timeLabels.js');
 app.get('/viewprofile/:idNum', async (req, res) => {
   try {
     const idNum = parseInt(req.params.idNum);
