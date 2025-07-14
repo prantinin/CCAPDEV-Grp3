@@ -22,15 +22,9 @@ function populateDateAndTime() {
     "7:30 PM - 8:00 PM", "8:00 PM - 8:30 PM", "8:30 PM - 9:00 PM"
   ];
 
-  // Time slot options
   const timeSelect = document.querySelector("select.timeSlot");
-  timeSelect.innerHTML = `<option value="">-- None --</option>`;
+  const dateInput = document.getElementById("resDate");
 
-  timeLabels.forEach((label, index) => {
-    timeSelect.innerHTML += `<option value="${index}">${label}</option>`;
-  });
-
-  // Date only allows today or 7 days later
   const today = new Date();
   const minDate = today.toISOString().split("T")[0];
 
@@ -38,19 +32,49 @@ function populateDateAndTime() {
   maxDateObj.setDate(today.getDate() + 7);
   const maxDate = maxDateObj.toISOString().split("T")[0];
 
-  const dateInput = document.getElementById("resDate");
   dateInput.setAttribute("min", minDate);
   dateInput.setAttribute("max", maxDate);
 
-  // Prevent user from typing the date
+  // Prevent manual input
   dateInput.addEventListener('keydown', (e) => {
     e.preventDefault();
-  })
+  });
+
+  // Re-filter slots when date changes
+  dateInput.addEventListener('change', () => {
+    renderTimeOptions();
+  });
+
+  function renderTimeOptions() {
+    timeSelect.innerHTML = `<option value="">-- None --</option>`;
+    const selectedDate = new Date(dateInput.value);
+    const now = new Date();
+
+    timeLabels.forEach((label, index) => {
+      // Parse slot start time
+      const [startTime] = label.split(" - ");
+      const slotDate = new Date(selectedDate);
+      const [time, modifier] = startTime.split(" ");
+      let [hours, minutes] = time.split(":").map(Number);
+      if (modifier === "PM" && hours !== 12) hours += 12;
+      if (modifier === "AM" && hours === 12) hours = 0;
+
+      slotDate.setHours(hours, minutes, 0, 0);
+
+      if (selectedDate.toDateString() !== today.toDateString() || slotDate > now) {
+        timeSelect.innerHTML += `<option value="${index}">${label}</option>`;
+      }
+    });
+  }
+
+  // Initial render
+  renderTimeOptions();
 }
 
 
+
 // FORM VALIDATION
-function checkInputs() {
+function allowFields() {
   const studentID = document.querySelector(".studentID");
   const resDate = document.querySelector("#resDate");
   const timeSlot = document.querySelector(".timeSlot");
@@ -106,26 +130,22 @@ function checkInputs() {
     slotIframe.src = "/unavailiframe";
   }
 
-  // Active confirm button
-  if (idFilled && dateFilled && timeFilled && labFilled && chosenSlot) {
-    confirmBtn.disabled = false;
-    confirmBtn.classList.add("active");
-  } else {
-    confirmBtn.disabled = true;
-    confirmBtn.classList.remove("active");
-  }
+  confirmBtn.disabled = true;
+  confirmBtn.classList.remove("active");
 }
 
 
 // DYNAMIC CHOSEN SLOT
 window.addEventListener('message', (event) => {
-  const { seat } = event.data;
-  const chosenSlot = document.querySelector('.chosenSlot');
-  const lab = document.getElementById("labSelect").value;
+  const seat = event.data;
+  const labFilled = document.getElementById("labSelect").value;
+  const chosenSlot = document.querySelector(".chosenSlot");
+  const confirmBtn = document.querySelector(".confirmRes");
 
   if (seat) {
-    chosenSlot.value = `Lab ${lab}, seat ${seat}`;
-    checkInputs();
+    chosenSlot.value = `Lab ${labFilled}, seat ${seat}`;
+    confirmBtn.disabled = false;
+    confirmBtn.classList.add("active");
   }
 });
 
@@ -136,17 +156,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const studentID = document.querySelector(".studentID");
   
   // Disable fields whenever one is changed
-  document.querySelector("#studentID").addEventListener("input", checkInputs);
-  document.querySelector("#resDate").addEventListener("change", checkInputs);
-  document.querySelector(".timeSlot").addEventListener("change", checkInputs);
-  document.querySelector(".labSelect").addEventListener("change", checkInputs);
+  document.querySelector("#studentID").addEventListener("change", allowFields);
+  document.querySelector("#resDate").addEventListener("change", allowFields);
+  document.querySelector(".timeSlot").addEventListener("change", allowFields);
+  document.querySelector(".labSelect").addEventListener("change", allowFields);
 
   // Populate options accordingly
   populateDateAndTime();
 
   // Form validation before confirmation
   confirmBtn.addEventListener("click", function (e) {
-    if (!/^1(0[1-9]|1[0-9]|2[0-5])\d{4}$/.test(studentID.value)) {
+    if (!/^1(0[1-9]|1[0-9]|2[0-5])0\d{4}$/.test(studentID.value)) {
       e.preventDefault();
       openPop();
     }

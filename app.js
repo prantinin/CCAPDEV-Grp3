@@ -12,17 +12,6 @@ const { labs, areas } = require('./data/areas');
 const app = express();
 const port = 3000;
 
-const timeLabels = [
-    "7:30 AM - 8:00 AM", "8:00 AM - 8:30 AM", "8:30 AM - 9:00 AM",
-    "9:00 AM - 9:30 AM", "9:30 AM - 10:00 AM", "10:00 AM - 10:30 AM",
-    "10:30 AM - 11:00 AM", "11:00 AM - 11:30 AM", "11:30 AM - 12:00 PM",
-    "12:00 PM - 12:30 PM", "12:30 PM - 1:00 PM", "1:00 PM - 1:30 PM",
-    "1:30 PM - 2:00 PM", "2:00 PM - 2:30 PM", "2:30 PM - 3:00 PM",
-    "3:00 PM - 3:30 PM", "3:30 PM - 4:00 PM", "4:00 PM - 4:30 PM",
-    "4:30 PM - 5:00 PM", "5:00 PM - 5:30 PM", "5:30 PM - 6:00 PM",
-    "6:00 PM - 6:30 PM", "6:30 PM - 7:00 PM", "7:00 PM - 7:30 PM",
-    "7:30 PM - 8:00 PM", "8:00 PM - 8:30 PM", "8:30 PM - 9:00 PM"
-  ];
 
 
 // MongoDB connection (put this in a .env)
@@ -48,6 +37,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Routes
+app.get('/', (req, res) => {
+  res.render('index', {
+    title: 'Labubuddies',
+    layout: false
+  });
+});
+
+app.get('/landingpage', (req, res) => {
+  res.render('landingpage', {
+    title: 'Labubuddies',
+    layout: false
+  });
+});
+
 app.get('/login', (req, res) => {
   res.render('login', {
     title: 'Labubuddies | Login',
@@ -395,6 +398,17 @@ app.post('/Tsubmit-reservation', async (req, res) => {
       reservDate: new Date(resDate),
     }).exec();
 
+    console.log('during checking')
+    console.log({
+    studentID,
+    studentUserID,
+    chosenSlot,
+    lab,
+    seat,
+    resDate,
+    timeSlot
+    });
+
     // only makes new reservation if it doesn't exist (isn't booked)
     if (!reservedSlot) {
         const newRes = new ReserveSchema({
@@ -410,7 +424,20 @@ app.post('/Tsubmit-reservation', async (req, res) => {
         });
 
         await newRes.save();
-        return res.redirect('/createreserve?success=true');
+
+        // testing
+        console.log('after saving')
+        console.log({
+        studentID,
+        studentUserID,
+        chosenSlot,
+        lab,
+        seat,
+        resDate,
+        timeSlot
+        });
+
+        return res.redirect('/Tcreatereserve?success=true');
     } else {
       // In case user reserving a taken slot
       return res.render('error', {

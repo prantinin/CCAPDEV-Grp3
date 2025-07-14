@@ -57,6 +57,14 @@
       </select>
     </div>
 
+    <div id="popInvalid" class="hidden text-2xl text-red-500 p-1 font-sans">
+      <p>Invalid ID number.</p>
+    </div>
+
+    {{#if success}}
+      <p id="reservSuccess" class="reservSuccess !text-red-500 text-2xl mt-4 font-light">Reservation successful!</p>
+    {{/if}}
+
     <br/>
     <br/>
 
@@ -70,14 +78,6 @@
     <button type="submit" name="confirmRes" class="confirmRes w-full py-2 rounded text-2xl shadow-md text-white" disabled>
       Confirm
     </button>
-
-    <div id="popInvalid" class="hidden text-2xl text-red-500 p-1 font-sans">
-      <p>Invalid ID number.</p>
-    </div>
-
-    {{#if success}}
-      <p id="reservSuccess" class="reservSuccess !text-red-500 text-xl mt-4 font-light">Reservation successful!</p>
-    {{/if}}
   </form>
 
 </div>

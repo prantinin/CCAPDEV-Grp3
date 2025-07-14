@@ -12,15 +12,9 @@ function populateDateAndTime() {
     "7:30 PM - 8:00 PM", "8:00 PM - 8:30 PM", "8:30 PM - 9:00 PM"
   ];
 
-  // Time slot options
   const timeSelect = document.querySelector("select.timeSlot");
-  timeSelect.innerHTML = `<option value="">-- None --</option>`;
+  const dateInput = document.getElementById("resDate");
 
-  timeLabels.forEach((label, index) => {
-    timeSelect.innerHTML += `<option value="${index}">${label}</option>`;
-  });
-
-  // Date only allows today or 7 days later
   const today = new Date();
   const minDate = today.toISOString().split("T")[0];
 
@@ -28,15 +22,45 @@ function populateDateAndTime() {
   maxDateObj.setDate(today.getDate() + 7);
   const maxDate = maxDateObj.toISOString().split("T")[0];
 
-  const dateInput = document.getElementById("resDate");
   dateInput.setAttribute("min", minDate);
   dateInput.setAttribute("max", maxDate);
 
-  // Prevent user from typing the date
+  // Prevent manual input
   dateInput.addEventListener('keydown', (e) => {
     e.preventDefault();
-  })
+  });
+
+  // Re-filter slots when date changes
+  dateInput.addEventListener('change', () => {
+    renderTimeOptions();
+  });
+
+  function renderTimeOptions() {
+    timeSelect.innerHTML = `<option value="">-- None --</option>`;
+    const selectedDate = new Date(dateInput.value);
+    const now = new Date();
+
+    timeLabels.forEach((label, index) => {
+      // Parse slot start time
+      const [startTime] = label.split(" - ");
+      const slotDate = new Date(selectedDate);
+      const [time, modifier] = startTime.split(" ");
+      let [hours, minutes] = time.split(":").map(Number);
+      if (modifier === "PM" && hours !== 12) hours += 12;
+      if (modifier === "AM" && hours === 12) hours = 0;
+
+      slotDate.setHours(hours, minutes, 0, 0);
+
+      if (selectedDate.toDateString() !== today.toDateString() || slotDate > now) {
+        timeSelect.innerHTML += `<option value="${index}">${label}</option>`;
+      }
+    });
+  }
+
+  // Initial render
+  renderTimeOptions();
 }
+
 
 
 // FORM VALIDATION
