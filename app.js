@@ -231,7 +231,7 @@ app.get('/tviewreservs', async (req, res) => {
 
     const formattedReservations = reservations.map(formatReservation);
     const availableSeats = 40 - reservations.length;
-    const isFiltered = lab || date || time; 
+    const isFiltered = lab && date && time; 
     let labName = 'No lab selected';
     if (lab) {
       try {
