@@ -165,7 +165,7 @@ function formatReservation(r) {
     lab: r.lab.labName,
     seat: r.seat.seatCode,
     reservDate: new Date(r.reservDate).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' }),
-    time: r.timeSlot,
+    time: timeLabels[r.timeSlot] || 'Unknown Time Slot',
     startTime: r.timeSlot.split(' to ')[0],
     endTime: r.timeSlot.split(' to ')[1],
     reqMade: new Date(r.reqMade).toLocaleString('en-PH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }),
@@ -231,18 +231,8 @@ app.get('/tviewreservs', async (req, res) => {
     const formattedReservations = reservations.map(formatReservation);
     const availableSeats = 40 - reservations.length;
     const isFiltered = lab || date || time; 
-/*
-    res.render('tviewreservs', {
-      title: 'Labubuddies | Filtered Reservations',
-      filter: { lab, date, time },
-      isFiltered,
-      availableSeats,
-      reservations: formattedReservations
-    });
-  */
-    
+
     const formattedFilter = {
-      lab,
       date: date
         ? new Date(date).toLocaleDateString('en-PH', {
             year: 'numeric',
