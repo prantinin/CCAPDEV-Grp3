@@ -44,7 +44,6 @@ const seedDatabase = async () => {
 
     // for dates
     const now = new Date();
-    now.setDate(now.getDate() + 2);
     const userReservDate = new Date(now.toISOString().split('T')[0]);
 
     // initializing reservations with new ids

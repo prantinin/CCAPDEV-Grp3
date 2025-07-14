@@ -56,7 +56,7 @@
     "email": "loki_lopez@dlsu.edu.ph",
     "password": "THORisF4T!!!", 
     "isTech": true, 
-    "profPic": "", 
+    "profPic": "/Assets/images/technician.png", 
     "profDesc": "Reservation Technician" 
   }
 ]

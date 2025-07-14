@@ -12,7 +12,7 @@
                 
                 <div class="flex justify-center mb-6">
                     <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                        <img src="{{user.profPic}}" alt="Profile Picture" class="w-full h-full object-cover">
+                        <img id="profile-image" src="{{#if user.profPic}}{{user.profPic}}{{else}}/Assets/images/default-avatar.png{{/if}}" alt="Profile Picture" class="w-full h-full object-cover">
                     </div>
                 </div>
                 
