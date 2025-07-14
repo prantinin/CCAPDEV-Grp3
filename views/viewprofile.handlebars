@@ -1,37 +1,53 @@
-<link rel="stylesheet" href="../CSS/viewprofile.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="/JS/viewprofile.js"></script>
 
-<!-- MAIN CONTENT -->
-<main class="main-content">
-    <div class="profile-container">
-        <div class="profile-section">
-              <button class="back-button" onclick="goBack()">
-                <img src="../Assets/icons/back.svg" alt="Back" style="width: 20px; height: 20px;">
-              </button>
-            <div class="profile-picture">
-                <img src="../Assets/images/cat2.jpg" alt="dp" class="profile-picture">
+<body class="bg-gradient-to-br from-green-400 to-green-600 min-h-screen">
+    <main class="p-4 md:p-6 max-w-4xl mx-auto">
+        <div class="rounded-3xl shadow-lg p-8 mx-4" style=" background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);">
+            {{#if user}}
+            <div class="mb-8">
+                <button class="mb-6 flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors" onclick="goBack()">
+                    <img src="../Assets/icons/back.svg" alt="Back" class="w-5 h-5">
+                </button>
+                
+                <div class="flex justify-center mb-6">
+                    <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                        <img src="{{user.profPic}}" alt="Profile Picture" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <h1 class="text-3xl font-bold text-gray-800 text-center mb-8">{{user.fName}} {{user.lName}}</h1>
+                
+                <div class="mb-8">
+                    <p class="text-lg font-semibold text-gray-700 mb-3">Description</p>
+                    <div class="rounded-2xl p-4 border border-white/30" style="background: rgba(255, 255, 255, 0.4);">
+                        <p class="text-gray-700">{{user.profDesc}}</p>
+                    </div>
+                    
+                    {{#if isOwnProfile}}
+                    <div class="flex justify-center mt-4">
+                        <button onclick="window.location.href='/editprofile/{{user.idNum}}'" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold">Edit Profile</button>
+                    </div>
+                    {{/if}}
+                </div>
             </div>
-            <h1 class="profile-name">Timothy Ortiz</h1>
-            
-            <div class="description-section">
-                <p class="description-label">Description</p>
-                <div class="description-box">
-                    DLSU ID 123 BS-IT
+            {{/if}}
+
+            <div class="pt-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Current Reservations</h2>
+                <div class="space-y-4">
+                    {{#each reservations}}
+                    <div class="rounded-2xl p-4 border border-white/30" style="background: rgba(255, 255, 255, 0.4);">
+                        <p class="text-lg font-semibold text-gray-800 mb-1">{{this.slotName}} • {{formatDate this.reqMade}}</p>
+                        <p class="text-gray-600">{{this.timeSlotDisplay}}</p>
+                    </div>
+                    {{/each}}
+
+                    {{#if (eq reservations.length 0)}}
+                        <p class="text-center text-gray-600">No reservations found.</p>
+                    {{/if}}
                 </div>
             </div>
         </div>
-
-        <div class="reservation-section">
-            <h2 class="reservation-title">Current Reservations</h2>
-            <div class="reservation-box">
-                <div class="reservation-item">
-                    <p class="reservation-main">Lab5, Seat A2 • July 4, 2025</p>
-                    <p class="reservation-date">10:00 AM - 2:00 PM</p>
-                </div>
-                <div class="reservation-item">
-                    <p class="reservation-main">Lab2, Seat D4 • July 10, 2025</p>
-                    <p class="reservation-date">6:00 PM - 7:00 PM</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
+    </main>
+</body>
