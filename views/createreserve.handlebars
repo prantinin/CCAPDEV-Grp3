@@ -5,8 +5,12 @@
 
   <!-- Instructions -->
   <div class="col-span-4 flex justify-between font-[Dongle-Bold]">
-    <h2 class="text-3xl font-bold">Choose a laboratory.</h2>
-    <a href="/Tcreatereserve"><h3 class="text-3xl text-[#218952] font-[Dongle-Light]">To technician side</h3></a>
+    <h2 class="text-3xl font-bold">
+      {{#if isEditing}}Update reservation details.{{else}}Choose a laboratory.{{/if}}
+    </h2>
+    <a href="/Tcreatereserve">
+      <h3 class="text-3xl text-[#218952] font-[Dongle-Light]">To technician side</h3>
+    </a>
   </div>
 
   <!-- Slot / Seat Area -->
@@ -16,9 +20,12 @@
     <div class="flex items-center justify-center gap-2 p-4 border shadow-md bg-[#92D3AD]">
       <label for="labSelect" class="hidden">Choose Lab</label>
       <select id="labSelect" name="labSelect" class="labSelect font-Dongle-Regular text-xl bg-white border rounded-xl px-4 py-1" disabled>
-          <option value="">--</option>
+        <option value="">--</option>
         {{#each labs}}
-          <option value="{{this.value}}">{{this.name}}</option>
+          <option value="{{this.value}}"
+            {{#ifEquals this.value ../reservation.lab.value}}selected{{/ifEquals}}>
+            {{this.name}}
+          </option>
         {{/each}}
       </select>
     </div>
@@ -29,46 +36,61 @@
 
   <!-- Reservation Form -->
   <form method="POST" action="/submit-reservation" class="col-span-1 bg-[#D9F1DD] rounded-xl p-6 text-lg space-y-4 shadow-inner">
-  
-    
+
+    {{#if isEditing}}
+      <input type="hidden" name="editId" value="{{editId}}">
+    {{/if}}
+
     <!-- Chosen Slot -->
     <div class="flex items-center space-x-2">
       <p class="text-2xl">Chosen slot:</p>
-      <input type="text" name="chosenSlot" id="chosenSlot" class="chosenSlot bg-white px-4 py-2 border rounded text-xl text-black w-[10vw]" value="-- None --" readonly disabled>
+      <input type="text" name="chosenSlot" id="chosenSlot"
+        class="chosenSlot bg-white px-4 py-2 border rounded text-xl text-black w-[10vw]"
+        value="{{#if isEditing}}{{reservation.seat.seatCode}}{{else}}-- None --{{/if}}"
+        readonly disabled>
     </div>
 
     <!-- Date Input -->
     <div>
       <label for="resDate" class="text-2xl">Choose a Date</label>
-      <input type="date" id="resDate" name="resDate" class="resDate w-full p-2 rounded text-xl border mt-1" required>
+      <input type="date" id="resDate" name="resDate"
+        class="resDate w-full p-2 rounded text-xl border mt-1"
+        value="{{#if isEditing}}{{reservation.reservDate}}{{/if}}" required>
     </div>
 
     <!-- Time Slot -->
     <div>
       <label for="timeSlot" class="text-2xl">Choose a Time Slot</label>
-      <select name="timeSlot" class="timeSlot w-full p-2 rounded border text-xl mt-1" required disabled>
+      <select name="timeSlot" class="timeSlot w-full p-2 rounded border text-xl mt-1" required>
         <option value="">-- None --</option>
+        {{#each timeLabels}}
+          <option value="{{@index}}"
+            {{#ifEquals @index ../reservation.timeSlot}}selected{{/ifEquals}}>
+            {{this}}
+          </option>
+        {{/each}}
       </select>
     </div>
 
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+    <br/><br/><br/><br/>
 
     <!-- Anonymous Checkbox -->
     <div class="flex items-center space-x-2">
-      <input type="checkbox" name="anonymous" class="anonymous accent-green-500">
+      <input type="checkbox" name="anonymous" class="anonymous accent-green-500"
+        {{#if reservation.isAnon}}checked{{/if}}>
       <label for="anonymous" class="text-2xl">Reserve Anonymously?</label>
     </div>
 
     <!-- Submit Button -->
-    <button type="submit" name="confirmRes" class="confirmRes w-full py-2 rounded text-2xl shadow-md text-white" disabled>
-      Confirm
+    <button type="submit" name="confirmRes"
+      class="confirmRes w-full py-2 rounded text-2xl shadow-md text-white">
+      {{#if isEditing}}Update Reservation{{else}}Confirm{{/if}}
     </button>
 
     {{#if success}}
-      <p id="reservSuccess" class="reservSuccess !text-red-500 text-xl mt-4 font-light">Reservation successful!</p>
+      <p id="reservSuccess" class="reservSuccess !text-red-500 text-xl mt-4 font-light">
+        Reservation successful!
+      </p>
     {{/if}}
   </form>
 

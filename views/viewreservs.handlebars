@@ -25,9 +25,12 @@
           </form>
         </div>
         <div class="mt-8 h-8 w-8">
-          <a href="/editreservation/{{id}}">
-            <img class="edit" src="/Assets/images/editicon.png" alt="Edit" />
-          </a>
+          <form method="GET" action="/createreserve">
+            <input type="hidden" name="editId" value="{{this.id}}" />
+            <button type="submit" class="edit-item">
+              <img src="/Assets/images/editicon.png" alt="Edit" />
+            </button>
+          </form>
         </div>
       </div>
     </div>

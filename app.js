@@ -24,6 +24,17 @@ const timeLabels = [
     "7:30 PM - 8:00 PM", "8:00 PM - 8:30 PM", "8:30 PM - 9:00 PM"
   ];
 
+const hbs = exphbs.create({}); // create first
+
+// ✅ Register helper on the underlying Handlebars instance
+hbs.handlebars.registerHelper('ifEquals', function (a, b, options) {
+  return a == b ? options.fn(this) : options.inverse(this);
+});
+
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+
+
 
 // MongoDB connection (put this in a .env)
 mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
@@ -62,14 +73,25 @@ app.get('/register', (req, res) => {
   });
 });
 
-app.get('/createreserve', (req, res) => {
+app.get('/createreserve', async (req, res) => {
+  const { editId, success } = req.query;
+
+  const reservation = editId
+    ? await ReserveSchema.findById(editId).populate('lab').populate('seat').lean()
+    : null;
+
   res.render('createreserve', { 
-    title: 'Labubuddies | Reserve',
+    title: editId ? 'Edit Reservation' : 'Labubuddies | Reserve',
     roleTitle: 'Student',
-    success: req.query.success === 'true',
-    labs: labs
+    success: success === 'true',
+    labs: labs,
+    reservation,
+    editId,
+    isEditing: !!editId
   });
 });
+
+
 
 app.get('/Tcreatereserve', (req, res) => {
   res.render('Tcreatereserve', { 
@@ -79,6 +101,8 @@ app.get('/Tcreatereserve', (req, res) => {
     labs: labs
   });
 });
+
+
 
 app.get('/reserveiframe', async (req, res) => {
   const { lab, date, time } = req.query;
@@ -353,6 +377,7 @@ app.post('/login', async (req, res) => {
 });
 
 
+/*
 app.post('/submit-reservation', async (req, res) => {
   try {
     const { chosenSlot, resDate, timeSlot, anonymous } = req.body;
@@ -402,6 +427,7 @@ app.post('/submit-reservation', async (req, res) => {
     });
   }
 });
+*/
 
 // submit reservation (technician side)
 app.post('/Tsubmit-reservation', async (req, res) => {
@@ -462,6 +488,62 @@ app.post('/deletereservation/:id', async (req, res) => {
 });
 
 //EDIT
+app.post('/submit-reservation', async (req, res) => {
+  const { editId, chosenSlot, resDate, timeSlot, anonymous } = req.body;
+
+  try {
+    const [ labNamePart, seatCodePart ] = chosenSlot.split(', seat ');
+    const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
+    const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
+    const now = new Date();
+    const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
+
+    if (editId) {
+      // Edit existing reservation
+      await ReserveSchema.findByIdAndUpdate(editId, {
+        slotName: chosenSlot,
+        lab: lab?._id,
+        seat: seat?._id,
+        reservDate: new Date(resDate),
+        timeSlot: timeSlot,
+        isAnon: !!anonymous
+      });
+    } else {
+      // Create new reservation
+      const reservedSlot = await ReserveSchema.findOne({
+        slotName: chosenSlot,
+        lab: lab._id,
+        seat: seat._id,
+        timeSlot: timeSlot,
+        reservDate: new Date(resDate),
+      });
+
+      if (!reservedSlot) {
+        await ReserveSchema.create({
+          userID: null,   // null for students page. will fix in session handling
+          userIdNum: null,
+          isAnon: anonymous,
+          slotName: chosenSlot,
+          lab: lab._id,
+          seat: seat._id,
+          timeSlot: timeSlot,
+          reservDate: new Date(resDate),
+          reqMade: phTimeNow
+        });
+      } else {
+        return res.render('error', {
+          title: 'Reservation Error',
+          message: 'Oops! the slot you selected is already reserved.'
+        });
+      }
+    }
+
+    res.redirect('/createreserve?success=true');
+  } catch (err) {
+    console.error('Reservation error:', err);
+    res.render('error', { title: 'Error', message: 'Could not save reservation.' });
+  }
+});
 
 
 // Start server
