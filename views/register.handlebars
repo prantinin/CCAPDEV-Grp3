@@ -1,16 +1,24 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <title>LABubuddies - Sign Up</title>
   <link href="../CSS/login-style.css" rel="stylesheet">
   <link href="../CSS/signup.css" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-</head>
+
 <body class="flex items-center justify-center h-full relative overflow-hidden">
   <!-- Background Circle -->
   <div class="absolute w-[1000px] h-[1000px] rounded-full bg-[#D9F1DD] opacity-20"></div>
+
+
+  {{#if errors}}
+<div id="error-popup" class="fixed top-10 left-1/2 transform -translate-x-1/2 bg-red-100 text-red-800 border border-red-400 px-6 py-4 rounded shadow-lg z-50 max-w-md w-full text-center">
+  <ul class="space-y-1">
+    {{#each errors}}
+      <li>⚠️ {{this}}</li>
+    {{/each}}
+  </ul>
+  <button onclick="document.getElementById('error-popup').remove()" class="mt-2 text-sm underline text-red-600 hover:text-red-800">Close</button>
+</div>
+{{/if}}
 
   <!-- Sign Up Form -->
   <form action="/register" method="POST" class="flex flex-col items-center space-y-4 z-10 w-full max-w-md">
@@ -21,7 +29,7 @@
     <input type="text" name="lname" placeholder="Last Name" class="w-64 px-4 py-2 rounded-full outline-none shadow-lg" required />
     <input type="email" name="email" placeholder="Email" class="w-64 px-4 py-2 rounded-full outline-none shadow-lg" required />
 
-     <!-- NEW: Student ID input -->
+    <!-- Student ID input -->
     <input type="text" name="idNum" placeholder="Student ID Number" class="w-64 px-4 py-2 rounded-full outline-none shadow-lg" required />
 
     <input type="password" name="password" placeholder="Password" class="w-64 px-4 py-2 rounded-full outline-none shadow-lg" required />
@@ -46,4 +54,4 @@
   </form>
 
 </body>
-</html>
+

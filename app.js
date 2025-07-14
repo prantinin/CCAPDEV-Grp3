@@ -22,6 +22,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// For Login - Remember Function
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 
 // Handlebars setup (.handlebars ext)
@@ -52,6 +55,7 @@ app.get('/landingpage', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
+  console.log('Remembered Email:', req.cookies.rememberedEmail); // for testing
   res.render('login', {
     title: 'Labubuddies | Login',
     layout: false
