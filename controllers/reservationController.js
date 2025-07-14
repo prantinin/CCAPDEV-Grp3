@@ -10,7 +10,7 @@ function formatReservation(r) {
     lab: r.lab.labName,
     seat: r.seat.seatCode,
     reservDate: new Date(r.reservDate).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' }),
-    time: r.timeSlot,
+    time: timeLabels[r.timeSlot] || 'Unknown Time Slot',
     startTime: r.timeSlot.split(' to ')[0],
     endTime: r.timeSlot.split(' to ')[1],
     reqMade: new Date(r.reqMade).toLocaleString('en-PH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }),
@@ -23,7 +23,7 @@ function formatReservation(r) {
 // /createreserve
 exports.getCreateResStudent = (req, res) => {
   res.render('createreserve', { 
-    title: 'Labubuddies | Reserve',
+    title: 'Labubuddy | Reserve',
     roleTitle: 'Student',
     success: req.query.success === 'true',
     labs: labs
@@ -84,7 +84,7 @@ exports.postResStudent = async (req, res) => {
 // /Tcreatereserve
 exports.getCreateResTech = (req, res) => {
   res.render('Tcreatereserve', { 
-    title: 'Labubuddies | TReserve',
+    title: 'Labubuddy | TReserve',
     roleTitle: 'Technician',
     success: req.query.success === 'true',
     labs: labs
@@ -155,7 +155,7 @@ exports.getViewResStudent = async (req, res) => {   //student view
     const formattedReservations = rawReservations.map(formatReservation);
 
     res.render('viewreservs', {
-      title: 'Labubuddies | View Reservations',
+      title: 'Labubuddy | View Reservations',
       roleTitle: 'Student',
       reservations: formattedReservations
     });
@@ -185,17 +185,41 @@ exports.getViewResTech = async (req, res) => {
       .populate('userID')
       .lean();
 
-    const formatted = reservations.map(formatReservation);
+    const formattedReservations = reservations.map(formatReservation);
     const availableSeats = 40 - reservations.length;
-    const isFiltered = lab || date || time; 
+    const isFiltered = lab && date && time; 
+    let labName = 'No lab selected';
+    if (lab) {
+      try {
+        const labDoc = await LabSchema.findById(lab).lean();
+        labName = labDoc?.labName || 'No lab selected';
+      } catch (err) {
+        console.error('Lab lookup failed:', err);
+        labName = 'No lab selected';
+      }
+    }
+
+
+    const formattedFilter = {
+      lab: labName,
+      date: date
+        ? new Date(date).toLocaleDateString('en-PH', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+          })
+        : null,
+      time
+    };
 
     res.render('tviewreservs', {
-      title: 'Labubuddies | Filtered Reservations',
-      filter: { lab, date, time },
-      isFiltered,
-      availableSeats,
-      reservations: formatted
+    title: 'Labubuddy | Filtered Reservations',
+    filter: formattedFilter,
+    isFiltered,
+    availableSeats,
+    reservations: formattedReservations
     });
+
 
   } catch (error) {
     console.error('Technician filter error:', error);
@@ -209,12 +233,13 @@ exports.getViewResTech = async (req, res) => {
 
 // /tfilterreservs
 exports.getFilterResTech = async (req, res) => {
-    //const labs = await Lab.find().lean(); // load all lab options
-    const labs = await LabSchema.find().lean(); // ✅ Uses the defined LabSchema
+    //const labs = await Lab.find().lean();
+    const labs = await LabSchema.find().lean();
 
     res.render('tfilterreservs', {
-      title: 'Labubuddies | Technician Filter',
+      title: 'Labubuddy | Technician Filter',
       roleTitle: 'Technician',
+      timeLabels,
       labs
     });
 };

@@ -33,7 +33,7 @@ exports.getViewProfileStudent = async (req, res) => {
     const isOwnProfile = idNum === currentUserIdNum;
 
     res.render('viewprofile', {
-      title: 'Labubuddies | View Profile',
+      title: 'Labubuddy | View Profile',
       roleTitle: 'Student',
       user: user,
       reservations: transformedReservations,
@@ -46,6 +46,7 @@ exports.getViewProfileStudent = async (req, res) => {
   }
 };
 
+/*
 // /profile/:email
 exports.getViewProfileTech = async (req, res) => {
   const user = await User.findOne({ email: req.params.email }).lean();
@@ -55,6 +56,7 @@ exports.getViewProfileTech = async (req, res) => {
     res.status(404).render('error', { title: 'User Not Found' });
   }
 };
+*/
 
 // /editprofile/:idNum
 exports.getEditProfile = async (req, res) => {
@@ -68,7 +70,7 @@ exports.getEditProfile = async (req, res) => {
     }
     
     res.render('editprofile', {
-      title: 'Labubuddies | Edit Profile',
+      title: 'Labubuddy | Edit Profile',
       roleTitle: 'Student',
       user: user
     });
@@ -106,7 +108,6 @@ exports.postEditProfile = async (req, res) => {
 // /searchusers
 exports.getSearchUsers = async (req, res) => {
   try {
-
     const currentUserIdNum = 12406543;
     
     const users = await UserSchema.find({ 

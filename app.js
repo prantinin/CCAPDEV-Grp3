@@ -15,7 +15,7 @@ const port = 3000;
 
 
 // MongoDB connection (put this in a .env)
-mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
+mongoose.connect('mongodb://127.0.0.1:27017/labubuddyDB')
   .then(() => console.log('Connected to MongoDB...'))
   .catch(err => console.log('Could not connect to MongoDB...', err));
 
@@ -62,14 +62,14 @@ app.use((req, res, next) => {
 // Routes
 app.get('/', (req, res) => {
   res.render('index', {
-    title: 'Labubuddies',
+    title: 'Labubuddy',
     layout: false
   });
 });
 
 app.get('/landingpage', (req, res) => {
   res.render('landingpage', {
-    title: 'Labubuddies',
+    title: 'Labubuddy',
     layout: false
   });
 });
@@ -77,21 +77,21 @@ app.get('/landingpage', (req, res) => {
 app.get('/login', (req, res) => {
   console.log('Remembered Email:', req.cookies.rememberedEmail); // for testing
   res.render('login', {
-    title: 'Labubuddies | Login',
+    title: 'Labubuddy | Login',
     layout: false
   });
 });
 
 app.get('/register', (req, res) => {
   res.render('register', {
-    title: 'Labubuddies | Register',
+    title: 'Labubuddy | Register',
     layout: false
   });
 });
 
 app.get('/createreserve', (req, res) => {
   res.render('createreserve', { 
-    title: 'Labubuddies | Reserve',
+    title: 'Labubuddy | Reserve',
     roleTitle: 'Student',
     success: req.query.success === 'true',
     labs: labs
@@ -100,7 +100,7 @@ app.get('/createreserve', (req, res) => {
 
 app.get('/Tcreatereserve', (req, res) => {
   res.render('Tcreatereserve', { 
-    title: 'Labubuddies | TReserve',
+    title: 'Labubuddy | TReserve',
     roleTitle: 'Technician',
     success: req.query.success === 'true',
     labs: labs
@@ -196,7 +196,7 @@ app.get('/viewprofile/:idNum', async (req, res) => {
     const isOwnProfile = idNum === currentUserIdNum;
 
     res.render('viewprofile', {
-      title: 'Labubuddies | View Profile',
+      title: 'Labubuddy | View Profile',
       roleTitle: 'Student',
       user: user,
       reservations: transformedReservations,
@@ -220,7 +220,7 @@ app.get('/editprofile/:idNum', async (req, res) => {
     }
     
     res.render('editprofile', {
-      title: 'Labubuddies | Edit Profile',
+      title: 'Labubuddy | Edit Profile',
       roleTitle: 'Student',
       user: user
     });
@@ -376,7 +376,7 @@ app.get('/viewreservs', async (req, res) => {   //student view
     const formattedReservations = rawReservations.map(formatReservation);
 
     res.render('viewreservs', {
-      title: 'Labubuddies | View Reservations',
+      title: 'Labubuddy | View Reservations',
       roleTitle: 'Student',
       reservations: formattedReservations
     });
@@ -396,7 +396,7 @@ app.get('/tfilterreservs', async (req, res) => {
     const labs = await LabSchema.find().lean(); // ✅ Uses the defined LabSchema
 
     res.render('tfilterreservs', {
-      title: 'Labubuddies | Technician Filter',
+      title: 'Labubuddy | Technician Filter',
       roleTitle: 'Technician',
       timeLabels,
       labs
@@ -447,7 +447,7 @@ app.get('/tviewreservs', async (req, res) => {
     };
 
     res.render('tviewreservs', {
-    title: 'Labubuddies | Filtered Reservations',
+    title: 'Labubuddy | Filtered Reservations',
     filter: formattedFilter,
     isFiltered,
     availableSeats,
