@@ -1,5 +1,6 @@
 const ReserveSchema = require('../models/Reservations');
 const LabSchema = require('../models/Labs');
+const { labs, areas } = require('../data/areas');
 
 // /unavailiframe
 exports.getUnavailFrame = (req, res) => {

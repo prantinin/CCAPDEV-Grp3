@@ -1,7 +1,6 @@
-const UserSchema = require('./models/Users');
+const UserSchema = require('../models/Users');
 
 exports.getLogin = (req, res) => {
-  console.log('Remembered Email:', req.cookies.rememberedEmail); // for testing
   res.render('login', {
     title: 'Labubuddy | Login',
     layout: false

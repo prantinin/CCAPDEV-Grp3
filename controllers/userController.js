@@ -46,7 +46,6 @@ exports.getViewProfileStudent = async (req, res) => {
   }
 };
 
-/*
 // /profile/:email
 exports.getViewProfileTech = async (req, res) => {
   const user = await User.findOne({ email: req.params.email }).lean();
@@ -56,7 +55,6 @@ exports.getViewProfileTech = async (req, res) => {
     res.status(404).render('error', { title: 'User Not Found' });
   }
 };
-*/
 
 // /editprofile/:idNum
 exports.getEditProfile = async (req, res) => {
