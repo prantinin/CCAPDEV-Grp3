@@ -1,11 +1,16 @@
-app.get('/unavailiframe', (req, res) => {
+const ReserveSchema = require('./models/Reservations');
+const LabSchema = require('./models/Labs');
+
+// /unavailiframe
+exports.getUnavailFrame = (req, res) => {
   res.render('unavailiframe', {
     title: 'Slots Unavailable',
     layout: false
   });
-}); 
+}; 
 
-app.get('/api/reservedSeats', async (req, res) => {
+// /api/reservedSeats
+exports.getResSeatsAPI = async (req, res) => {
   const { lab, date, time } = req.query;
   
   const labID = await LabSchema.findOne({ labName : `Lab ${lab}` }).exec();
@@ -33,9 +38,10 @@ app.get('/api/reservedSeats', async (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Something went wrong.' });
   }
-});
+};
 
-app.get('/reserveiframe', async (req, res) => {
+// /reserveiframe
+exports.getResIframe = async (req, res) => {
   const { lab, date, time } = req.query;
 
   let reservedSeats = [];
@@ -55,4 +61,4 @@ app.get('/reserveiframe', async (req, res) => {
     areas: areas,
     reservedSeats: reservedSeats.map(s => s.toString())
   });
-});
+};
