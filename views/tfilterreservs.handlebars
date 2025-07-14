@@ -29,7 +29,7 @@
       <select name="time" id="time" class="w-80 p-2 rounded-full border shadow-sm">       <!-- need for time -->
         <option value="">-- Select --</option>
         {{#each timeLabels}}
-          <option value="{{this}}">{{this}}</option>
+          <option value="{{@index}}">{{this}}</option>
         {{/each}}
       </select>
 

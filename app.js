@@ -204,8 +204,7 @@ app.get('/viewreservs', async (req, res) => {   //student view
 
 
 app.get('/tfilterreservs', async (req, res) => {
-    //const labs = await Lab.find().lean(); // load all lab options
-    const labs = await LabSchema.find().lean(); // ✅ Uses the defined LabSchema
+    const labs = await LabSchema.find().lean(); 
 
     res.render('tfilterreservs', {
       title: 'Labubuddies | Technician Filter',
@@ -222,7 +221,7 @@ app.get('/tviewreservs', async (req, res) => {
 
   if (lab) filter.lab = lab;
   if (date) filter.reservDate = new Date(date);
-  if (time) filter.timeSlot = time;
+  if (time) filter.timeSlot = parseInt(time);
 
   try {
     const reservations = await ReserveSchema.find(filter)
