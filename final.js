@@ -20,7 +20,7 @@ app.use('/', reservationRoutes);
 app.use('/', iframeRoutes);
 
 
-// MongoDB connection (put this in a .env)
+// MongoDB connection
 mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
   .then(() => console.log('Connected to MongoDB...'))
   .catch(err => console.log('Could not connect to MongoDB...', err));
