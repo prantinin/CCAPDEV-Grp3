@@ -1,8 +1,8 @@
-const UserSchema = require('./models/Users');
-const ReserveSchema = require('./models/Reservations');
-const SeatSchema = require('./models/Seats');
-const LabSchema = require('./models/Labs');
-const { labs, areas } = require('./data/areas');
+const UserSchema = require('../models/Users');
+const ReserveSchema = require('../models/Reservations');
+const SeatSchema = require('../models/Seats');
+const LabSchema = require('../models/Labs');
+const { labs, areas } = require('../data/areas');
 
 function formatReservation(r) {
   return {

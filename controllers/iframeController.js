@@ -1,5 +1,5 @@
-const ReserveSchema = require('./models/Reservations');
-const LabSchema = require('./models/Labs');
+const ReserveSchema = require('../models/Reservations');
+const LabSchema = require('../models/Labs');
 
 // /unavailiframe
 exports.getUnavailFrame = (req, res) => {

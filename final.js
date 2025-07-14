@@ -9,14 +9,16 @@ const reservationRoutes = require('./routes/reservationRoutes');
 const iframeRoutes = require('./routes/iframeRoutes');
 const pageRoutes = require('./routes/pageRoutes');
 
+const app = express();
+const port = 3000;
+
+
 app.use('/', pageRoutes);
 app.use('/', authRoutes);
 app.use('/', userRoutes);
 app.use('/', reservationRoutes);
 app.use('/', iframeRoutes);
 
-const app = express();
-const port = 3000;
 
 // MongoDB connection (put this in a .env)
 mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
