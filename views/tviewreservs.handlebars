@@ -46,7 +46,11 @@
           {{else}}
             <form action="/viewprofile/{{this.idNum}}" method="GET">
               <button type="submit">
-                <img src="/Assets/images/dp.png" alt="Profile Picture" />
+                <img 
+                  src="{{#if this.profPic}}{{this.profPic}}{{else}}/Assets/images/dp.png{{/if}}" 
+                  alt="Profile Picture" 
+                  class="object-cover w-full h-full rounded-full"
+                />
               </button>
             </form>
           {{/if}}
