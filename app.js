@@ -26,9 +26,19 @@ app.set('view engine', 'handlebars');
 
 
 // MongoDB connection (put this in a .env)
-mongoose.connect('mongodb://127.0.0.1:27017/labubuddyDB')
-  .then(() => console.log('Connected to MongoDB...'))
-  .catch(err => console.log('Could not connect to MongoDB...', err));
+async function connectMongo() {
+  try {
+    await mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB');
+    if (mongoose.connection.readyState === 1) {
+      console.log('MongoDB connection status: connected');
+    } else {
+      console.log('MongoDB connection status:', mongoose.connection.readyState);
+    }
+  } catch (err) {
+    console.error('Could not connect to MongoDB...', err);
+  }
+}
+connectMongo();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
