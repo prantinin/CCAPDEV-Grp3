@@ -90,22 +90,6 @@ app.get('/unavailiframe', (req, res) => {
   });
 }); 
 
-function formatReservation(r) {
-  return {
-    id: r._id,
-    lab: r.lab.labName,
-    seat: r.seat.seatCode,
-    reservDate: new Date(r.reservDate).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' }),
-    time: r.timeSlot,
-    startTime: r.timeSlot.split(' to ')[0],
-    endTime: r.timeSlot.split(' to ')[1],
-    reqMade: new Date(r.reqMade).toLocaleString('en-PH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }),
-    name: r.isAnon ? 'Anonymous' : `${r.userID?.fName} ${r.userID?.lName}`,
-    email: r.isAnon ? null : r.userID?.email,
-    anonymous: r.isAnon
-  };
-}
-
 
 
 
