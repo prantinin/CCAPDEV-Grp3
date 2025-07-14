@@ -208,6 +208,7 @@ app.get('/tfilterreservs', async (req, res) => {
     res.render('tfilterreservs', {
       title: 'Labubuddies | Technician Filter',
       roleTitle: 'Technician',
+      timeLabels,
       labs
     });
 });
@@ -231,8 +232,20 @@ app.get('/tviewreservs', async (req, res) => {
     const formattedReservations = reservations.map(formatReservation);
     const availableSeats = 40 - reservations.length;
     const isFiltered = lab || date || time; 
+    let labName = 'No lab selected';
+    if (lab) {
+      try {
+        const labDoc = await LabSchema.findById(lab).lean();
+        labName = labDoc?.labName || 'No lab selected';
+      } catch (err) {
+        console.error('Lab lookup failed:', err);
+        labName = 'No lab selected';
+      }
+    }
+
 
     const formattedFilter = {
+      lab: labName,
       date: date
         ? new Date(date).toLocaleDateString('en-PH', {
             year: 'numeric',
