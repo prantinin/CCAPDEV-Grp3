@@ -228,17 +228,39 @@ app.get('/tviewreservs', async (req, res) => {
       .populate('userID')
       .lean();
 
-    const formatted = reservations.map(formatReservation);
+    const formattedReservations = reservations.map(formatReservation);
     const availableSeats = 40 - reservations.length;
     const isFiltered = lab || date || time; 
-
+/*
     res.render('tviewreservs', {
       title: 'Labubuddies | Filtered Reservations',
       filter: { lab, date, time },
       isFiltered,
       availableSeats,
-      reservations: formatted
+      reservations: formattedReservations
     });
+  */
+    
+    const formattedFilter = {
+      lab,
+      date: date
+        ? new Date(date).toLocaleDateString('en-PH', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+          })
+        : null,
+      time
+    };
+
+    res.render('tviewreservs', {
+    title: 'Labubuddies | Filtered Reservations',
+    filter: formattedFilter,
+    isFiltered,
+    availableSeats,
+    reservations: formattedReservations
+    });
+
 
   } catch (error) {
     console.error('Technician filter error:', error);
