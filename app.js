@@ -230,10 +230,12 @@ app.get('/tviewreservs', async (req, res) => {
 
     const formatted = reservations.map(formatReservation);
     const availableSeats = 40 - reservations.length;
+    const isFiltered = lab || date || time; 
 
     res.render('tviewreservs', {
       title: 'Labubuddies | Filtered Reservations',
       filter: { lab, date, time },
+      isFiltered,
       availableSeats,
       reservations: formatted
     });
