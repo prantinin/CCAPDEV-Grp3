@@ -1,6 +1,15 @@
   <!-- MAIN CONTENT -->
+
+<div class="col-span-4 flex font-[Dongle-Bold]">
+  <a href="/viewreservs" class="ml-auto">
+    <h3 class="text-3xl text-[#218952] font-[Dongle-Light]">To student side</h3>
+  </a>
+</div>
+
   <div>
+
     <div class="flex flex-col justify-center items-center">
+  
       <!-- Filter Header -->
       <div id="filter-details" class="flex flex-row w-[90%] mt-8">
         <form method="GET" action="/tfilterreservs">
@@ -44,9 +53,13 @@
           {{#if this.anonymous}}
             <img src="/Assets/images/anon-dp.png" alt="Anonymous" />
           {{else}}
-            <form action="/viewprofile" method="GET">
+            <form action="/viewprofile/{{this.idNum}}" method="GET">
               <button type="submit">
-                <img src="/Assets/images/dp.png" alt="Profile Picture" />
+                <img 
+                  src="{{#if this.profPic}}{{this.profPic}}{{else}}/Assets/images/dp.png{{/if}}" 
+                  alt="Profile Picture" 
+                  class="object-cover w-full h-full rounded-full"
+                />
               </button>
             </form>
           {{/if}}
@@ -56,7 +69,7 @@
           {{#if this.anonymous}}
             <h3 class="text-[30px] font-bold">Anonymous</h3>
           {{else}}
-            <form action="/viewprofile" method="GET">
+            <form action="/viewprofile/{{this.idNum}}" method="GET">
               <button type="submit">
                 <h3 class="text-[30px] font-bold">{{this.name}}</h3>
               </button>
@@ -75,9 +88,13 @@
             </form>
           </div>
           <div class="mt-8 h-8 w-8">
-            <a href="/editreservation/{{this.id}}">
-              <img src="/Assets/images/editicon.png" alt="Edit" />
-            </a>
+            <form method="GET" action="/createreserve">
+              <input type="hidden" name="editId" value="{{this.id}}" />
+              <button type="submit" class="edit-item">
+                <img src="/Assets/images/editicon.png" alt="Edit" />
+              </button>
+            </form>
+
           </div>
         </div>
       </div>
