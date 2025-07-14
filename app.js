@@ -32,7 +32,20 @@ app.engine('handlebars', exphbs.engine({
   extname: 'handlebars',
   defaultLayout: 'main',
   layoutsDir: path.join(__dirname, 'views/layouts'),
-  partialsDir: path.join(__dirname, 'views/partials')
+  partialsDir: path.join(__dirname, 'views/partials'),
+  helpers: {
+    formatDate: function (date) { 
+       if (!date) return '';
+       return new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+     },
+      eq: function (a, b) {
+        return a === b;
+       }
+ }
 }));
 app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));
@@ -153,19 +166,188 @@ app.get('/unavailiframe', (req, res) => {
   });
 }); 
 
-app.get('/viewprofile', (req, res) => {
-  res.render('viewprofile', {
-    title: 'Labubuddies | View Profile',
-    roleTitle: 'Student',
-  });
-}); 
+const timeLabels = require('./public/JS/viewprofile.js');
+app.get('/viewprofile/:idNum', async (req, res) => {
+  try {
+    const idNum = parseInt(req.params.idNum);
+    const currentUserIdNum = 12406543; // TODO: Replace with session
+    
+    if (isNaN(idNum)) {
+      return res.status(400).render('error', { title: 'Invalid User ID' });
+    }
 
-app.get('/searchusers', (req, res) => {
-  res.render('searchusers', {
-    title: 'Labubuddies | Search Users',
-    roleTitle: 'Student',
-  });
-}); 
+    const [user, reservations] = await Promise.all([
+      UserSchema.findOne({ idNum: idNum }).lean(),
+      ReserveSchema.find({ userIdNum: idNum }).lean()
+    ]);
+    
+    if (!user) {
+      return res.status(404).render('error', { title: 'User Not Found' });
+    }
+    
+    const transformedReservations = reservations.map(reservation => {
+      const timeSlotIndex = parseInt(reservation.timeSlot);
+      return {
+        ...reservation,
+        timeSlotDisplay: timeLabels[timeSlotIndex] || 'Invalid time slot'
+      };
+    });
+
+    const isOwnProfile = idNum === currentUserIdNum;
+
+    res.render('viewprofile', {
+      title: 'Labubuddies | View Profile',
+      roleTitle: 'Student',
+      user: user,
+      reservations: transformedReservations,
+      isOwnProfile: isOwnProfile
+    });
+
+  } catch (error) {
+    console.error("View Profile Error:", error);
+    res.status(500).render('error', { title: 'Server Error' });
+  }
+});
+
+app.get('/editprofile/:idNum', async (req, res) => {
+  const idNum = parseInt(req.params.idNum);
+
+  try {
+    const user = await UserSchema.findOne({ idNum: idNum }).lean();
+    
+    if (!user) {
+      return res.status(404).send("User not found.");
+    }
+    
+    res.render('editprofile', {
+      title: 'Labubuddies | Edit Profile',
+      roleTitle: 'Student',
+      user: user
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error loading edit page.");
+  }
+});
+
+app.post('/editprofile/:idNum', async (req, res) => {
+  try {
+    const { description } = req.body;
+    const idNum = parseInt(req.params.idNum);
+
+    const result = await UserSchema.findOneAndUpdate(
+      { idNum: idNum },
+      { profDesc: description },
+      { new: true }
+    );
+    
+    if (!result) {
+      return res.status(404).send("User not found.");
+    }
+
+    res.redirect(`/viewprofile/${idNum}`);
+    
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error saving profile.");
+  }
+});
+
+app.get('/searchusers', async (req, res) => {
+  try {
+
+    const currentUserIdNum = 12406543;
+    
+    const users = await UserSchema.find({ 
+      idNum: { $ne: currentUserIdNum }
+    }).lean();
+    
+    res.render('searchusers', {
+      title: 'LABubuddy | Search Users',
+      roleTitle: 'Student',
+      users: users,
+      currentUserIdNum: currentUserIdNum 
+    });
+  } catch (error) {
+    console.error('Search Users Error:', error);
+    res.status(500).render('error', { title: 'Server Error' });
+  }
+});
+
+app.post('/searchusers', async (req, res) => {
+  try {
+    const { searchName, roleFilter } = req.body;
+    
+   
+    let searchQuery = {};
+    
+    
+    if (searchName && searchName.trim() !== '') {
+      const trimmedSearch = searchName.trim();
+      const nameParts = trimmedSearch.split(/\s+/); 
+      
+      if (nameParts.length === 1) {
+       
+        searchQuery.$or = [
+          { fName: { $regex: nameParts[0], $options: 'i' } },
+          { lName: { $regex: nameParts[0], $options: 'i' } }
+        ];
+      } else if (nameParts.length === 2) {
+       
+        searchQuery.$and = [
+          { fName: { $regex: nameParts[0], $options: 'i' } },
+          { lName: { $regex: nameParts[1], $options: 'i' } }
+        ];
+      } else {
+        searchQuery.$or = [
+          {
+            $and: [
+              { fName: { $regex: nameParts[0], $options: 'i' } },
+              { lName: { $regex: nameParts.slice(1).join(' '), $options: 'i' } }
+            ]
+          },
+      
+          {
+            $and: [
+              { fName: { $regex: nameParts.slice(0, -1).join(' '), $options: 'i' } },
+              { lName: { $regex: nameParts[nameParts.length - 1], $options: 'i' } }
+            ]
+          },
+          
+          { fName: { $regex: trimmedSearch, $options: 'i' } },
+          { lName: { $regex: trimmedSearch, $options: 'i' } }
+        ];
+      }
+    }
+    
+   
+    if (roleFilter && roleFilter !== 'all') {
+      if (roleFilter === 'technician') {
+        searchQuery.isTech = true;
+      } else if (roleFilter === 'student') {
+        searchQuery.isTech = false;
+      }
+    }
+    
+   
+    const currentUserIdNum = 12406543; // Hardcoded
+    searchQuery.idNum = { $ne: currentUserIdNum };
+    
+    const users = await UserSchema.find(searchQuery).lean();
+    
+    res.render('searchusers', {
+      title: 'LABubuddy | Search Users',
+      roleTitle: 'Student',
+      users: users,
+      searchName: searchName,
+      roleFilter: roleFilter
+    });
+  } catch (error) {
+    console.error('Search Error:', error);
+    res.status(500).render('error', { title: 'Server Error' });
+  }
+});
 
 function formatReservation(r) {
   return {
@@ -238,10 +420,12 @@ app.get('/tviewreservs', async (req, res) => {
 
     const formatted = reservations.map(formatReservation);
     const availableSeats = 40 - reservations.length;
+    const isFiltered = lab || date || time; 
 
     res.render('tviewreservs', {
       title: 'Labubuddies | Filtered Reservations',
       filter: { lab, date, time },
+      isFiltered,
       availableSeats,
       reservations: formatted
     });
@@ -437,7 +621,7 @@ app.post('/Tsubmit-reservation', async (req, res) => {
 
 //delete reservation
 app.post('/deletereservation/:id', async (req, res) => {
-  await Reserve.findByIdAndDelete(req.params.id);
+  await ReserveSchema.findByIdAndDelete(req.params.id);
   res.redirect('/viewreservs');
 });
 

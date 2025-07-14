@@ -10,19 +10,25 @@
               <img src="/Assets/images/searchicon.png" />
             </div>
             <div class="flex text-gray-500 text-[17px] flex-col ml-4">
-              <p>{{filter.lab}}</p>
-              <p>{{filter.date}} - {{filter.time}}</p>
+              {{#if isFiltered}}
+                <p><strong>Lab:</strong> {{filter.lab}}</p>
+                <p><strong>Date:</strong> {{filter.date}} – {{filter.time}}</p>
+              {{else}}
+                <p>Viewing all reservations</p>
+              {{/if}}
             </div>
           </div>
         </button>
         </form>
 
         <div id="edit-stuff" class="flex flex-col ml-auto">
-          <div class="flex items-center justify-center">
-            <p><strong>{{availableSeats}}</strong> Seats Available</p>
-          </div>
+          {{#if isFiltered}}
+            <div class="flex items-center justify-center">
+              <p><strong>{{availableSeats}}</strong> Seats Available</p>
+            </div>
+          {{/if}}
           <div class="flex justify-center w-52 bg-[#14AE5C] px-6 py-1.5 rounded-full text-white text-xl font-medium mt-3 shadow">
-            <form method="GET" action="/TReserveSlotPage">
+            <form method="GET" action="/Tcreatereserve">
               <button type="submit">New Reservation</button>
             </form>
           </div>
@@ -83,7 +89,7 @@
       <div class="flex justify-center">
         <div class="flex justify-center w-[90%] h-[150px]">
           <div class="flex items-center justify-center mt-6 h-8 w-8">
-            <form method="GET" action="/TReserveSlotPage">
+            <form method="GET" action="/Tcreatereserve">
               <button id="add-item">
                 <img src="/Assets/images/plus-circle.svg" alt="Add" />
               </button>
