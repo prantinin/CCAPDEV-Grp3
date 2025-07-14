@@ -15,7 +15,7 @@ const port = 3000;
 
 const hbs = exphbs.create({}); // create first
 
-// ✅ Register helper on the underlying Handlebars instance
+// for editing
 hbs.handlebars.registerHelper('ifEquals', function (a, b, options) {
   return a == b ? options.fn(this) : options.inverse(this);
 });
