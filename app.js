@@ -426,10 +426,12 @@ app.get('/tviewreservs', async (req, res) => {
 
     const formatted = reservations.map(formatReservation);
     const availableSeats = 40 - reservations.length;
+    const isFiltered = lab || date || time; 
 
     res.render('tviewreservs', {
       title: 'Labubuddies | Filtered Reservations',
       filter: { lab, date, time },
+      isFiltered,
       availableSeats,
       reservations: formatted
     });
@@ -625,7 +627,7 @@ app.post('/Tsubmit-reservation', async (req, res) => {
 
 //delete reservation
 app.post('/deletereservation/:id', async (req, res) => {
-  await Reserve.findByIdAndDelete(req.params.id);
+  await ReserveSchema.findByIdAndDelete(req.params.id);
   res.redirect('/viewreservs');
 });
 
