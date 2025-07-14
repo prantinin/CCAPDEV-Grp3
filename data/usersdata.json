@@ -6,7 +6,7 @@
     "email": "timothy_ortiz@dlsu.edu.ph",
     "password": "iLoveChikkieNuggies123", 
     "isTech": false, 
-    "profPic": "/Assets/images/default-avatar.png", 
+    "profPic": "", 
     "profDesc": "DLSU ID 123 BS-IT" 
   },
   { 
@@ -16,7 +16,7 @@
     "email": "maricarmen_antonio@dlsu.edu.ph",
     "password": "L0K1MYL0VE<33", 
     "isTech": false, 
-    "profPic": "/Assets/images/default-avatar.png", 
+    "profPic": "", 
     "profDesc": "DLSU ID 121 BSCS-ST" 
   },
   { 
@@ -26,7 +26,7 @@
     "email": "amadeo_espinoza@dlsu.edu.ph",
     "password": "M4R1CARM3N_4_L1F3!", 
     "isTech": false, 
-    "profPic": "/Assets/images/default-avatar.png", 
+    "profPic": "", 
     "profDesc": "DLSU ID 122 BSCS-ST" 
   },
   { 
@@ -36,7 +36,7 @@
     "email": "daisy_reyes@dlsu.edu.ph",
     "password": "P4SSW0RD123456!", 
     "isTech": false, 
-    "profPic": "/Assets/images/default-avatar.png", 
+    "profPic": "", 
     "profDesc": "DLSU ID 124 BSCS-NIS" 
   },
   { 
@@ -46,7 +46,7 @@
     "email": "laurissa_wayne@dlsu.edu.ph",
     "password": "insertPasswordH3R3", 
     "isTech": false, 
-    "profPic": "/Assets/images/default-avatar.png", 
+    "profPic": "", 
     "profDesc": "DLSU ID 121 BS-IT" 
   },
   { 
