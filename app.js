@@ -266,6 +266,7 @@ app.get('/tviewreservs', async (req, res) => {
 
 
 //[tech] - view profile if clicked
+/*
 app.get('/profile/:email', async (req, res) => {
   const user = await User.findOne({ email: req.params.email }).lean();
   if (user) {
@@ -274,7 +275,7 @@ app.get('/profile/:email', async (req, res) => {
     res.status(404).render('error', { title: 'User Not Found' });
   }
 });
-
+*/
 
 
 // Post

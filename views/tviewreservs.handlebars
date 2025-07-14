@@ -31,6 +31,8 @@
             <form method="GET" action="/Tcreatereserve">
               <button type="submit">New Reservation</button>
             </form>
+
+
           </div>
         </div>
       </div>
@@ -42,9 +44,11 @@
           {{#if this.anonymous}}
             <img src="/Assets/images/anon-dp.png" alt="Anonymous" />
           {{else}}
-            <a href="/profile/{{this.email}}">
-              <img src="/Assets/images/dp.png" alt="Profile Picture" />
-            </a>
+            <form action="/viewprofile" method="GET">
+              <button type="submit">
+                <img src="/Assets/images/dp.png" alt="Profile Picture" />
+              </button>
+            </form>
           {{/if}}
         </div>
 
@@ -52,9 +56,11 @@
           {{#if this.anonymous}}
             <h3 class="text-[30px] font-bold">Anonymous</h3>
           {{else}}
-            <a href="/profile/{{this.email}}">
-              <h3 class="text-[30px] font-bold">{{this.name}}</h3>
-            </a>
+            <form action="/viewprofile" method="GET">
+              <button type="submit">
+                <h3 class="text-[30px] font-bold">{{this.name}}</h3>
+              </button>
+            </form>
           {{/if}}
           <p class="text-sm">Seat {{this.seat}}</p>
           <p class="text-sm">{{this.reservDate}} - {{this.time}}</p>
