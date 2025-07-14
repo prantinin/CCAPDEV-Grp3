@@ -177,7 +177,9 @@ function formatReservation(r) {
 
 app.get('/viewreservs', async (req, res) => {   //student view
   try {
-    const rawReservations = await ReserveSchema.find()
+    const maricarmenIdNum = 12406543;
+
+    const rawReservations = await ReserveSchema.find({ userIdNum: maricarmenIdNum })
       .populate('lab')
       .populate('seat')
       .populate('userID')
