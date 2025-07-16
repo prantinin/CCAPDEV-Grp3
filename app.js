@@ -26,7 +26,7 @@ app.set('view engine', 'handlebars');
 
 
 // MongoDB connection (put this in a .env)
-mongoose.connect('mongodb://127.0.0.1:27017/labubuddyDB')
+mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
   .then(() => console.log('Connected to MongoDB...'))
   .catch(err => console.log('Could not connect to MongoDB...', err));
 
@@ -376,15 +376,15 @@ app.post('/searchusers', async (req, res) => {
 function formatReservation(r) {
   return {
     id: r._id,
-    lab: r.lab.labName,
-    seat: r.seat.seatCode,
-    reservDate: new Date(r.reservDate).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' }),
+    lab: r.lab?.labName || 'Unknown Lab',   //handle nulln
+    seat: r.seat?.seatCode || 'Unknown Seat',
+    reservDate: r.reservDate ? new Date(r.reservDate).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Unknown Date',
     time: timeLabels[r.timeSlot] || 'Unknown Time Slot',
-    startTime: r.timeSlot.split(' to ')[0],
-    endTime: r.timeSlot.split(' to ')[1],
-    reqMade: new Date(r.reqMade).toLocaleString('en-PH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }),
-    name: r.isAnon ? 'Anonymous' : `${r.userID?.fName} ${r.userID?.lName}`,
-    email: r.isAnon ? null : r.userID?.email,
+    startTime: typeof r.timeSlot === 'string' && r.timeSlot.includes(' to ') ? r.timeSlot.split(' to ')[0] : '',
+    endTime: typeof r.timeSlot === 'string' && r.timeSlot.includes(' to ') ? r.timeSlot.split(' to ')[1] : '',
+    reqMade: r.reqMade ? new Date(r.reqMade).toLocaleString('en-PH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) : 'Unknown',
+    name: r.isAnon ? 'Anonymous' : `${r.userID?.fName || ''} ${r.userID?.lName || ''}`.trim(),
+    email: r.isAnon ? null : r.userID?.email || null,
     anonymous: r.isAnon
   };
 }
@@ -443,6 +443,8 @@ app.get('/tviewreservs', async (req, res) => {
       .populate('seat')
       .populate('userID')
       .lean();
+
+
 
     const formattedReservations = reservations.map(formatReservation);
     const availableSeats = 40 - reservations.length;
