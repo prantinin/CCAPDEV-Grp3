@@ -72,6 +72,12 @@
       </select>
     </div>
 
+    {{#if success}}
+      <p id="reservSuccess" class="reservSuccess !text-red-500 text-xl mt-4 font-light">
+        Reservation successful!
+      </p>
+    {{/if}}
+
     <br/><br/><br/><br/>
 
     <!-- Anonymous Checkbox -->
@@ -86,12 +92,6 @@
       class="confirmRes w-full py-2 rounded text-2xl shadow-md text-white" disabled>
       {{#if isEditing}}Update Reservation{{else}}Confirm{{/if}}
     </button>
-
-    {{#if success}}
-      <p id="reservSuccess" class="reservSuccess !text-red-500 text-xl mt-4 font-light">
-        Reservation successful!
-      </p>
-    {{/if}}
   </form>
 
 </div>
