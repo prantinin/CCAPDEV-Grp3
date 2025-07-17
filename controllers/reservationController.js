@@ -4,6 +4,8 @@ const SeatSchema = require('../models/Seats');
 const LabSchema = require('../models/Labs');
 const { labs, areas } = require('../data/areas');
 
+const timeLabels = require('../data/timeLabels');
+
 function formatReservation(r) {
   return {
     id: r._id,
@@ -145,8 +147,11 @@ exports.postResTech = async (req, res) => {
 
 // /viewreservs
 exports.getViewResStudent = async (req, res) => {   //student view
+
+  const maricarmenIdNum = 12406543;
+
   try {
-    const rawReservations = await ReserveSchema.find()
+    const rawReservations = await ReserveSchema.find({ userIdNum: maricarmenIdNum })
       .populate('lab')
       .populate('seat')
       .populate('userID')
@@ -244,8 +249,12 @@ exports.getFilterResTech = async (req, res) => {
     });
 };
 
-// /deletereservation/:id
-exports.postDeleteRes = async (req, res) => {
-  await ReserveSchema.findByIdAndDelete(req.params.id);
-  res.redirect('/viewreservs');
+exports.deleteReservation = async (req, res) => {
+  try {
+    await ReserveSchema.findByIdAndDelete(req.params.id);
+    res.redirect('/viewreservs');
+  } catch (error) {
+    console.error("Error deleting reservation:", error);
+    res.status(500).send("Failed to delete reservation.");
+  }
 };
