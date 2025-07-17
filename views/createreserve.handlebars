@@ -61,7 +61,7 @@
     <!-- Time Slot -->
     <div>
       <label for="timeSlot" class="text-2xl">Choose a Time Slot</label>
-      <select name="timeSlot" class="timeSlot w-full p-2 rounded border text-xl mt-1" required>
+      <select name="timeSlot" class="timeSlot w-full p-2 rounded border text-xl mt-1" required disabled>
         <option value="">-- None --</option>
         {{#each timeLabels}}
           <option value="{{@index}}"
@@ -83,7 +83,7 @@
 
     <!-- Submit Button -->
     <button type="submit" name="confirmRes"
-      class="confirmRes w-full py-2 rounded text-2xl shadow-md text-white">
+      class="confirmRes w-full py-2 rounded text-2xl shadow-md text-white" disabled>
       {{#if isEditing}}Update Reservation{{else}}Confirm{{/if}}
     </button>
 
