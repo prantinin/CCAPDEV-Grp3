@@ -258,3 +258,92 @@ exports.deleteReservation = async (req, res) => {
     res.status(500).send("Failed to delete reservation.");
   }
 };
+
+// GET /editreserve/:id  - render with data
+exports.getEditRes = async (req, res) => {
+  try {
+    const resID = req.params.id;
+
+    const reservation = await ReserveSchema.findById(resID)
+      .populate('lab')
+      .populate('seat')
+      .populate('userID')
+      .exec();
+
+    if (!reservation) {
+      return res.render('error', {
+        title: 'Reservation Not Found',
+        message: 'No reservation found with the provided ID.'
+      });
+    }
+
+    const labsRaw = await LabSchema.find().exec();
+    const labs = labsRaw.map(lab => ({
+      value: lab._id.toString(),
+      name: lab.labName
+    }));
+
+    res.render('editreserve', {
+      title: 'Labubuddy | Reserve',
+      success: req.query.success === 'true',
+      reservation,
+      labs,
+      timeLabels,
+      editId: resID, 
+    });
+  } catch (err) {
+    return res.render('error', {
+      title: 'Load Error',
+      message: 'Something went wrong while retrieving reservation data.'
+    });
+  }
+};
+
+
+
+// post for /editreserve - render with data
+exports.postEditRes = async (req, res) => {
+  try {
+    const { editId, studentID, chosenSlot, resDate, timeSlot, anonymous } = req.body;
+
+    const seat = await SeatSchema.findOne({ seatCode: chosenSlot }).exec();
+    const studentUser = await UserSchema.findOne({ idNum: studentID }).exec();
+    const now = new Date();
+    const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
+
+    const existingRes = await ReserveSchema.findById(editId).exec();
+
+    const conflict = await ReserveSchema.findOne({
+      lab: existingRes.lab,
+      seat: seat._id,
+      reservDate: new Date(resDate),
+      timeSlot: parseInt(timeSlot),
+      _id: { $ne: editId }
+    }).exec();
+
+    if (conflict) {
+      return res.render('error', {
+        title: 'Reservation Conflict',
+        message: 'Oops! That slot is already reserved by someone else.'
+      });
+    }
+
+    await ReserveSchema.findByIdAndUpdate(editId, {
+      userID: studentUser._id,
+      userIdNum: studentID,
+      isAnon: anonymous,
+      slotName: `${existingRes.lab.labName}, seat ${seat.seatCode}`,
+      seat: seat._id,
+      reservDate: new Date(resDate),
+      timeSlot: parseInt(timeSlot),
+      reqMade: phTimeNow
+    });
+
+    return res.redirect(`/editreserve/${editId}?success=true`);
+  } catch (err) {
+    return res.render('error', {
+      title: 'Update Error',
+      message: 'Something went wrong while updating the reservation.'
+    });
+  }
+};
