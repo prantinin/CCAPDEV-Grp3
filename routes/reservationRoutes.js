@@ -13,6 +13,9 @@ router.get('/viewreservs', reservationController.getViewResStudent);
 router.get('/tviewreservs', reservationController.getViewResTech);
 router.get('/tfilterreservs', reservationController.getFilterResTech);
 
+router.get('/editreserve/:id', reservationController.getEditRes);
+router.post('/editreservation/:id', reservationController.postEditRes);
+
 router.post('/deletereservation/:id', reservationController.deleteReservation);
 
 module.exports = router;
