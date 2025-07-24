@@ -34,16 +34,23 @@ exports.getCreateResStudent = (req, res) => {
 
 // /submit-reservation
 exports.postResStudent = async (req, res) => {
+  const { chosenSlot, resDate, timeSlot, anonymous } = req.body;
+
   try {
-    const { chosenSlot, resDate, timeSlot, anonymous } = req.body;
-
     const [ labNamePart, seatCodePart ] = chosenSlot.split(', seat ');
-
     const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
     const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
     const now = new Date();
     const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
     
+    if (!lab || !seat) {
+      console.log("Error: Lab or seat not found.");
+      return res.render('error', {
+        title: 'Invalid Reservation',
+        message: 'The selected lab or seat does not exist.'
+      });
+    } 
+
     reservedSlot = await ReserveSchema.findOne({
       slotName: chosenSlot,
       lab: lab._id,
@@ -51,6 +58,8 @@ exports.postResStudent = async (req, res) => {
       timeSlot: timeSlot,
       reservDate: new Date(resDate),
     });
+
+    console.log('Found reservation:', reservedSlot);
 
     // only makes new reservation if it doesn't exist (isn't booked)
     if (!reservedSlot) {
@@ -76,6 +85,7 @@ exports.postResStudent = async (req, res) => {
       });
     }
   } catch (err) {
+    console.log('Form or request body error');
     return res.render('error', {
       title: 'Render Error',
       message: 'Something went wrong.'
@@ -95,9 +105,9 @@ exports.getCreateResTech = (req, res) => {
 
 // /Tsubmit-reservation
 exports.postResTech = async (req, res) => {
+  const { studentID, chosenSlot, resDate, timeSlot, anonymous } = req.body;
+  
   try {
-    const { studentID, chosenSlot, resDate, timeSlot, anonymous } = req.body;
-
     const [ labNamePart, seatCodePart ] = chosenSlot.split(', seat ');
 
     const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
@@ -138,6 +148,7 @@ exports.postResTech = async (req, res) => {
       });
     }
   } catch (err) {
+    console.log('Form or request body error');
     return res.render('error', {
       title: 'Render Error',
       message: 'Something went wrong.'

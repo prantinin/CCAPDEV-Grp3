@@ -16,7 +16,7 @@ function updateSeats(reservedSeats) {
             
             button.onclick = () => openPopRes();
         } else {
-            button.onclick = () => window.parent.postMessage(seatId);
+            button.onclick = () => window.parent.postMessage({ seat: seatId }, "*");
         }
     });
 }
@@ -32,21 +32,3 @@ function openPopRes(event) {
         popup.style.display = "none";
     }, 1500);
 }
-
-
-// Listen for lab/date/time to come from parent via iframe src or postMessage
-window.addEventListener('DOMContentLoaded', () => {
-  const lab = new URLSearchParams(window.location.search).get('lab');
-  const date = new URLSearchParams(window.location.search).get('date');
-  const time = new URLSearchParams(window.location.search).get('time');
-
-  if (lab && date && time) {
-    console.log('Fetching reserved seats for:', lab, date, time);
-    fetch(`/api/reservedSeats?lab=${lab}&date=${date}&time=${time}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log('Reserved:', data);
-        updateSeats(data);
-      });
-  }
-});

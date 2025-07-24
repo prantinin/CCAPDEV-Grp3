@@ -78,7 +78,6 @@ function allowFields() {
   const studentID = document.querySelector(".studentID");
   const resDate = document.querySelector("#resDate");
   const timeSlot = document.querySelector(".timeSlot");
-  const chosenSlot = document.querySelector(".chosenSlot");
   const labSelect = document.getElementById("labSelect");
   const slotIframe = document.getElementById("slotAreaContents");
   const confirmBtn = document.querySelector(".confirmRes");
@@ -111,20 +110,14 @@ function allowFields() {
   // Active lab selection
   if (idFilled && dateFilled && timeFilled) {
     labSelect.disabled = false;
-    labSelect.classList.add("active");
-    chosenSlot.disabled = false;
-    chosenSlot.classList.add("active");
   } else {
     labSelect.disabled = true;
     labSelect.classList.remove("active");
     labSelect.value = "";
-    chosenSlot.disabled = true;
-    chosenSlot.classList.remove("active");
   }
 
   // Active seats iframe
   if (idFilled && dateFilled && timeFilled && labFilled) {
-    chosenSlot.value = `Lab ${labSelect.value}, no seat`;
     slotIframe.src = `/reserveiframe?date=${dateFilled}&time=${timeFilled}&lab=${labFilled}`;
   } else {
     slotIframe.src = "/unavailiframe";
@@ -137,9 +130,10 @@ function allowFields() {
 
 // DYNAMIC CHOSEN SLOT
 window.addEventListener('message', (event) => {
-  const seat = event.data;
   const labFilled = document.getElementById("labSelect").value;
   const chosenSlot = document.querySelector(".chosenSlot");
+  const { seat } = event.data || {};
+
   const confirmBtn = document.querySelector(".confirmRes");
 
   if (seat) {

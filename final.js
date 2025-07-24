@@ -12,6 +12,8 @@ const pageRoutes = require('./routes/pageRoutes');
 const app = express();
 const port = 3000;
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use('/', pageRoutes);
 app.use('/', authRoutes);
@@ -25,17 +27,15 @@ mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB')
   .then(() => console.log('Connected to MongoDB...'))
   .catch(err => console.log('Could not connect to MongoDB...', err));
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 // Handlebars setup (.handlebars ext)
-app.engine('handlebars', exphbs.engine({
+const hbs = exphbs.create({
   extname: 'handlebars',
   defaultLayout: 'main',
   layoutsDir: path.join(__dirname, 'views/layouts'),
   partialsDir: path.join(__dirname, 'views/partials'),
   helpers: {
-    formatDate: function (date) { 
+    formatDate: function (date) {
       if (!date) return '';
       return new Date(date).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -48,9 +48,12 @@ app.engine('handlebars', exphbs.engine({
     },
     ifEquals: function (arg1, arg2, options) {
       return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
-    }
+    },
+    json: context => JSON.stringify(context)
   }
-}));
+});
+
+app.engine('handlebars', hbs.engine);
 
 app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));

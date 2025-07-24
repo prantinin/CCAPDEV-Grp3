@@ -3,10 +3,10 @@ const router = express.Router();
 const reservationController = require('../controllers/reservationController');
 
 router.get('/createreserve', reservationController.getCreateResStudent);
-router.get('/submit-reservation', reservationController.postResStudent);
+router.post('/submit-reservation', reservationController.postResStudent);
 
 router.get('/Tcreatereserve', reservationController.getCreateResTech);
-router.get('/Tsubmit-reservation', reservationController.postResTech);
+router.post('/Tsubmit-reservation', reservationController.postResTech);
 
 router.get('/viewreservs', reservationController.getViewResStudent);
 

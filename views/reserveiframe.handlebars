@@ -83,4 +83,14 @@
   </div>
 
 </body>
+
+<script>
+  const reserved = {{{json reservedSeats}}};
+
+  window.addEventListener('DOMContentLoaded', () => {
+    updateSeats(reserved);
+  });
+</script>
+
+
 </html>
