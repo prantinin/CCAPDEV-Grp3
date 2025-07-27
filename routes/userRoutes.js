@@ -12,4 +12,6 @@ router.post('/editprofile/:idNum', userController.uploadProfilePicture, userCont
 router.get('/searchusers', userController.getSearchUsers);
 router.get('/searchusers', userController.postSearchUsers);
 
+router.delete('/deleteaccount/:idNum', userController.deleteAccount);
+
 module.exports = router;
