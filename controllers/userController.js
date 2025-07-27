@@ -268,3 +268,33 @@ exports.postSearchUsers = async (req, res) => {
     res.status(500).render('error', { title: 'Server Error' });
   }
 };
+
+// /deleteAccount
+exports.deleteAccount = async (req, res) => {
+ try {
+   const idNum = parseInt(req.params.idNum);
+   const hardcodedUserId = 12406543;
+   
+   if (idNum !== hardcodedUserId) {
+     return res.status(403).json({ error: 'Unauthorized' });
+   }
+   
+   const deletedReservations = await ReserveSchema.deleteMany({ userIdNum: idNum });
+   
+   const deletedUser = await UserSchema.findOneAndDelete({ idNum: idNum });
+   
+   if (!deletedUser) {
+     return res.status(404).json({ error: 'User not found' });
+   }
+   
+   res.status(200).json({ 
+     message: 'Account deleted successfully', 
+     reservationsDeleted: deletedReservations.deletedCount 
+   });
+   
+ } catch (error) {
+   console.error('Delete Account Error:', error);
+   res.status(500).json({ error: 'Server error', details: error.message });
+ }
+};
+
