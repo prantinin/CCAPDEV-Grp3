@@ -270,6 +270,7 @@ exports.deleteReservation = async (req, res) => {
   }
 };
 
+/*
 // GET /editreserve/:id  - render with data
 exports.getEditRes = async (req, res) => {
   try {
@@ -355,6 +356,108 @@ exports.postEditRes = async (req, res) => {
     return res.render('error', {
       title: 'Update Error',
       message: 'Something went wrong while updating the reservation.'
+    });
+  }
+};
+*/
+
+// /editres/:id
+exports.getEditRes = async (req, res) => {
+  try {
+    const reservation = await ReserveSchema.findById(req.params.id)
+      .populate('lab seat');
+
+    if (!reservation) {
+      return res.status(404).send('Reservation not found');
+    }
+
+    const labs = await LabSchema.find();
+
+        const labsClean = labs.map(lab => ({
+  value: lab._id.toString(),
+  name: lab.labName
+}));
+
+
+    // Format the reservation date
+    const formattedDate = reservation.reservDate.toISOString().split('T')[0];
+
+    res.render('editreserve', {
+      lab: reservation.lab.labName,
+      labId: reservation.lab._id.toString(),
+      seat: reservation.seat?.seatCode,
+      time: timeLabels[reservation.timeSlot],
+      timeSlot: reservation.timeSlot,
+      reservDate: formattedDate,
+      editId: reservation._id,
+      success: req.query.success === 'true',
+      labs: labsClean,
+      timeLabels
+    });
+
+  } catch (err) {
+    console.error('Edit reservation error:', err);
+    res.status(500).send('Server error while loading reservation');
+  }
+};
+
+// /submit-reservation
+exports.postEditRes = async (req, res) => {
+  const { chosenSlot, resDate, timeSlot, anonymous } = req.body;
+
+  try {
+    const [ labNamePart, seatCodePart ] = chosenSlot.split(', seat ');
+    const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
+    const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
+    const now = new Date();
+    const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
+    
+    if (!lab || !seat) {
+      console.log("Error: Lab or seat not found.");
+      return res.render('error', {
+        title: 'Invalid Reservation',
+        message: 'The selected lab or seat does not exist.'
+      });
+    } 
+
+    reservedSlot = await ReserveSchema.findOne({
+      slotName: chosenSlot,
+      lab: lab._id,
+      seat: seat._id,
+      timeSlot: timeSlot,
+      reservDate: new Date(resDate),
+    });
+
+    console.log('Found reservation:', reservedSlot);
+
+    // only makes new reservation if it doesn't exist (isn't booked)
+    if (!reservedSlot) {
+        const newRes = new ReserveSchema({
+          userID: null,   // null for students page. will fix in session handling
+          userIdNum: null,
+          isAnon: anonymous,
+          slotName: chosenSlot,
+          lab: lab._id,
+          seat: seat._id,
+          timeSlot: timeSlot,
+          reservDate: new Date(resDate),
+          reqMade: phTimeNow
+        });
+
+        await newRes.save();
+        return res.redirect('/createreserve?success=true');
+    } else {
+      // In case user reserving a taken slot
+      return res.render('error', {
+        title: 'Reservation Error',
+        message: 'Oops! the slot you selected is already reserved.'
+      });
+    }
+  } catch (err) {
+    console.log('Form or request body error');
+    return res.render('error', {
+      title: 'Render Error',
+      message: 'Something went wrong.'
     });
   }
 };
