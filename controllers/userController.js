@@ -117,7 +117,6 @@ const upload = multer({
   }
 });
 
-
 exports.uploadProfilePicture = upload.single('profilePicture');
 
 exports.postEditProfile = async (req, res) => {
@@ -297,4 +296,3 @@ exports.deleteAccount = async (req, res) => {
    res.status(500).json({ error: 'Server error', details: error.message });
  }
 };
-
