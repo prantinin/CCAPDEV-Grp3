@@ -10,7 +10,7 @@ router.get('/editprofile/:idNum', userController.getEditProfile);
 router.post('/editprofile/:idNum', userController.uploadProfilePicture, userController.postEditProfile);
 
 router.get('/searchusers', userController.getSearchUsers);
-router.get('/searchusers', userController.postSearchUsers);
+router.post('/searchusers', userController.postSearchUsers);
 
 router.delete('/deleteaccount/:idNum', userController.deleteAccount);
 
