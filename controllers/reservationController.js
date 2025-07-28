@@ -18,7 +18,8 @@ function formatReservation(r) {
     reqMade: new Date(r.reqMade).toLocaleString('en-PH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }),
     name: r.isAnon ? 'Anonymous' : `${r.userID?.fName} ${r.userID?.lName}`,
     email: r.isAnon ? null : r.userID?.email,
-    anonymous: r.isAnon
+    anonymous: r.isAnon,
+    userId: r.userIdNum || 'No ID' 
   };
 }
 

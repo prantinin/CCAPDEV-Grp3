@@ -53,7 +53,7 @@
           {{#if this.anonymous}}
             <img src="/Assets/images/anon-dp.png" alt="Anonymous" />
           {{else}}
-            <form action="/viewprofile/{{this.idNum}}" method="GET">
+            <form action="/viewprofile/{{this.userId}}" method="GET">
               <button type="submit">
                 <img 
                   src="{{#if this.profPic}}{{this.profPic}}{{else}}/Assets/images/dp.png{{/if}}" 
@@ -69,9 +69,9 @@
           {{#if this.anonymous}}
             <h3 class="text-[30px] font-bold">Anonymous</h3>
           {{else}}
-            <form action="/viewprofile/{{this.idNum}}" method="GET">
+            <form action="/viewprofile/{{this.userId}}" method="GET">
               <button type="submit">
-                <h3 class="text-[30px] font-bold">{{this.name}}</h3>
+                <h3 class="text-[30px] font-bold hover:underline cursor-pointer">{{this.name}} - {{this.userId}}</h3> 
               </button>
             </form>
           {{/if}}
