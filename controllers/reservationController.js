@@ -135,7 +135,7 @@ exports.postResTech = async (req, res) => {
       reservDate: new Date(resDate),
     }).exec();
 
-    // only makes new reservation if it doesn't exist (isn't booked)
+    // onot booked
     if (!reservedSlot) {
         const newRes = new ReserveSchema({
           userID: studentUserID._id,
@@ -152,7 +152,7 @@ exports.postResTech = async (req, res) => {
         await newRes.save();
         return res.redirect('/Tcreatereserve?success=true');
     } else {
-      // In case user reserving a taken slot
+      // if taken
       return res.render('error', {
         title: 'Reservation Error',
         message: 'Oops! the slot you selected is already reserved.'
