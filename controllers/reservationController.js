@@ -402,6 +402,7 @@ exports.getEditRes = async (req, res) => {
   }
 };
 
+/*
 // /submit-reservation
 exports.postEditRes = async (req, res) => {
   const { chosenSlot, resDate, timeSlot, anonymous } = req.body;
@@ -456,6 +457,70 @@ exports.postEditRes = async (req, res) => {
     }
   } catch (err) {
     console.log('Form or request body error');
+    return res.render('error', {
+      title: 'Render Error',
+      message: 'Something went wrong.'
+    });
+  }
+};
+*/
+
+exports.postEditRes = async (req, res) => {
+  const { chosenSlot, resDate, timeSlot, anonymous } = req.body;
+  const reservationId = req.params.id;
+
+  try {
+    const [ labNamePart, seatCodePart ] = chosenSlot.split(', seat ');
+    const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
+    const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
+    const now = new Date();
+    const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
+
+    if (!lab || !seat) {
+      return res.render('error', {
+        title: 'Invalid Reservation',
+        message: 'The selected lab or seat does not exist.'
+      });
+    }
+
+    const conflictingRes = await ReserveSchema.findOne({
+      _id: { $ne: reservationId },
+      slotName: chosenSlot,
+      lab: lab._id,
+      seat: seat._id,
+      timeSlot: timeSlot,
+      reservDate: new Date(resDate)
+    });
+
+    if (conflictingRes) {
+      return res.render('error', {
+        title: 'Conflict Detected',
+        message: 'Oops! Another reservation is already booked for that slot.'
+      });
+    }
+
+    const reservationToEdit = await ReserveSchema.findById(reservationId);
+
+    if (!reservationToEdit) {
+      return res.render('error', {
+        title: 'Reservation Not Found',
+        message: 'Cannot find reservation to update.'
+      });
+    }
+
+    reservationToEdit.slotName = chosenSlot;
+    reservationToEdit.lab = lab._id;
+    reservationToEdit.seat = seat._id;
+    reservationToEdit.timeSlot = timeSlot;
+    reservationToEdit.reservDate = new Date(resDate);
+    reservationToEdit.isAnon = anonymous;
+    reservationToEdit.reqMade = phTimeNow;
+
+    await reservationToEdit.save();
+
+    return res.redirect(`/editreserve/${reservationId}?success=true`);
+  } catch (err) {
+    console.log('Form or request body error:', err);
     return res.render('error', {
       title: 'Render Error',
       message: 'Something went wrong.'
