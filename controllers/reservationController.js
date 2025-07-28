@@ -271,97 +271,6 @@ exports.deleteReservation = async (req, res) => {
   }
 };
 
-/*
-// GET /editreserve/:id  - render with data
-exports.getEditRes = async (req, res) => {
-  try {
-    const resID = req.params.id;
-
-    const reservation = await ReserveSchema.findById(resID)
-      .populate('lab')
-      .populate('seat')
-      .populate('userID')
-      .exec();
-
-    if (!reservation) {
-      return res.render('error', {
-        title: 'Reservation Not Found',
-        message: 'No reservation found with the provided ID.'
-      });
-    }
-
-    const labsRaw = await LabSchema.find().exec();
-    const labs = labsRaw.map(lab => ({
-      value: lab._id.toString(),
-      name: lab.labName
-    }));
-
-    res.render('editreserve', {
-      title: 'Labubuddy | Reserve',
-      success: req.query.success === 'true',
-      reservation,
-      labs,
-      timeLabels,
-      editId: resID, 
-    });
-  } catch (err) {
-    return res.render('error', {
-      title: 'Load Error',
-      message: 'Something went wrong while retrieving reservation data.'
-    });
-  }
-};
-
-
-
-// post for /editreserve - render with data
-exports.postEditRes = async (req, res) => {
-  try {
-    const { editId, studentID, chosenSlot, resDate, timeSlot, anonymous } = req.body;
-
-    const seat = await SeatSchema.findOne({ seatCode: chosenSlot }).exec();
-    const studentUser = await UserSchema.findOne({ idNum: studentID }).exec();
-    const now = new Date();
-    const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
-
-    const existingRes = await ReserveSchema.findById(editId).exec();
-
-    const conflict = await ReserveSchema.findOne({
-      lab: existingRes.lab,
-      seat: seat._id,
-      reservDate: new Date(resDate),
-      timeSlot: parseInt(timeSlot),
-      _id: { $ne: editId }
-    }).exec();
-
-    if (conflict) {
-      return res.render('error', {
-        title: 'Reservation Conflict',
-        message: 'Oops! That slot is already reserved by someone else.'
-      });
-    }
-
-    await ReserveSchema.findByIdAndUpdate(editId, {
-      userID: studentUser._id,
-      userIdNum: studentID,
-      isAnon: anonymous,
-      slotName: `${existingRes.lab.labName}, seat ${seat.seatCode}`,
-      seat: seat._id,
-      reservDate: new Date(resDate),
-      timeSlot: parseInt(timeSlot),
-      reqMade: phTimeNow
-    });
-
-    return res.redirect(`/editreserve/${editId}?success=true`);
-  } catch (err) {
-    return res.render('error', {
-      title: 'Update Error',
-      message: 'Something went wrong while updating the reservation.'
-    });
-  }
-};
-*/
-
 // /editres/:id
 exports.getEditRes = async (req, res) => {
   try {
@@ -401,69 +310,6 @@ exports.getEditRes = async (req, res) => {
     res.status(500).send('Server error while loading reservation');
   }
 };
-
-/*
-// /submit-reservation
-exports.postEditRes = async (req, res) => {
-  const { chosenSlot, resDate, timeSlot, anonymous } = req.body;
-
-  try {
-    const [ labNamePart, seatCodePart ] = chosenSlot.split(', seat ');
-    const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
-    const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
-    const now = new Date();
-    const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
-    
-    if (!lab || !seat) {
-      console.log("Error: Lab or seat not found.");
-      return res.render('error', {
-        title: 'Invalid Reservation',
-        message: 'The selected lab or seat does not exist.'
-      });
-    } 
-
-    reservedSlot = await ReserveSchema.findOne({
-      slotName: chosenSlot,
-      lab: lab._id,
-      seat: seat._id,
-      timeSlot: timeSlot,
-      reservDate: new Date(resDate),
-    });
-
-    console.log('Found reservation:', reservedSlot);
-
-    // only makes new reservation if it doesn't exist (isn't booked)
-    if (!reservedSlot) {
-        const newRes = new ReserveSchema({
-          userID: null,   // null for students page. will fix in session handling
-          userIdNum: null,
-          isAnon: anonymous,
-          slotName: chosenSlot,
-          lab: lab._id,
-          seat: seat._id,
-          timeSlot: timeSlot,
-          reservDate: new Date(resDate),
-          reqMade: phTimeNow
-        });
-
-        await newRes.save();
-        return res.redirect('/createreserve?success=true');
-    } else {
-      // In case user reserving a taken slot
-      return res.render('error', {
-        title: 'Reservation Error',
-        message: 'Oops! the slot you selected is already reserved.'
-      });
-    }
-  } catch (err) {
-    console.log('Form or request body error');
-    return res.render('error', {
-      title: 'Render Error',
-      message: 'Something went wrong.'
-    });
-  }
-};
-*/
 
 exports.postEditRes = async (req, res) => {
   const { chosenSlot, resDate, timeSlot, anonymous } = req.body;
@@ -518,7 +364,7 @@ exports.postEditRes = async (req, res) => {
 
     await reservationToEdit.save();
 
-    return res.redirect(`/editreserve/${reservationId}?success=true`);
+    return res.redirect('/tviewreservs?success=true');
   } catch (err) {
     console.log('Form or request body error:', err);
     return res.render('error', {

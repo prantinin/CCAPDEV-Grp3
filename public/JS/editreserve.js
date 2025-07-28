@@ -109,14 +109,22 @@ function allowFields() {
 
 // DYNAMIC CHOSEN SLOT
 window.addEventListener('message', (event) => {
-  const labFilled = document.getElementById("labSelect").value;
+  const labSelect = document.getElementById("labSelect");
   const chosenSlot = document.querySelector(".chosenSlot");
   const { seat } = event.data || {};
 
   const confirmBtn = document.querySelector(".confirmRes");
 
   if (seat) {
-    chosenSlot.value = `Lab ${labFilled}, seat ${seat}`;
+    // Get the lab name from the selected option
+    const selectedOption = labSelect.options[labSelect.selectedIndex];
+    const labName = selectedOption ? selectedOption.text : `Lab ${labSelect.value}`;
+
+    console.log('Debug - labSelect.value:', labSelect.value);
+    console.log('Debug - selectedOption.text:', selectedOption ? selectedOption.text : 'null');
+    console.log('Debug - labName:', labName);
+
+    chosenSlot.value = `${labName}, seat ${seat}`;
     confirmBtn.disabled = false;
     confirmBtn.classList.add("active");
   }
@@ -137,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const reservSuccess = document.getElementById("reservSuccess");
   if (reservSuccess) {
     setTimeout(() => {
-      
+
       // disappearing message
       reservSuccess.remove();
 
