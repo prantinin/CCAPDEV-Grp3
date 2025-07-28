@@ -20,7 +20,7 @@
         <option value="">--</option>
         {{#each labs}}
           <option value="{{this.value}}"
-            {{#ifEquals this.value ../labId}}selected{{/ifEquals}}>
+            {{#ifEquals this.value ../reservation.lab.value}}selected{{/ifEquals}}>
             {{this.name}}
           </option>
         {{/each}}
