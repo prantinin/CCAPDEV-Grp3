@@ -20,7 +20,7 @@
         <option value="">--</option>
         {{#each labs}}
           <option value="{{this.value}}"
-            {{#ifEquals this.value ../reservation.lab.value}}selected{{/ifEquals}}>
+            {{#ifEquals this.value ../labId}}selected{{/ifEquals}}>
             {{this.name}}
           </option>
         {{/each}}
@@ -29,6 +29,8 @@
 
     <!-- Seat Viewer -->
     <iframe src="/unavailiframe" id="slotAreaContents" class="w-full h-full border"></iframe>
+
+
   </div>
 
   <!-- Reservation Form -->
