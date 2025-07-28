@@ -32,14 +32,14 @@
   </div>
 
   <!-- Reservation Form -->
-  <form method="POST" action="/submit-reservation" class="col-span-1 bg-[#D9F1DD] rounded-xl p-6 text-lg space-y-4 shadow-inner">
+  <form method="POST" action="/editreserve/{{editId}}" class="col-span-1 bg-[#D9F1DD] rounded-xl p-6 text-lg space-y-4 shadow-inner">
 
     <!-- Chosen Slot -->
     <div class="flex items-center space-x-2">
       <p class="text-2xl">Chosen slot:</p>
       <input type="text" name="chosenSlot" id="chosenSlot"
         class="chosenSlot bg-white px-4 py-2 border rounded text-xl text-black w-[10vw]"
-        value="-- None --"
+        value=""
         readonly>
     </div>
 
@@ -48,7 +48,7 @@
       <label for="resDate" class="text-2xl">Choose a Date</label>
       <input type="date" id="resDate" name="resDate"
         class="resDate w-full p-2 rounded text-xl border mt-1"
-         required>
+        value="{{reservDate}}" required>
     </div>
 
     <!-- Time Slot Dropdown (disabled) -->

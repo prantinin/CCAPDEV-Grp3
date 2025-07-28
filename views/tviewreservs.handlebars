@@ -1,3 +1,4 @@
+ <script src="/public/JS/Tviewreservs.js"></script>
  <!-- MAIN CONTENT -->
 
 <div class="col-span-4 flex font-[Dongle-Bold]">
@@ -71,7 +72,7 @@
           {{else}}
             <form action="/viewprofile/{{this.userId}}" method="GET">
               <button type="submit">
-                <h3 class="text-[30px] font-bold hover:underline cursor-pointer">{{this.name}} - {{this.userId}}</h3> 
+                <h3 class="text-[30px] font-bold hover:underline cursor-pointer">{{this.name}}</h3> 
               </button>
             </form>
           {{/if}}
@@ -87,6 +88,7 @@
               </button>
             </form>
           </div>
+          {{#if notexpired}}
           <div class="mt-8 h-8 w-8">
             <form method="GET" action="/editreserve/{{this.id}}">
               <input type="hidden" name="editId" value="{{this.id}}" />
@@ -96,6 +98,7 @@
             </form>
 
           </div>
+          {{/if}}
         </div>
       </div>
       {{/each}}
