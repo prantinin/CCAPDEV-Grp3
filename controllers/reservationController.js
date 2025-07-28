@@ -64,9 +64,19 @@ exports.postResStudent = async (req, res) => {
 
     // only makes new reservation if it doesn't exist (isn't booked)
     if (!reservedSlot) {
+        // Get Maricarmen's user document
+        const maricarmen = await UserSchema.findOne({ idNum: 12406543 }).exec();
+
         const newRes = new ReserveSchema({
+          /*
           userID: null,   // null for students page. will fix in session handling
           userIdNum: null,
+          */
+
+          //logged in as maricarmen for now
+          userID: maricarmen._id,
+          userIdNum: 12406543,
+
           isAnon: anonymous,
           slotName: chosenSlot,
           lab: lab._id,
@@ -264,7 +274,9 @@ exports.getFilterResTech = async (req, res) => {
 exports.deleteReservation = async (req, res) => {
   try {
     await ReserveSchema.findByIdAndDelete(req.params.id);
-    res.redirect('/viewreservs');
+    
+    const referer = req.get('Referer') || '/viewreservs';
+    res.redirect(referer);
   } catch (error) {
     console.error("Error deleting reservation:", error);
     res.status(500).send("Failed to delete reservation.");
