@@ -40,7 +40,7 @@ exports.getResIframe = async (req, res) => {
       }).populate('seat').lean();
 
       reservations.forEach(r => {
-        if (r.seat?.seatCode) reservedSeats.add(r.seat.seatCode);
+        if (r.seat?.seatCode) reservedSeats.push(r.seat.seatCode);
       });
     }
 

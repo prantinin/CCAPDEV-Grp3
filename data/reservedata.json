@@ -17,7 +17,7 @@
     "lab": null,
     "seat": null,
     "startTime": "10",
-    "endTIme": "26"
+    "endTime": "26"
   },
   {
     "userID": null,
@@ -27,7 +27,7 @@
     "lab": null,
     "seat": null,
     "startTime": "6",
-    "endTIme": "26"
+    "endTime": "26"
   },
   {
     "userID": null,
@@ -37,7 +37,7 @@
     "lab": null,
     "seat": null,
     "startTime": "19",
-    "endTIme": "26"
+    "endTime": "26"
   },
   {
     "userID": null,
@@ -47,7 +47,7 @@
     "lab": null,
     "seat": null,
     "startTime": "20",
-    "endTIme": "26"
+    "endTime": "26"
   },
   {
     "userID": null,
@@ -57,7 +57,7 @@
     "lab": null,
     "seat": null,
     "startTime": "25",
-    "endTIme": "26"
+    "endTime": "26"
   },
   {
     "userID": null,
@@ -67,7 +67,7 @@
     "lab": null,
     "seat": null,
     "startTime": "16",
-    "endTIme": "26"
+    "endTime": "26"
   },
   {
     "userID": null,
@@ -77,6 +77,6 @@
     "lab": null,
     "seat": null,
     "startTime": "4",
-    "endTIme": "26"
+    "endTime": "26"
   }
 ]
