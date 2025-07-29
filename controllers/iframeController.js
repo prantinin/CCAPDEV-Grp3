@@ -3,7 +3,6 @@ const LabSchema = require('../models/Labs');
 const { labs, areas } = require('../data/areas');
 const mongoose = require('mongoose');
 
-
 // /unavailiframe
 exports.getUnavailFrame = (req, res) => {
   res.render('unavailiframe', {
@@ -12,20 +11,15 @@ exports.getUnavailFrame = (req, res) => {
   });
 };
 
+// /reserveiframe
 exports.getResIframe = async (req, res) => {
-  const { lab, date, time } = req.query;
-
+  const { date, start, end, lab } = req.query;
   let reservedSeats = [];
   let labID;
 
   try {
-    if (mongoose.Types.ObjectId.isValid(lab)) {
-      // ID format
-      labID = await LabSchema.findById(lab).exec();
-    } else {
-      // Name format, e.g. "1" → "Lab 1"
-      labID = await LabSchema.findOne({ labName: `Lab ${lab}` }).exec();
-    }
+    // Find Lab by name
+    labID = await LabSchema.findOne({ labName: `Lab ${lab}` }).exec();
 
     if (!labID) {
       console.error(`Lab not found for query: ${lab}`);
@@ -37,13 +31,18 @@ exports.getResIframe = async (req, res) => {
       });
     }
 
-    const reservations = await ReserveSchema.find({
-      lab: labID._id,
-      reservDate: new Date(date),
-      timeSlot: time
-    }).populate('seat').lean();
+    // Find reservations with same param
+    for (let i = parseInt(start); i <= parseInt(end); i++) {
+      const reservations = await ReserveSchema.find({
+        lab: labID._id,
+        reservDate: new Date(date),
+        timeSlot: i.toString()
+      }).populate('seat').lean();
 
-    reservedSeats = reservations.map(r => r.seat?.seatCode);
+      reservations.forEach(r => {
+        if (r.seat?.seatCode) reservedSeats.add(r.seat.seatCode);
+      });
+    }
 
   } catch (err) {
     console.error('Error loading reservation:', err);

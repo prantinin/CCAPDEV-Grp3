@@ -6,7 +6,8 @@
     "slotName": "Lab 5, seat A2",
     "lab": null,
     "seat": null,
-    "timeSlot": "26"
+    "startTime": "0",
+    "endTime": "26"
   },
   {
     "userID": null,
@@ -15,7 +16,8 @@
     "slotName": "Lab 2, seat D4",
     "lab": null,
     "seat": null,
-    "timeSlot": "26"
+    "startTime": "10",
+    "endTIme": "26"
   },
   {
     "userID": null,
@@ -24,7 +26,8 @@
     "slotName": "Lab 3, seat C1",
     "lab": null,
     "seat": null,
-    "timeSlot": "26"
+    "startTime": "6",
+    "endTIme": "26"
   },
   {
     "userID": null,
@@ -33,7 +36,8 @@
     "slotName": "Lab 1, seat B3",
     "lab": null,
     "seat": null,
-    "timeSlot": "26"
+    "startTime": "19",
+    "endTIme": "26"
   },
   {
     "userID": null,
@@ -42,7 +46,8 @@
     "slotName": "Lab 1, seat A4",
     "lab": null,
     "seat": null,
-    "timeSlot": "26"
+    "startTime": "20",
+    "endTIme": "26"
   },
   {
     "userID": null,
@@ -51,7 +56,8 @@
     "slotName": "Lab 3, seat B3",
     "lab": null,
     "seat": null,
-    "timeSlot": "26"
+    "startTime": "25",
+    "endTIme": "26"
   },
   {
     "userID": null,
@@ -60,7 +66,8 @@
     "slotName": "Lab 4, seat B5",
     "lab": null,
     "seat": null,
-    "timeSlot": "26"
+    "startTime": "16",
+    "endTIme": "26"
   },
   {
     "userID": null,
@@ -69,6 +76,7 @@
     "slotName": "Lab 2, seat E5",
     "lab": null,
     "seat": null,
-    "timeSlot": "26"
+    "startTime": "4",
+    "endTIme": "26"
   }
 ]

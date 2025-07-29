@@ -35,66 +35,54 @@ exports.getCreateResStudent = (req, res) => {
 
 // /submit-reservation
 exports.postResStudent = async (req, res) => {
-  const { chosenSlot, resDate, timeSlot, anonymous } = req.body;
+  const { chosenSlot, resDate, startTime, endTime, anonymous } = req.body;
 
   try {
     const [ labNamePart, seatCodePart ] = chosenSlot.split(', seat ');
+
     const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
     const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
+    
     const now = new Date();
     const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
-    
-    if (!lab || !seat) {
-      console.log("Error: Lab or seat not found.");
-      return res.render('error', {
-        title: 'Invalid Reservation',
-        message: 'The selected lab or seat does not exist.'
+
+    // iterate through each time slot
+    for (let i = parseInt(startTime); i <= parseInt(endTime); i++) {
+      
+      // only makes new reservation if it doesn't exist (isn't booked)
+      let reservedSlot = await ReserveSchema.findOne({
+        slotName: chosenSlot,
+        lab: lab._id,
+        seat: seat._id,
+        timeSlot: i.toString(),
+        reservDate: new Date(resDate),
       });
-    } 
 
-    reservedSlot = await ReserveSchema.findOne({
-      slotName: chosenSlot,
-      lab: lab._id,
-      seat: seat._id,
-      timeSlot: timeSlot,
-      reservDate: new Date(resDate),
-    });
+      if (!reservedSlot) {
+          const newRes = new ReserveSchema({
+            userID: null,   // null for students page. will fix in session handling
+            userIdNum: null,
+            isAnon: anonymous,
+            slotName: chosenSlot,
+            lab: lab._id,
+            seat: seat._id,
+            timeSlot: i.toString(),
+            reservDate: new Date(resDate),
+            reqMade: phTimeNow
+          });
 
-    console.log('Found reservation:', reservedSlot);
-
-    // only makes new reservation if it doesn't exist (isn't booked)
-    if (!reservedSlot) {
-        // Get Maricarmen's user document
-        const maricarmen = await UserSchema.findOne({ idNum: 12406543 }).exec();
-
-        const newRes = new ReserveSchema({
-          /*
-          userID: null,   // null for students page. will fix in session handling
-          userIdNum: null,
-          */
-
-          //logged in as maricarmen for now
-          userID: maricarmen._id,
-          userIdNum: 12406543,
-
-          isAnon: anonymous,
-          slotName: chosenSlot,
-          lab: lab._id,
-          seat: seat._id,
-          timeSlot: timeSlot,
-          reservDate: new Date(resDate),
-          reqMade: phTimeNow
+          await newRes.save();
+      } else {
+        // In case user reserving a taken slot
+        return res.render('error', {
+          title: 'Reservation Error',
+          message: 'Oops! the slot you selected is already reserved.'
         });
-
-        await newRes.save();
-        return res.redirect('/createreserve?success=true');
-    } else {
-      // In case user reserving a taken slot
-      return res.render('error', {
-        title: 'Reservation Error',
-        message: 'Oops! the slot you selected is already reserved.'
-      });
+      }
     }
+
+    return res.redirect('/createreserve?success=true');
+    
   } catch (err) {
     console.log('Form or request body error');
     return res.render('error', {
@@ -102,6 +90,7 @@ exports.postResStudent = async (req, res) => {
       message: 'Something went wrong.'
     });
   }
+    
 };
 
 // /Tcreatereserve
@@ -114,9 +103,13 @@ exports.getCreateResTech = (req, res) => {
   });
 };
 
-// /Tsubmit-reservation
+
+// will get rid of this when session handling is done
+// i need url request for the student id to be finished
+
+// /Tsubmit-reservation 
 exports.postResTech = async (req, res) => {
-  const { studentID, chosenSlot, resDate, timeSlot, anonymous } = req.body;
+  const { studentID, chosenSlot, resDate, startTime, endTime, anonymous } = req.body;
   
   try {
     const [ labNamePart, seatCodePart ] = chosenSlot.split(', seat ');
@@ -124,40 +117,47 @@ exports.postResTech = async (req, res) => {
     const lab = await LabSchema.findOne({ labName : labNamePart }).exec();
     const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
     const studentUserID = await UserSchema.findOne({ idNum: studentID }).exec();
+    
     const now = new Date();
     const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
     
-    reservedSlot = await ReserveSchema.findOne({
-      slotName: chosenSlot,
-      lab: lab._id,
-      seat: seat._id,
-      timeSlot: timeSlot,
-      reservDate: new Date(resDate),
-    }).exec();
+    // iterate through each time slot
+    for (let i = parseInt(startTime); i <= parseInt(endTime); i++) {
+      
+      // only makes new reservation if it doesn't exist (isn't booked)
+      let reservedSlot = await ReserveSchema.findOne({
+        slotName: chosenSlot,
+        lab: lab._id,
+        seat: seat._id,
+        timeSlot: i.toString(),
+        reservDate: new Date(resDate),
+      }).exec();
 
-    // onot booked
-    if (!reservedSlot) {
-        const newRes = new ReserveSchema({
-          userID: studentUserID._id,
-          userIdNum: studentID,
-          isAnon: anonymous,
-          slotName: chosenSlot,
-          lab: lab._id,
-          seat: seat._id,
-          timeSlot: timeSlot,
-          reservDate: new Date(resDate),
-          reqMade: phTimeNow
+      if (!reservedSlot) {
+          const newRes = new ReserveSchema({
+            userID: studentUserID ? studentUserID._id : null,   // null for students page. will fix in session handling
+            userIdNum: studentID,
+            isAnon: anonymous,
+            slotName: chosenSlot,
+            lab: lab._id,
+            seat: seat._id,
+            timeSlot: i.toString(),
+            reservDate: new Date(resDate),
+            reqMade: phTimeNow
+          });
+
+          await newRes.save();
+      } else {
+        // In case user reserving a taken slot
+        return res.render('error', {
+          title: 'Reservation Error',
+          message: 'Oops! the slot you selected is already reserved.'
         });
-
-        await newRes.save();
-        return res.redirect('/Tcreatereserve?success=true');
-    } else {
-      // if taken
-      return res.render('error', {
-        title: 'Reservation Error',
-        message: 'Oops! the slot you selected is already reserved.'
-      });
+      }
     }
+    
+    return res.redirect('/Tcreatereserve?success=true');
+    
   } catch (err) {
     console.log('Form or request body error');
     return res.render('error', {
@@ -166,6 +166,109 @@ exports.postResTech = async (req, res) => {
     });
   }
 };
+
+/*
+exports.postResTech = async (req, res) => {
+  const { studentID, chosenSlot, resDate, timeSlot, anonymous } = req.body;
+
+  try {
+    // --- Parse slot ---
+    if (!chosenSlot || !chosenSlot.includes(', seat ')) {
+      return res.render('error', {
+        title: 'Slot Error',
+        message: 'Chosen slot format is invalid.'
+      });
+    }
+
+    const [labNamePart, seatCodePart] = chosenSlot.split(', seat ');
+    console.log('Parsed:', { labNamePart, seatCodePart });
+
+    // --- Fetch lab, seat, student ---
+    const lab = await LabSchema.findOne({ labName: labNamePart }).exec();
+    const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
+    const studentUser = await UserSchema.findOne({ idNum: studentID }).exec();
+
+    if (!lab || !seat) {
+      console.log('Missing lab or seat:', { lab, seat });
+      return res.render('error', {
+        title: 'Invalid Data',
+        message: 'Lab or seat not found.'
+      });
+    }
+
+    if (!studentUser) {
+      console.log('Student not found:', studentID);
+      return res.render('error', {
+        title: 'Invalid Student',
+        message: 'No matching student found for that ID.'
+      });
+    }
+
+    // --- Validate date and timeSlot ---
+    const parsedDate = new Date(resDate);
+    if (isNaN(parsedDate.getTime())) {
+      return res.render('error', {
+        title: 'Invalid Date',
+        message: 'The reservation date is invalid.'
+      });
+    }
+
+    const slotInt = parseInt(timeSlot);
+    if (isNaN(slotInt)) {
+      return res.render('error', {
+        title: 'Invalid Slot',
+        message: 'Time slot must be a valid number.'
+      });
+    }
+
+    const now = new Date();
+    const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
+
+    // --- Check if reservation already exists ---
+    const reservedSlot = await ReserveSchema.findOne({
+      slotName: chosenSlot,
+      lab: lab._id,
+      seat: seat._id,
+      timeSlot: slotInt.toString(),
+      reservDate: parsedDate,
+    }).exec();
+
+    if (reservedSlot) {
+      console.log('Slot already reserved');
+      return res.render('error', {
+        title: 'Reservation Error',
+        message: 'Oops! The slot you selected is already reserved.'
+      });
+    }
+
+    // --- Save reservation ---
+    const newRes = new ReserveSchema({
+      userID: studentUser._id,
+      userIdNum: studentID,
+      isAnon: anonymous,
+      slotName: chosenSlot,
+      lab: lab._id,
+      seat: seat._id,
+      timeSlot: slotInt.toString(),
+      reservDate: parsedDate,
+      reqMade: phTimeNow
+    });
+
+    console.log('Saving reservation:', newRes);
+    await newRes.save();
+
+    return res.redirect('/Tcreatereserve?success=true');
+    
+  } catch (err) {
+    console.error('Reservation submission error:', err);
+    return res.render('error', {
+      title: 'Render Error',
+      message: 'Something went wrong.'
+    });
+  }
+};
+*/
+
 
 // /viewreservs
 exports.getViewResStudent = async (req, res) => {   //student view

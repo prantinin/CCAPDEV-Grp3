@@ -47,18 +47,23 @@ const seedDatabase = async () => {
     const userReservDate = new Date(now.toISOString().split('T')[0]);
 
     // initializing reservations with new ids
-    const newRes = new ReserveSchema({
-      userID: user._id,
-      userIdNum: reserve.userIdNum,
-      isAnon: reserve.isAnon,
-      slotName: reserve.slotName,
-      lab: lab._id,
-      seat: seat._id,
-      timeSlot: reserve.timeSlot,
-      reservDate: userReservDate,
-      reqMade: new Date()
-    });
-    await newRes.save();
+    const startTime = reserve.startTime;
+    const endTime = reserve.endTime;
+    
+    for (let i = parseInt(startTime); i <= parseInt(endTime); i++) {
+      const newRes = new ReserveSchema({
+        userID: user._id,
+        userIdNum: reserve.userIdNum,
+        isAnon: reserve.isAnon,
+        slotName: reserve.slotName,
+        lab: lab._id,
+        seat: seat._id,
+        timeSlot: i.toString(),
+        reservDate: userReservDate,
+        reqMade: new Date()
+      });
+      await newRes.save();
+    }
   }
 }
 

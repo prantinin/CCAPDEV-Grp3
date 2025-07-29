@@ -39,5 +39,17 @@
   { "seatCode": "G2"},
   { "seatCode": "G3"},
   { "seatCode": "G4"},
-  { "seatCode": "G5"}
+  { "seatCode": "G5"},
+
+  { "seatCode": "H1"},
+  { "seatCode": "H2"},
+  { "seatCode": "H3"},
+  { "seatCode": "H4"},
+  { "seatCode": "H5"},
+  
+  { "seatCode": "I1"},
+  { "seatCode": "I2"},
+  { "seatCode": "I3"},
+  { "seatCode": "I4"},
+  { "seatCode": "I5"}
 ]

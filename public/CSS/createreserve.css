@@ -26,13 +26,13 @@
     color: black;
 }
 
-.timeSlot:disabled {
+.startTime:disabled, .endTime:disabled {
     cursor: not-allowed;
     background-color: #e5e7eb;
     color: #9CA3AF;
 }
 
-.timeSlot.active {
+.startTime.active, .endTime.active {
     cursor: pointer;
     background-color: white;
     color: black;

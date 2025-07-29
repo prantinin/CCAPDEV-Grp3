@@ -49,10 +49,18 @@
       <input type="date" id="resDate" name="resDate" class="resDate w-full p-2 rounded text-xl border mt-1" required disabled>
     </div>
 
-    <!-- Time Slot -->
+    <!-- Start Time -->
     <div>
-      <label for="timeSlot" class="text-2xl">Choose a Time Slot</label>
-      <select name="timeSlot" class="timeSlot w-full p-2 rounded border text-xl mt-1" required disabled>
+      <label for="startTime" class="text-2xl">Start of Reservation</label>
+      <select name="startTime" class="startTime w-full p-2 rounded border text-xl mt-1" required disabled>
+        <option value="">-- None --</option>
+      </select>
+    </div>
+
+    <!-- End Time -->
+    <div>
+      <label for="endTime" class="text-2xl">End of Reservation</label>
+      <select name="endTime" class="endTime w-full p-2 rounded border text-xl mt-1" required disabled>
         <option value="">-- None --</option>
       </select>
     </div>
