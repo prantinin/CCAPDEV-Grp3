@@ -174,7 +174,7 @@ exports.getViewResStudent = async (req, res) => {   //student view
   const { id } = req.body;
 
   try {
-    const user = await UserSchema.findOne(id: user)
+    const user = await UserSchema.findOne({id: user}).exec();
     const rawReservations = await ReserveSchema.find({ userIdNum: user.idNum })
       .populate('lab')
       .populate('seat')
