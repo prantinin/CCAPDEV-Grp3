@@ -1,4 +1,5 @@
 const UserSchema = require('../models/Users');
+const bcrypt = require('bcrypt');
 
 exports.getLogin = (req, res) => {
   res.render('login', {
@@ -10,17 +11,26 @@ exports.getLogin = (req, res) => {
 exports.postLogin = async (req, res) => {
   const { email, password } = req.body;
 
+  //console.log(email, password);
   try {
     const user = await UserSchema.findOne({ email });
 
     if (!user) {
+      console.log('User not found');
       return res.send('User not found');
     }
 
-    if (password !== user.password) {
+    console.log('Entered password:', password);
+    console.log('Stored hashed password:', user.password);
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    console.log('Password match:', isMatch);
+
+    if (!isMatch) {
       return res.send('Incorrect password');
     }
 
+    //req.session.user = { email: user.email };
     res.redirect('/createreserve');
   } catch (err) {
     console.error(err);
@@ -55,13 +65,16 @@ exports.postRegister = async (req, res) => {
       return res.send('An account with this email already exists');
     }
 
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = new UserSchema({
       fName: fname,
       lName: lname,
-      email, 
-      password,
+      email,
+      password: hashedPassword,
       idNum,
-      isTech: role === 'student',
+      isTech: false, // Default to student
       profPic: '',
       profDesc: ''
     });
