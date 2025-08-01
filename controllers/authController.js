@@ -61,7 +61,7 @@ exports.postRegister = async (req, res) => {
       email, 
       password,
       idNum,
-      isTech: role === 'technician',
+      isTech: role === 'student',
       profPic: '',
       profDesc: ''
     });

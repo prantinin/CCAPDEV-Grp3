@@ -167,116 +167,15 @@ exports.postResTech = async (req, res) => {
   }
 };
 
-/*
-exports.postResTech = async (req, res) => {
-  const { studentID, chosenSlot, resDate, timeSlot, anonymous } = req.body;
-
-  try {
-    // --- Parse slot ---
-    if (!chosenSlot || !chosenSlot.includes(', seat ')) {
-      return res.render('error', {
-        title: 'Slot Error',
-        message: 'Chosen slot format is invalid.'
-      });
-    }
-
-    const [labNamePart, seatCodePart] = chosenSlot.split(', seat ');
-    console.log('Parsed:', { labNamePart, seatCodePart });
-
-    // --- Fetch lab, seat, student ---
-    const lab = await LabSchema.findOne({ labName: labNamePart }).exec();
-    const seat = await SeatSchema.findOne({ seatCode: seatCodePart }).exec();
-    const studentUser = await UserSchema.findOne({ idNum: studentID }).exec();
-
-    if (!lab || !seat) {
-      console.log('Missing lab or seat:', { lab, seat });
-      return res.render('error', {
-        title: 'Invalid Data',
-        message: 'Lab or seat not found.'
-      });
-    }
-
-    if (!studentUser) {
-      console.log('Student not found:', studentID);
-      return res.render('error', {
-        title: 'Invalid Student',
-        message: 'No matching student found for that ID.'
-      });
-    }
-
-    // --- Validate date and timeSlot ---
-    const parsedDate = new Date(resDate);
-    if (isNaN(parsedDate.getTime())) {
-      return res.render('error', {
-        title: 'Invalid Date',
-        message: 'The reservation date is invalid.'
-      });
-    }
-
-    const slotInt = parseInt(timeSlot);
-    if (isNaN(slotInt)) {
-      return res.render('error', {
-        title: 'Invalid Slot',
-        message: 'Time slot must be a valid number.'
-      });
-    }
-
-    const now = new Date();
-    const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
-
-    // --- Check if reservation already exists ---
-    const reservedSlot = await ReserveSchema.findOne({
-      slotName: chosenSlot,
-      lab: lab._id,
-      seat: seat._id,
-      timeSlot: slotInt.toString(),
-      reservDate: parsedDate,
-    }).exec();
-
-    if (reservedSlot) {
-      console.log('Slot already reserved');
-      return res.render('error', {
-        title: 'Reservation Error',
-        message: 'Oops! The slot you selected is already reserved.'
-      });
-    }
-
-    // --- Save reservation ---
-    const newRes = new ReserveSchema({
-      userID: studentUser._id,
-      userIdNum: studentID,
-      isAnon: anonymous,
-      slotName: chosenSlot,
-      lab: lab._id,
-      seat: seat._id,
-      timeSlot: slotInt.toString(),
-      reservDate: parsedDate,
-      reqMade: phTimeNow
-    });
-
-    console.log('Saving reservation:', newRes);
-    await newRes.save();
-
-    return res.redirect('/Tcreatereserve?success=true');
-    
-  } catch (err) {
-    console.error('Reservation submission error:', err);
-    return res.render('error', {
-      title: 'Render Error',
-      message: 'Something went wrong.'
-    });
-  }
-};
-*/
-
 
 // /viewreservs
 exports.getViewResStudent = async (req, res) => {   //student view
 
-  const maricarmenIdNum = 12406543;
+  const { id } = req.body;
 
   try {
-    const rawReservations = await ReserveSchema.find({ userIdNum: maricarmenIdNum })
+    const user = await UserSchema.findOne(id: user)
+    const rawReservations = await ReserveSchema.find({ userIdNum: user.idNum })
       .populate('lab')
       .populate('seat')
       .populate('userID')
