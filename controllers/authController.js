@@ -1,6 +1,11 @@
 const UserSchema = require('../models/Users');
 const bcrypt = require('bcrypt');
 
+exports.getLogout = (req, res) => {
+  req.session.destroy();
+  res.redirect('/login');
+};
+
 exports.getLogin = (req, res) => {
   res.render('login', {
     title: 'Labubuddy | Login',
@@ -9,9 +14,8 @@ exports.getLogin = (req, res) => {
 };
 
 exports.postLogin = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, rememberMe } = req.body;
 
-  //console.log(email, password);
   try {
     const user = await UserSchema.findOne({ email });
 
@@ -20,17 +24,32 @@ exports.postLogin = async (req, res) => {
       return res.send('User not found');
     }
 
-    console.log('Entered password:', password);
-    console.log('Stored hashed password:', user.password);
+    //console.log('Entered password:', password);
+    //console.log('Stored hashed password:', user.password);
 
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log('Password match:', isMatch);
+    //console.log('Password match:', isMatch);
 
     if (!isMatch) {
       return res.send('Incorrect password');
     }
 
-    //req.session.user = { email: user.email };
+    // Set session user data
+    req.session.user = {
+      id: user._id,
+      fName: user.fName,
+      lName: user.lName,
+      email: user.email,
+      isTech: user.isTech
+    };
+
+    // Session management for "Remember Me"
+    if (rememberMe) {
+      req.session.cookie.maxAge = 21 * 24 * 60 * 60 * 1000; // 3 weeks
+    } else {
+      req.session.cookie.expires = false;
+    }
+
     res.redirect('/createreserve');
   } catch (err) {
     console.error(err);

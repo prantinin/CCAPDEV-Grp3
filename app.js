@@ -1,5 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
+const session = require('express-session');
 const mongoose = require('mongoose');
 const path = require('path');
 
@@ -68,6 +69,16 @@ app.use((req, res, next) => {
 // For Login - Remember Function
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
+
+// Session management
+app.use(session({
+  secret: 'LabubuddySecretKey123!',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
+  }
+}));
 
 // Start server
 app.listen(port, () => {

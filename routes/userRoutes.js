@@ -1,17 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const { isAuthenticated, isStudent, isTechnician } = require('../middleware/auth');
 
-router.get('/viewprofile/:idNum', userController.getViewProfileStudent);
+router.get('/viewprofile/:idNum', isAuthenticated, userController.getViewProfileStudent);
 
-router.get('/profile/:email', userController.getViewProfileTech);
+router.get('/profile/:email', isAuthenticated, userController.getViewProfileTech);
 
-router.get('/editprofile/:idNum', userController.getEditProfile);
-router.post('/editprofile/:idNum', userController.uploadProfilePicture, userController.postEditProfile);
+router.get('/editprofile/:idNum', isAuthenticated, userController.getEditProfile);
+router.post('/editprofile/:idNum', isAuthenticated, userController.uploadProfilePicture, userController.postEditProfile);
 
-router.get('/searchusers', userController.getSearchUsers);
-router.post('/searchusers', userController.postSearchUsers);
+router.get('/searchusers', isAuthenticated, userController.getSearchUsers);
+router.post('/searchusers', isAuthenticated, userController.postSearchUsers);
 
-router.delete('/deleteaccount/:idNum', userController.deleteAccount);
+router.delete('/deleteaccount/:idNum', isAuthenticated, userController.deleteAccount);
 
 module.exports = router;
