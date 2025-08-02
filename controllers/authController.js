@@ -39,8 +39,11 @@ exports.postLogin = async (req, res) => {
       id: user._id,
       fName: user.fName,
       lName: user.lName,
+      idNum: user.idNum,
       email: user.email,
-      isTech: user.isTech
+      isTech: user.isTech,
+      profPic: user.profPic,
+      profDesc: user.profDesc
     };
 
     // Session management for "Remember Me"
@@ -50,7 +53,7 @@ exports.postLogin = async (req, res) => {
       req.session.cookie.expires = false;
     }
 
-    res.redirect('/createreserve');
+    res.redirect('/createreserve/' + user.idNum);
   } catch (err) {
     console.error(err);
     res.send('Login failed');
@@ -65,7 +68,7 @@ exports.getRegister = (req, res) => {
 };
 
 exports.postRegister = async (req, res) => {
-  const { fname, lname, email, password, confirmPassword, role, idNum } = req.body;
+  const { fname, lname, email, password, confirmPassword, idNum } = req.body;
 
   if (password !== confirmPassword) {
     return res.send('Passwords do not match');

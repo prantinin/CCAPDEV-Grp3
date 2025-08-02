@@ -28,14 +28,35 @@ transition-transform duration-300 sidebar" id="sidebar">
 
     <hr class="border border-[#ccc] w-full my-4" />
 
-    <a href="/createreserve" class="px-4 py-3 block no-underline font-dongle-light 
+    {{#if user.isTech}}
+
+    <!-- Technician Create Reservation -->
+    <a href="/Tcreatereserve" class="px-4 py-3 block no-underline font-dongle-light 
     text-[2vw] text-white transition-colors duration-300 hover:text-[#14AE5C]">
     Create Reservation
     </a>
-    <a href="/viewreservs" class="px-4 py-3 block no-underline 
+
+    <!-- Technician View Reservation -->
+    <a href="/tfilterreservs" class="px-4 py-3 block no-underline 
     font-dongle-light text-[2vw] text-white transition-colors duration-300 hover:text-[#14AE5C]">
     View Reservations
     </a>
+
+    {{else}}    
+
+    <!-- Student Create Reservation -->
+    <a href="/createreserve/{{user.idNum}}" class="px-4 py-3 block no-underline font-dongle-light 
+    text-[2vw] text-white transition-colors duration-300 hover:text-[#14AE5C]">
+    Create Reservation
+    </a>
+
+    <!-- Student View Reservation -->
+    <a href="/viewreservs/{{user.idNum}}" class="px-4 py-3 block no-underline 
+    font-dongle-light text-[2vw] text-white transition-colors duration-300 hover:text-[#14AE5C]">
+    View Reservations
+    </a>
+
+    {{/if}}
 
     <hr class="border border-[#ccc] w-full my-4" />
 </div>

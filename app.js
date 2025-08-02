@@ -16,6 +16,22 @@ const port = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Session management
+app.use(session({
+  secret: 'LabubuddySecretKey123!',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
+  }
+}));
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
+
+// Routes
 app.use('/', pageRoutes);
 app.use('/', authRoutes);
 app.use('/', userRoutes);
@@ -69,16 +85,6 @@ app.use((req, res, next) => {
 // For Login - Remember Function
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
-
-// Session management
-app.use(session({
-  secret: 'LabubuddySecretKey123!',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 24 * 60 * 60 * 1000 // 1 day
-  }
-}));
 
 // Start server
 app.listen(port, () => {

@@ -22,6 +22,13 @@ const seedDatabase = async () => {
   const seatsdata = require('./data/seatsdata.json');
   const labsdata = require('./data/labsdata.json');
 
+  const bcrypt = require('bcrypt');
+
+  for (const user of usersdata) {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
+  }
+
   await UserSchema.insertMany(usersdata);
   await SeatSchema.insertMany(seatsdata);
   await LabSchema.insertMany(labsdata);
