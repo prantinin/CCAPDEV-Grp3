@@ -24,10 +24,12 @@ exports.getViewProfileStudent = async (req, res) => {
       return res.status(404).render('error', { title: 'User Not Found' });
     }   
     const transformedReservations = reservations.map(reservation => {
-      const timeSlotIndex = parseInt(reservation.timeSlot);
+      const startTimeIndex = parseInt(reservation.startTime);
+      const endTimeIndex = parseInt(reservation.endTime);
       return {
         ...reservation,
-        timeSlotDisplay: timeLabels[timeSlotIndex] || 'Invalid time slot'
+        startTimeLabel: timeLabels[startTimeIndex] || 'Invalid start time',
+        endTimeLabel: timeLabels[endTimeIndex] || 'Invalid end time'
       };
     });
     res.render('viewprofile', {
@@ -61,12 +63,23 @@ exports.getMyProfile = async (req, res) => {
 
     const reservations = await ReserveSchema.find({ userIdNum: user.idNum }).lean();
     
+    // Transform reservations to include time labels
+    const transformedReservations = reservations.map(reservation => {
+      const startTimeIndex = parseInt(reservation.startTime);
+      const endTimeIndex = parseInt(reservation.endTime);
+      return {
+        ...reservation,
+        startTimeLabel: timeLabels[startTimeIndex] || 'Invalid start time',
+        endTimeLabel: timeLabels[endTimeIndex] || 'Invalid end time'
+      };
+    });
+    
     res.render('viewprofile', {
       title: 'Labubuddy | My Profile',
       roleTitle: user.isTech ? 'Technician' : 'Student',
       user: user,
       currentUser: req.session.user,
-      reservations: reservations,
+      reservations: transformedReservations,  // Use transformed reservations
       isOwnProfile: true
     });
     
