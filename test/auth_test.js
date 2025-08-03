@@ -1,6 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../app'); // adjust path as needed
+const app = require('../app');
 const mongoose = require('mongoose');
 const User = require('../models/Users');
 const ErrorModel = require('../models/Errors');
