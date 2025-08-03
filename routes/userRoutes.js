@@ -4,6 +4,7 @@ const userController = require('../controllers/userController');
 const { isAuthenticated, isStudent, isTechnician } = require('../middleware/auth');
 
 router.get('/viewprofile/:idNum', isAuthenticated, userController.getViewProfileStudent);
+router.get('/MyProfile', isAuthenticated, userController.getMyProfile);
 
 router.get('/profile/:email', isAuthenticated, userController.getViewProfileTech);
 
