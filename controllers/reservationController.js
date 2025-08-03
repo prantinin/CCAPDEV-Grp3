@@ -20,49 +20,52 @@ function formatReservation(r) {
     email: r.isAnon ? null : r.userID?.email,
     anonymous: r.isAnon,
     userId: r.userIdNum || 'No ID',
-    canDelete: canDelete(r)
+    canDelete: canDelete(r) || 'true'
   };
 }
 
 //Can delete within first 10 minutes of reservation start
-function canDelete(reservation) {
-  if (!reservation || reservation.startTime == null || !reservation.reservDate) {
+function canDelete(reservation, req, timeLabels) {
+  const user = req?.session?.user;
+
+  if (!user || !reservation || reservation.startTime == null || !reservation.reservDate) {
     return false;
   }
 
-  if (sessionUser.role === 'Student') {
-    return true;
+  // If the user is a student, allow deletion unconditionally
+  if (!user.isTech) return true;
+
+  // Only proceed if the user is a technician
+  const now = new Date();
+  const reservDate = new Date(reservation.reservDate);
+
+  // Check if the reservation is on the same day
+  if (now.toDateString() !== reservDate.toDateString()) {
+    return false;
   }
 
-  if (sessionUser.role === 'Technician') {
-    const now = new Date();
-    const reservDate = new Date(reservation.reservDate);
-    const isSameDay = now.toDateString() === reservDate.toDateString();
+  // Convert startTime index to actual time string from timeLabels array
+  const timeStr = timeLabels?.[parseInt(reservation.startTime)];
+  if (!timeStr) return false;
 
-    if (!isSameDay) return false;
+  // Parse time string like "04:00 PM"
+  const [time, meridian] = timeStr.trim().split(' ');
+  const [hourStr, minuteStr] = time.split(':');
+  let hour = parseInt(hourStr, 10);
+  const minute = parseInt(minuteStr, 10);
 
-    // Convert startTime index to actual time string
-    const timeStr = timeLabels[parseInt(reservation.startTime)];
-    if (!timeStr) return false;
+  if (meridian === 'PM' && hour !== 12) hour += 12;
+  if (meridian === 'AM' && hour === 12) hour = 0;
 
-    // Parse time string like "04:00 PM"
-    const [time, meridian] = timeStr.split(' ');
-    const [hourStr, minuteStr] = time.split(':');
-    let hour = parseInt(hourStr, 10);
-    const minute = parseInt(minuteStr, 10);
+  const reservStartMinutes = hour * 60 + minute;
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
 
-    if (meridian === 'PM' && hour !== 12) hour += 12;
-    if (meridian === 'AM' && hour === 12) hour = 0;
+  const timeDiff = nowMinutes - reservStartMinutes;
 
-    const reservStartMinutes = hour * 60 + minute;
-    const nowMinutes = now.getHours() * 60 + now.getMinutes();
-
-    const diff = nowMinutes - reservStartMinutes;
-    return diff >= 0 && diff <= 10;
-  }
-
-  return false;
+  // Allow deletion if we're within the first 10 minutes of the start time
+  return timeDiff >= 0 && timeDiff <= 10;
 }
+
 
 // /createreserve
 exports.getCreateResStudent = (req, res) => {
@@ -328,7 +331,7 @@ exports.getFilterResTech = async (req, res) => {
 exports.deleteReservation = async (req, res) => {
   try {
     await ReserveSchema.findByIdAndDelete(req.params.id);
-    
+
     const referer = req.get('Referer') || '/viewreservs';
     res.redirect(referer);
   } catch (error) {
@@ -336,75 +339,6 @@ exports.deleteReservation = async (req, res) => {
     res.status(500).send("Failed to delete reservation.");
   }
 };
-
-/*
-exports.deleteReservation = async (req, res) => {
-  try {
-
-    //if cannot delete
-    if (!canDelete(reservation)) 
-    {
-      return res.render('error', 
-      {
-        title: 'Cannot Delete',
-        message: 'You can only delete a reservation within the first 10 minutes of its start time.'
-      });
-    }
-    else if (canDelete(reservation))
-    {
-      await ReserveSchema.findByIdAndDelete(req.params.id);
-    
-      const referer = req.get('Referer') || '/viewreservs';
-      res.redirect(referer);
-    }
-  }
-  catch (error) {
-    console.error("Error deleting reservation:", error);
-    res.status(500).send("Failed to delete reservation.");
-  }
-};
-
-
-
-exports.deleteReservation = async (req, res) => {
-  try {
-    const referer = req.get('Referer') || '/viewreservs';
-    const reservation = await ReserveSchema.findById(req.params.id);
-
-    if (!reservation) {
-      return res.status(404).render('error', {
-        title: 'Not Found',
-        message: 'Reservation does not exist.'
-      });
-    }
-
-    // Assume role is stored in req.session or req.user
-    const role = req.session?.role || req.user?.role;
-
-    if (role === 'technician') {
-      if (!canDelete(reservation)) {
-        return res.render('error', {
-          title: 'Cannot Delete',
-          message: 'Technicians can only delete reservations within the first 10 minutes of their start time.'
-        });
-      }
-    }
-
-    // Students or valid technician can proceed
-    await reservation.deleteOne();
-    res.redirect(referer);
-
-  } catch (error) {
-    console.error('Error deleting reservation:', error);
-    res.status(500).render('error', {
-      title: 'Deletion Failed',
-      message: 'Something went wrong while trying to delete the reservation.'
-    });
-  }
-};
-*/
-
-  
 
 // /editres/:id
 exports.getEditRes = async (req, res) => {
