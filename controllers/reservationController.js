@@ -463,7 +463,7 @@ exports.getEditTRes = async (req, res) => {
 };
 
 exports.postEditRes = async (req, res) => {
-  const { chosenSlot, resDate, timeSlot, anonymous } = req.body;
+  const { chosenSlot, resDate, startTime, endTime, anonymous } = req.body;
   const reservationId = req.params.id;
 
   try {
@@ -485,8 +485,15 @@ exports.postEditRes = async (req, res) => {
       slotName: chosenSlot,
       lab: lab._id,
       seat: seat._id,
-      timeSlot: timeSlot,
-      reservDate: new Date(resDate)
+      //timeSlot: timeSlot,
+      //reservDate: new Date(resDate)
+      reservDate: new Date (resDate),
+      $or: [
+        {
+          startTime: { $lt: endTime},
+          endTime: { $gt: startTime}
+        }
+      ]
     });
 
     if (conflictingRes) {
@@ -508,7 +515,9 @@ exports.postEditRes = async (req, res) => {
     reservationToEdit.slotName = chosenSlot;
     reservationToEdit.lab = lab._id;
     reservationToEdit.seat = seat._id;
-    reservationToEdit.timeSlot = timeSlot;
+    //reservationToEdit.timeSlot = timeSlot;
+    reservationToEdit.startTime = startTime;
+    reservationToEdit.endTime = endTime;
     reservationToEdit.reservDate = new Date(resDate);
     reservationToEdit.isAnon = anonymous;
     reservationToEdit.reqMade = phTimeNow;
