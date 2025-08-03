@@ -283,7 +283,7 @@ exports.getViewResTech = async (req, res) => {
       .lean();
 
     //const formattedReservations = reservations.map(formatReservation);
-    const formattedReservations = rawReservations.map(r => ({   //new
+    const formattedReservations = reservations.map(r => ({
       ...formatReservation(r),
       canDelete: canDelete(r, req, timeLabels)
     }));
@@ -383,10 +383,10 @@ exports.getEditRes = async (req, res) => {
 
     const labs = await LabSchema.find();
 
-        const labsClean = labs.map(lab => ({
-  value: lab._id.toString(),
-  name: lab.labName
-}));
+    const labsClean = labs.map(lab => ({
+      value: lab._id.toString(),
+      name: lab.labName
+    }));
 
 
     // Format the reservation date
@@ -397,9 +397,11 @@ exports.getEditRes = async (req, res) => {
       lab: reservation.lab.labName,
       labId: reservation.lab._id.toString(),
       seat: reservation.seat?.seatCode,
+      chosenSlot: reservation.slotName,
       startTime: timeLabels[parseInt(reservation.startTime)] || 'Unknown',
       endTime: timeLabels[parseInt(reservation.endTime)] || 'Unknown',
-      timeSlot: reservation.timeSlot,
+      startTimeIndex: reservation.startTime,
+      endTimeIndex: reservation.endTime,
       reservDate: formattedDate,
       editId: reservation._id,
       success: req.query.success === 'true',

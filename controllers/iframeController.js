@@ -24,6 +24,9 @@ exports.getResIframe = async (req, res) => {
 
     labID = await LabSchema.findOne({ labName: `Lab ${lab}` }).exec();
     console.log(`Lab ${lab}`);
+    console.log(labID? "True" : "False");
+    console.log('Lab ID:', labID);
+
     if (!labID) {
       console.error(`Lab not found for query: ${lab}`);
       return res.render('reserveiframe', {
