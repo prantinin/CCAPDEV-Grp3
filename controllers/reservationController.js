@@ -283,7 +283,11 @@ exports.getViewResTech = async (req, res) => {
       .lean();
 
     //const formattedReservations = reservations.map(formatReservation);
+<<<<<<< Updated upstream
     const formattedReservations = reservations.map(r => ({
+=======
+    const formattedReservations = reservations.map(r => ({   //new
+>>>>>>> Stashed changes
       ...formatReservation(r),
       canDelete: canDelete(r, req, timeLabels)
     }));
