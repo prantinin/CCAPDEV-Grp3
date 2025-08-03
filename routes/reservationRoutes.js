@@ -15,7 +15,7 @@ router.get('/tviewreservs', isAuthenticated, isTechnician, reservationController
 router.get('/tfilterreservs', isAuthenticated, isTechnician, reservationController.getFilterResTech);
 
 router.get('/editreserve/:id', isAuthenticated, reservationController.getEditRes);
-router.post('/editreserve/', isAuthenticated, reservationController.postEditRes);
+router.post('/editreserve/:id', isAuthenticated, reservationController.postEditRes);
 
 router.get('/Teditreserve/:id', isAuthenticated, reservationController.getEditRes);
 

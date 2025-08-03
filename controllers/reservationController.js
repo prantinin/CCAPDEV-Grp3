@@ -422,6 +422,8 @@ exports.getEditTRes = async (req, res) => {
       seat: reservation.seat?.seatCode,
       startTime: timeLabels[parseInt(reservation.startTime)] || 'Unknown',
       endTime: timeLabels[parseInt(reservation.endTime)] || 'Unknown',
+      startTimeIndex: reservation.startTime,
+      endTimeIndex: reservation.endTime,
       timeSlot: reservation.timeSlot,
       reservDate: formattedDate,
       editId: reservation._id,
