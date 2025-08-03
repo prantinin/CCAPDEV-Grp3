@@ -23,13 +23,13 @@ describe('Auth Controller', () => {
       chai.request(app)
         .post('/register')
         .send({
-          fname: 'Test',
-          lname: 'User',
-          email: 'test@example.com',
-          password: 'password123',
-          confirmPassword: 'password123',
+          fname: 'Timothy',
+          lname: 'Ortiz',
+          email: 'timothy_ortiz@dlsu.edu.ph',
+          password: 'iLoveChikkieNuggies123',
+          confirmPassword: 'iLoveChikkieNuggies123',
           role: 'student',
-          idNum: '12101234'
+          idNum: '12304567'
         })
         .end(async (err, res) => {
           expect(res).to.have.status(200);
@@ -45,8 +45,8 @@ describe('Auth Controller', () => {
       chai.request(app)
         .post('/login')
         .send({
-          email: 'test@example.com',
-          password: 'password123'
+          email: 'timothy_ortiz@dlsu.edu.ph',
+          password: 'iLoveChikkieNuggies123'
         })
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -58,7 +58,7 @@ describe('Auth Controller', () => {
       chai.request(app)
         .post('/login')
         .send({
-          email: 'test@example.com',
+          email: 'timothy_ortiz@dlsu.edu.ph',
           password: 'wrongpassword'
         })
         .end(async (err, res) => {

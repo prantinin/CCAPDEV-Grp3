@@ -20,7 +20,7 @@ describe('User Controller', () => {
     const agent = chai.request.agent(app);
     agent
       .post('/login')
-      .send({ email: 'test@example.com', password: 'password123' })
+      .send({ email: 'timothy_ortiz@dlsu.edu.ph', password: 'iLoveChikkieNuggies123' })
       .end(() => {
         agent.get('/profile')
           .end((err, res) => {
