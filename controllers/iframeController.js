@@ -20,12 +20,32 @@ exports.getResIframe = async (req, res) => {
   let labID;
 
   try {
+    /*
     // Find Lab by name
-
     labID = await LabSchema.findOne({ labName: `Lab ${lab}` }).exec();
     console.log(`Lab ${lab}`);
+    */
+
+    /*
     console.log(labID? "True" : "False");
     console.log('Lab ID:', labID);
+    */
+
+// Find Lab by ID or name
+    let labID;
+    if (mongoose.Types.ObjectId.isValid(lab)) {
+      // If lab is a valid ObjectId, find by ID
+      labID = await LabSchema.findById(lab).exec();
+      console.log(`Looking for lab by ID: ${lab}`);
+    } else {
+      // If lab is a name, find by name
+      let labName = lab;
+      if (!lab.startsWith('Lab ')) {
+        labName = `Lab ${lab}`;
+      }
+      labID = await LabSchema.findOne({ labName: labName }).exec();
+      console.log(`Looking for lab by name: ${labName}`);
+    }
 
     if (!labID) {
       console.error(`Lab not found for query: ${lab}`);

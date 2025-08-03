@@ -68,7 +68,8 @@ function allowFields() {
   const endFilled = endTime.value;
   const labFilled = labSelect.value;
 
-  [lab, date, start, end].forEach(input => {
+  //[lab, date, start, end].forEach(input => {
+  [labSelect, resDate, startTime, endTime].forEach(input => {
     input.addEventListener("change", loadIframe);
   });
 
