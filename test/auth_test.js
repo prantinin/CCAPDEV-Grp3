@@ -12,6 +12,7 @@ describe('Auth Controller', () => {
   before(async () => {
     await mongoose.connect('mongodb://127.0.0.1:27017/labubuddiesDB');
     await User.deleteMany({});
+    await ErrorModel.deleteMany({});
   });
 
   after(async () => {
@@ -33,7 +34,7 @@ describe('Auth Controller', () => {
         })
         .end(async (err, res) => {
           expect(res).to.have.status(200);
-          const user = await User.findOne({ email: 'test@example.com' });
+          const user = await User.findOne({ email: 'timothy_ortiz@dlsu.edu.ph' });
           expect(user).to.not.be.null;
           done();
         });
@@ -54,7 +55,7 @@ describe('Auth Controller', () => {
         });
     });
 
-    it('should log error on wrong password', done => {
+    it('should not log to DB on incorrect password', done => {
       chai.request(app)
         .post('/login')
         .send({
@@ -64,7 +65,7 @@ describe('Auth Controller', () => {
         .end(async (err, res) => {
           expect(res.text).to.include('Incorrect password');
           const loggedError = await ErrorModel.findOne({ location: 'authController.postLogin' });
-          expect(loggedError).to.be.null; // Should not log for incorrect password
+          expect(loggedError).to.be.null; // Shouldn't log auth errors unless unhandled
           done();
         });
     });
