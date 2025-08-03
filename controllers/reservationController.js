@@ -21,7 +21,6 @@ function formatReservation(r) {
     email: r.isAnon ? null : r.userID?.email,
     anonymous: r.isAnon,
     userId: r.userIdNum || 'No ID',
-    canDelete: canDelete(r) || 'true'
   };
 }
 
@@ -236,7 +235,11 @@ exports.getViewResStudent = async (req, res) => {   //student view
       .populate('userID')
       .lean();
 
-    const formattedReservations = rawReservations.map(formatReservation);
+    //const formattedReservations = rawReservations.map(formatReservation);
+    const formattedReservations = rawReservations.map(r => ({   //new
+      ...formatReservation(r),
+      canDelete: canDelete(r, req, timeLabels)
+    }));
 
     res.render('viewreservs', {
       title: 'Labubuddy | View Reservations',
@@ -279,7 +282,11 @@ exports.getViewResTech = async (req, res) => {
       .populate('userID')
       .lean();
 
-    const formattedReservations = reservations.map(formatReservation);
+    //const formattedReservations = reservations.map(formatReservation);
+    const formattedReservations = rawReservations.map(r => ({   //new
+      ...formatReservation(r),
+      canDelete: canDelete(r, req, timeLabels)
+    }));
     const availableSeats = 40 - reservations.length;
 
     const isFiltered = lab && date && startTime && endTime;
@@ -343,6 +350,17 @@ exports.getFilterResTech = async (req, res) => {
 
 exports.deleteReservation = async (req, res) => {
   try {
+    const reservation = await ReserveSchema.findById(req.params.id)
+    .populate('lab seat');
+
+    if(!reservation){
+      return res.status(404).send('Reservation not found')
+    }
+
+    if(!canDelete(reservation, req, timeLabels)){
+      return res.status(403).send('You do not have permission to delete this reservation');
+    }
+
     await ReserveSchema.findByIdAndDelete(req.params.id);
 
     const referer = req.get('Referer') || '/viewreservs';
