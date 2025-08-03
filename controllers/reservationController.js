@@ -471,6 +471,7 @@ exports.getEditTRes = async (req, res) => {
   }
 };
 
+
 exports.postEditRes = async (req, res) => {
   const { chosenSlot, resDate, startTime, endTime, anonymous } = req.body;
   const reservationId = req.params.id;
@@ -533,7 +534,8 @@ exports.postEditRes = async (req, res) => {
 
     await reservationToEdit.save();
 
-    return res.redirect('tviewreservs?success=true');
+    return res.redirect(`/viewreservs/${reservationToEdit.userIdNum}?success=true`);
+
   } catch (err) {
     await logError(err, 'reservationController.postEditRes');
     console.error('Form or request body error:', err);
@@ -543,6 +545,7 @@ exports.postEditRes = async (req, res) => {
     });
   }
 };
+
 
 exports.postEditTRes = async (req, res) => {
   const { chosenSlot, resDate, startTime, endTime, anonymous } = req.body;
@@ -608,6 +611,7 @@ exports.postEditTRes = async (req, res) => {
     await reservationToEdit.save();
 
     return res.redirect('/tviewreservs?success=true');
+    
   } catch (err) {
     await logError(err, 'reservationController.postEditTRes');
     console.error('Form or request body error:', err);
