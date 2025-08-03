@@ -7,7 +7,7 @@
     "lab": null,
     "seat": null,
     "startTime": "0",
-    "endTime": "26"
+    "endTime": "10"
   },
   {
     "userID": null,
@@ -36,8 +36,8 @@
     "slotName": "Lab 1, seat B3",
     "lab": null,
     "seat": null,
-    "startTime": "19",
-    "endTime": "26"
+    "startTime": "16",
+    "endTime": "20"
   },
   {
     "userID": null,
@@ -67,7 +67,7 @@
     "lab": null,
     "seat": null,
     "startTime": "16",
-    "endTime": "26"
+    "endTime": "24"
   },
   {
     "userID": null,
@@ -76,7 +76,7 @@
     "slotName": "Lab 2, seat E5",
     "lab": null,
     "seat": null,
-    "startTime": "4",
+    "startTime": "24",
     "endTime": "26"
   }
 ]
