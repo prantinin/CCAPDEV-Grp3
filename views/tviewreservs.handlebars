@@ -13,7 +13,7 @@
             <div class="flex ml-4 mt-3 h-8 w-8">
               <img src="/Assets/images/searchicon.png" />
             </div>
-            <div class="flex text-gray-500 text-[17px] flex-col ml-4">
+            <div class="flex text-gray-500 text-xl flex-col ml-4">
               {{#if isFiltered}}
                 <p><strong>Lab:</strong> {{filter.lab}}</p>
                 <p><strong>Date:</strong> {{filter.date}} – {{filter.time}}</p>
@@ -27,11 +27,11 @@
 
         <div id="edit-stuff" class="flex flex-col ml-auto">
           {{#if isFiltered}}
-            <div class="flex items-center justify-center">
+            <div class="flex items-center justify-center text-xl">
               <p><strong>{{availableSeats}}</strong> Seats Available</p>
             </div>
           {{/if}}
-          <div class="flex justify-center w-52 bg-[#14AE5C] px-6 py-1.5 rounded-full text-white text-xl font-medium mt-3 shadow">
+          <div class="flex justify-center w-52 bg-[#14AE5C] px-6 py-1.5 rounded-full text-white text-2xl font-medium mt-3 shadow">
             <form method="GET" action="/Tcreatereserve">
               <button type="submit">New Reservation</button>
             </form>
