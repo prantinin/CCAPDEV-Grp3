@@ -1,5 +1,6 @@
 const UserSchema = require('../models/Users');
 const ReserveSchema = require('../models/Reservations');
+const logError = require('../middleware/logError');
 
 const timeLabels = require('../data/timeLabels');
 
@@ -39,6 +40,7 @@ exports.getViewProfileStudent = async (req, res) => {
       reservations: transformedReservations,
     });
   } catch (error) {
+    await logError(error, 'userController.getViewProfileStudent');
     console.error("View Profile Error:", error);
     res.status(500).render('error', { title: 'Server Error' });
   }
@@ -84,6 +86,7 @@ exports.getMyProfile = async (req, res) => {
     });
     
   } catch (error) {
+    await logError(error, 'userController.getMyProfile');
     console.error('My Profile Error:', error);
     res.status(500).render('error', { 
       title: 'Server Error',
@@ -128,6 +131,7 @@ exports.getEditProfile = async (req, res) => {
       currentUser: req.session.user
     });
   } catch (error) {
+    await logError(error, 'userController.getEditProfile');
     console.error(error);
     res.status(500).render('error', { 
       title: 'Server Error',
@@ -215,6 +219,7 @@ exports.postEditProfile = async (req, res) => {
     res.redirect(`/MyProfile`);
     
   } catch (error) {
+    await logError(error, 'userController.postEditProfile');
     console.error(error);
     
     if (req.file) {
@@ -246,6 +251,7 @@ exports.getSearchUsers = async (req, res) => {
       currentUser: req.session.user
     });
   } catch (error) {
+    await logError(error, 'userController.getSearchUsers');
     console.error('Search Users Error:', error);
     res.status(500).render('error', { 
       title: 'Server Error',
@@ -320,6 +326,7 @@ exports.postSearchUsers = async (req, res) => {
       currentUser: req.session.user
     });
   } catch (error) {
+    await logError(error, 'userController.postSearchUsers');
     console.error('Search Error:', error);
     res.status(500).render('error', { 
       title: 'Server Error',
@@ -358,7 +365,9 @@ exports.deleteAccount = async (req, res) => {
       reservationsDeleted: deletedReservations.deletedCount 
     });
   } catch (error) {
+    await logError(error, 'userController.deleteAccount');
     console.error('Delete Account Error:', error);
     res.status(500).json({ error: 'Server error', details: error.message });
   }
 };
+

@@ -2,6 +2,7 @@ const ReserveSchema = require('../models/Reservations');
 const LabSchema = require('../models/Labs');
 const { labs, areas } = require('../data/areas');
 const mongoose = require('mongoose');
+const logError = require('../middleware/logError');
 
 
 // /unavailiframe
@@ -75,6 +76,7 @@ exports.getResIframe = async (req, res) => {
 
 
   } catch (err) {
+    await logError(err, 'iframeController.getResIframe');
     console.error('Error loading reservation:', err);
   }
 

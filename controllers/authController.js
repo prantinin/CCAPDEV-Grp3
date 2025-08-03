@@ -1,5 +1,6 @@
 const UserSchema = require('../models/Users');
 const bcrypt = require('bcrypt');
+const logError = require('../middleware/logError');
 
 exports.getLogout = (req, res) => {
   req.session.destroy();
@@ -117,6 +118,7 @@ exports.postRegister = async (req, res) => {
     await newUser.save();
     res.redirect('/login');
   } catch (err) {
+    await logError(err, 'authController.postRegister');
     console.error(err);
     res.send('Registration failed');
   }

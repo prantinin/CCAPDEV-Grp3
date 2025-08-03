@@ -3,6 +3,7 @@ const ReserveSchema = require('../models/Reservations');
 const SeatSchema = require('../models/Seats');
 const LabSchema = require('../models/Labs');
 const { labs, areas } = require('../data/areas');
+const logError = require('../middleware/logError');
 
 const timeLabels = require('../data/timeLabels');
 
@@ -133,7 +134,8 @@ exports.postResStudent = async (req, res) => {
     return res.redirect(`/createreserve/${user.idNum}?success=true`);
     
   } catch (err) {
-    console.log('Form or request body error');
+    await logError(err, 'reservationController.postResStudent');
+    console.error('Form or request body error:', err);
     return res.render('error', {
       title: 'Render Error',
       message: 'Something went wrong.'
@@ -211,7 +213,8 @@ exports.postResTech = async (req, res) => {
     return res.redirect('/Tcreatereserve?success=true');
     
   } catch (err) {
-    console.log('Form or request body error');
+    await logError(err, 'reservationController.postResTech');
+    console.error('Form or request body error:', err);
     return res.render('error', {
       title: 'Render Error',
       message: 'Something went wrong.'
@@ -249,6 +252,7 @@ exports.getViewResStudent = async (req, res) => {   //student view
     });
     
   } catch (error) {
+    await logError(error, 'reservationController.getViewResStudent');
     console.error('Student view error:', error);
     res.render('error', {
       title: 'Error',
@@ -298,6 +302,7 @@ exports.getViewResTech = async (req, res) => {
         const labDoc = await LabSchema.findById(lab).lean();
         labName = labDoc?.labName || 'No lab selected';
       } catch (err) {
+        await logError(err, 'reservationController.getViewResTech.labLookup');
         console.error('Lab lookup failed:', err);
         labName = 'No lab selected';
       }
@@ -325,6 +330,7 @@ exports.getViewResTech = async (req, res) => {
     });
 
   } catch (error) {
+    await logError(error, 'reservationController.getViewResTech');
     console.error('Technician filter error:', error);
     res.render('error', {
       title: 'Error',
@@ -366,6 +372,7 @@ exports.deleteReservation = async (req, res) => {
     const referer = req.get('Referer') || '/viewreservs';
     res.redirect(referer);
   } catch (error) {
+    await logError(error, 'reservationController.deleteReservation');
     console.error("Error deleting reservation:", error);
     res.status(500).send("Failed to delete reservation.");
   }
@@ -410,6 +417,7 @@ exports.getEditRes = async (req, res) => {
     });
 
   } catch (err) {
+    await logError(err, 'reservationController.getEditRes');
     console.error('Edit reservation error:', err);
     res.status(500).send('Server error while loading reservation');
   }
@@ -457,6 +465,7 @@ exports.getEditTRes = async (req, res) => {
     });
 
   } catch (err) {
+    await logError(err, 'reservationController.getEditTRes');
     console.error('Edit reservation error:', err);
     res.status(500).send('Server error while loading reservation');
   }
@@ -526,7 +535,8 @@ exports.postEditRes = async (req, res) => {
 
     return res.redirect('tviewreservs?success=true');
   } catch (err) {
-    console.log('Form or request body error:', err);
+    await logError(err, 'reservationController.postEditRes');
+    console.error('Form or request body error:', err);
     return res.render('error', {
       title: 'Render Error',
       message: 'Something went wrong.'
@@ -599,7 +609,8 @@ exports.postEditTRes = async (req, res) => {
 
     return res.redirect('/tviewreservs?success=true');
   } catch (err) {
-    console.log('Form or request body error:', err);
+    await logError(err, 'reservationController.postEditTRes');
+    console.error('Form or request body error:', err);
     return res.render('error', {
       title: 'Render Error',
       message: 'Something went wrong.'
