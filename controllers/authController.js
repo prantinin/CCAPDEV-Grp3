@@ -67,7 +67,7 @@ exports.postLogin = async (req, res) => {
     return res.redirect(`/createreserve/${user.idNum}`);
     }
   } catch (err) {
-    await logError(err, 'authController.postLogin').exec();
+    await logError(err, 'authController.postLogin');
     console.error(err);
     res.status(500).send('Login failed');
   }

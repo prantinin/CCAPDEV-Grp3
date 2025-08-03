@@ -1,22 +1,22 @@
 const mongoose = require('mongoose');
 
 const errorSchema = new mongoose.Schema({
-    message: {
+    
+      errorSummary: {
         type: String,
-        required: true
-    },
-    /*stack: {
-      type: String,
-      required: true
-    },
-    location: {
-        type: String,
-        required: true
-    },*/
-    timestamp: {
-      type: Date,
-      default: Date.now,
-    }
+        required: true,
+        trim: true,
+      },
+      errorBody: {
+        type: Object
+      }
+    
+},
+{
+  timestamps:{
+    createdAt: "createdAt",
+  },
+    collection: "Errors",
 });
 
 module.exports = mongoose.model('Error', errorSchema);
