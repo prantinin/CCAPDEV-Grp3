@@ -19,7 +19,7 @@ exports.getResIframe = async (req, res) => {
 
   try {
     // Find Lab by name
-    labID = await LabSchema.findById(lab).exec();
+    labID = await LabSchema.findOne({ labName: `Lab ${lab}` }).exec();
 
     if (!labID) {
       console.error(`Lab not found for query: ${lab}`);
@@ -31,7 +31,6 @@ exports.getResIframe = async (req, res) => {
       });
     }
 
-    /*
     // Find reservations with same param
     for (let i = parseInt(start); i <= parseInt(end); i++) {
       const reservations = await ReserveSchema.find({
@@ -39,29 +38,11 @@ exports.getResIframe = async (req, res) => {
         reservDate: new Date(date),
         timeSlot: i.toString()
       }).populate('seat').lean();
-      */
-     //same time
-    const reservations = await ReserveSchema.find({
-      lab: labID._id,
-      reservDate: new Date(date),
-      $or: [
-        {
-          startTime: { $lt: end },
-          endTime: { $gt: start }
-        }
-      ]
-    }).populate('seat').lean();
 
-    /*
       reservations.forEach(r => {
         if (r.seat?.seatCode) reservedSeats.push(r.seat.seatCode);
       });
     }
-      */
-  
-reservations.forEach(r => {
-      if (r.seat?.seatCode) reservedSeats.push(r.seat.seatCode);
-    });
 
   } catch (err) {
     console.error('Error loading reservation:', err);
