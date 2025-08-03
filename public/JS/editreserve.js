@@ -64,6 +64,7 @@ function populateDateAndTime() {
 
 
 // FORM VALIDATION
+/* - NO NEED TO WAIT BECAUSE PREFILLLED
 function allowFields() {
   const resDate = document.querySelector("#resDate");
   const timeSlot = document.querySelector(".timeSlot");
@@ -105,6 +106,7 @@ function allowFields() {
   confirmBtn.disabled = true;
   confirmBtn.classList.remove("active");
 }
+*/
 
 
 // DYNAMIC CHOSEN SLOT
