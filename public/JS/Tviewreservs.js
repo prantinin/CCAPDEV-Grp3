@@ -1,3 +1,5 @@
+const Reservations = require("../../models/Reservations");
+
 //for edit
 document.addEventListener("DOMContentLoaded", function () {
   const resDate = document.getElementById("resDate");
@@ -22,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+/*
 //for delete 
 function isWithinCancellationWindow(reservDate, timeLabel) {
   const [startTime] = timeLabel.split(" - ");
@@ -41,3 +44,4 @@ function isWithinCancellationWindow(reservDate, timeLabel) {
   const now = new Date();
   return now >= start && now <= windowEnd;
 }
+  */

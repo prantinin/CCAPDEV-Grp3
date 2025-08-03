@@ -23,6 +23,24 @@ function formatReservation(r) {
   };
 }
 
+//Can delete within first 10 minutes of reservation start
+function canDelete(reservation) {
+  const now = new Date();
+  const today = now.toISOString().split('T')[0];
+  const reservDate = new Date(reservation.reservDate).toISOString().split('T')[0];
+
+  if (today !== reservDate) return false;
+
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  const baseHour = 8; // adjust if your slots start at a different time
+  const reservHour = baseHour + parseInt(reservation.timeSlot);
+  const reservMinutes = reservHour * 60;
+
+  const diff = nowMinutes - reservMinutes;
+  return diff >= 0 && diff <= 10;
+}
+
+
 // /createreserve
 exports.getCreateResStudent = (req, res) => {
   res.render('createreserve', { 
@@ -182,6 +200,8 @@ exports.getViewResStudent = async (req, res) => {   //student view
   try {
     // Set session user data
     const user = req.session.user;
+    
+    //add if not valid user here
 
     const rawReservations = await ReserveSchema.find({ userIdNum: user.idNum })
       .populate('lab')
@@ -194,7 +214,8 @@ exports.getViewResStudent = async (req, res) => {   //student view
     res.render('viewreservs', {
       title: 'Labubuddy | View Reservations',
       roleTitle: 'Student',
-      reservations: formattedReservations
+      reservations: formattedReservations,
+      //canDelete: canDelete(reservation)
     });
     
   } catch (error) {
@@ -254,7 +275,8 @@ exports.getViewResTech = async (req, res) => {
     filter: formattedFilter,
     isFiltered,
     availableSeats,
-    reservations: formattedReservations
+    reservations: formattedReservations,
+    canDelete: canDelete(reservation)
     });
 
 
@@ -292,6 +314,75 @@ exports.deleteReservation = async (req, res) => {
     res.status(500).send("Failed to delete reservation.");
   }
 };
+
+/*
+exports.deleteReservation = async (req, res) => {
+  try {
+
+    //if cannot delete
+    if (!canDelete(reservation)) 
+    {
+      return res.render('error', 
+      {
+        title: 'Cannot Delete',
+        message: 'You can only delete a reservation within the first 10 minutes of its start time.'
+      });
+    }
+    else if (canDelete(reservation))
+    {
+      await ReserveSchema.findByIdAndDelete(req.params.id);
+    
+      const referer = req.get('Referer') || '/viewreservs';
+      res.redirect(referer);
+    }
+  }
+  catch (error) {
+    console.error("Error deleting reservation:", error);
+    res.status(500).send("Failed to delete reservation.");
+  }
+};
+
+
+
+exports.deleteReservation = async (req, res) => {
+  try {
+    const referer = req.get('Referer') || '/viewreservs';
+    const reservation = await ReserveSchema.findById(req.params.id);
+
+    if (!reservation) {
+      return res.status(404).render('error', {
+        title: 'Not Found',
+        message: 'Reservation does not exist.'
+      });
+    }
+
+    // Assume role is stored in req.session or req.user
+    const role = req.session?.role || req.user?.role;
+
+    if (role === 'technician') {
+      if (!canDelete(reservation)) {
+        return res.render('error', {
+          title: 'Cannot Delete',
+          message: 'Technicians can only delete reservations within the first 10 minutes of their start time.'
+        });
+      }
+    }
+
+    // Students or valid technician can proceed
+    await reservation.deleteOne();
+    res.redirect(referer);
+
+  } catch (error) {
+    console.error('Error deleting reservation:', error);
+    res.status(500).render('error', {
+      title: 'Deletion Failed',
+      message: 'Something went wrong while trying to delete the reservation.'
+    });
+  }
+};
+*/
+
+  
 
 // /editres/:id
 exports.getEditRes = async (req, res) => {
