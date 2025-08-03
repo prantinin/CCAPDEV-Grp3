@@ -21,33 +21,22 @@ function populateDateAndTime() {
   dateInput.setAttribute("min", minDate);
   dateInput.setAttribute("max", maxDate);
 
-  // Re-render time options when date changes
   dateInput.addEventListener('change', renderTimeOptions);
 
   function renderTimeOptions() {
-    startTimeSelect.innerHTML = `<option value="">-- None --</option>`;
-    endTimeSelect.innerHTML = `<option value="">-- None --</option>`;
-
     const selectedDate = new Date(dateInput.value);
     const now = new Date();
 
-    timeLabels.forEach((label, index) => {
-      const slotDate = new Date(selectedDate);
-      const [time, modifier] = label.split(" ");
-      let [hours, minutes] = time.split(":").map(Number);
-      if (modifier === "PM" && hours !== 12) hours += 12;
-      if (modifier === "AM" && hours === 12) hours = 0;
-      slotDate.setHours(hours, minutes, 0, 0);
-
-      if (selectedDate.toDateString() !== today.toDateString() || slotDate > now) {
-        const option = `<option value="${index}">${label}</option>`;
-        startTimeSelect.innerHTML += option;
-        endTimeSelect.innerHTML += option;
-      }
-    });
+    // Prefill selected values
+    const startIndex = document.documentElement.dataset.start;
+    const endIndex = document.documentElement.dataset.end;
+    if (startIndex) startTimeSelect.value = startIndex;
+    if (endIndex) endTimeSelect.value = endIndex;
 
     startTimeSelect.disabled = false;
     endTimeSelect.disabled = false;
+
+    allowFields();
   }
 
   renderTimeOptions();
@@ -65,6 +54,13 @@ function allowFields() {
   const startFilled = startTime.value;
   const endFilled = endTime.value;
   const labFilled = labSelect.value;
+
+  // Validate time order
+  if (startFilled && endFilled && parseInt(endFilled) <= parseInt(startFilled)) {
+    confirmBtn.disabled = true;
+    confirmBtn.classList.remove("active");
+    return;
+  }
 
   labSelect.disabled = !(dateFilled && startFilled && endFilled);
 
