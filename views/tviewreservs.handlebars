@@ -9,7 +9,7 @@
       <div id="filter-details" class="flex flex-row w-[90%] mt-8">
         <form method="GET" action="/tfilterreservs">
         <button type="submit">
-          <div class="flex flex-row w-[300px] bg-white px-50 py-6 rounded-full shadow">
+          <div class="flex flex-row w-[300px] bg-white px-50 py-4 rounded-full shadow">
             <div class="flex ml-4 mt-3 h-8 w-8">
               <img src="/Assets/images/searchicon.png" />
             </div>
@@ -70,8 +70,9 @@
               </button>
             </form>
           {{/if}}
-          <p class="text-sm">{{this.lab}}, Seat {{this.seat}}</p>
-          <p class="text-sm">{{this.reservDate}} - {{this.startTime}} TO {{this.endTime}}</p>
+          <p class="text-xl">{{this.lab}}, Seat {{this.seat}}</p>
+          <p class="text-xl">{{this.reservDate}} - {{this.startTime}} to {{this.endTime}}</p>
+
         </div>
 
         <div class="flex flex-col p-4 ml-auto">
@@ -91,15 +92,15 @@
                 <img src="/Assets/images/editicon.png" alt="Edit" />
               </button>
             </form>
-
           </div>
         </div>
       </div>
       {{/each}}
 
+
       {{#unless reservations.length}}
       <div class="flex justify-center mt-8">
-        <p class="text-gray-500 text-sm italic">
+        <p class="text-gray-500 text-xl italic">
           No reservations matched your filter. Try adjusting lab, date, or time.
         </p>
       </div>
