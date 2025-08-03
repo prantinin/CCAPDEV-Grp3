@@ -13,33 +13,56 @@ function formatReservation(r) {
     seat: r.seat.seatCode,
     reservDate: new Date(r.reservDate).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' }),
     time: timeLabels[r.timeSlot] || 'Unknown Time Slot',
-    startTime: r.timeSlot.split(' to ')[0],
-    endTime: r.timeSlot.split(' to ')[1],
+    startTime: timeLabels[parseInt(r.startTime)] || 'Unknown',
+    endTime: timeLabels[parseInt(r.endTime)] || 'Unknown',
     reqMade: new Date(r.reqMade).toLocaleString('en-PH', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }),
     name: r.isAnon ? 'Anonymous' : `${r.userID?.fName} ${r.userID?.lName}`,
     email: r.isAnon ? null : r.userID?.email,
     anonymous: r.isAnon,
-    userId: r.userIdNum || 'No ID' 
+    userId: r.userIdNum || 'No ID',
+    canDelete: canDelete(r)
   };
 }
 
 //Can delete within first 10 minutes of reservation start
 function canDelete(reservation) {
-  const now = new Date();
-  const today = now.toISOString().split('T')[0];
-  const reservDate = new Date(reservation.reservDate).toISOString().split('T')[0];
+  if (!reservation || reservation.startTime == null || !reservation.reservDate) {
+    return false;
+  }
 
-  if (today !== reservDate) return false;
+  if (sessionUser.role === 'Student') {
+    return true;
+  }
 
-  const nowMinutes = now.getHours() * 60 + now.getMinutes();
-  const baseHour = 8; // adjust if your slots start at a different time
-  const reservHour = baseHour + parseInt(reservation.timeSlot);
-  const reservMinutes = reservHour * 60;
+  if (sessionUser.role === 'Technician') {
+    const now = new Date();
+    const reservDate = new Date(reservation.reservDate);
+    const isSameDay = now.toDateString() === reservDate.toDateString();
 
-  const diff = nowMinutes - reservMinutes;
-  return diff >= 0 && diff <= 10;
+    if (!isSameDay) return false;
+
+    // Convert startTime index to actual time string
+    const timeStr = timeLabels[parseInt(reservation.startTime)];
+    if (!timeStr) return false;
+
+    // Parse time string like "04:00 PM"
+    const [time, meridian] = timeStr.split(' ');
+    const [hourStr, minuteStr] = time.split(':');
+    let hour = parseInt(hourStr, 10);
+    const minute = parseInt(minuteStr, 10);
+
+    if (meridian === 'PM' && hour !== 12) hour += 12;
+    if (meridian === 'AM' && hour === 12) hour = 0;
+
+    const reservStartMinutes = hour * 60 + minute;
+    const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+    const diff = nowMinutes - reservStartMinutes;
+    return diff >= 0 && diff <= 10;
+  }
+
+  return false;
 }
-
 
 // /createreserve
 exports.getCreateResStudent = (req, res) => {
@@ -275,8 +298,7 @@ exports.getViewResTech = async (req, res) => {
     filter: formattedFilter,
     isFiltered,
     availableSeats,
-    reservations: formattedReservations,
-    canDelete: canDelete(reservation)
+    reservations: formattedReservations
     });
 
 
