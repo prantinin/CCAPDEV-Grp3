@@ -21,7 +21,11 @@ exports.postLogin = async (req, res) => {
 
     if (!user) {
       console.log('User not found');
-      return res.send('User not found');
+      return res.status(401).render('login', {
+        title: 'Labubuddy | Login',
+        layout: false,
+        errorMessage: 'User not found'
+      });
     }
 
     //console.log('Entered password:', password);
@@ -31,7 +35,11 @@ exports.postLogin = async (req, res) => {
     //console.log('Password match:', isMatch);
 
     if (!isMatch) {
-      return res.send('Incorrect password');
+      return res.status(401).render('login', {
+        title: 'Labubuddy | Login',
+        layout: false,
+        errorMessage: 'Incorrect password'
+      });
     }
 
     // Set session user data
@@ -59,8 +67,9 @@ exports.postLogin = async (req, res) => {
     return res.redirect(`/createreserve/${user.idNum}`);
     }
   } catch (err) {
+    await logError(err, 'authController.postLogin').exec();
     console.error(err);
-    res.send('Login failed');
+    res.status(500).send('Login failed');
   }
 };
 

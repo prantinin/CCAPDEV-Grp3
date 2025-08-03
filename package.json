@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "test": "mocha --reporter spec"
+    "test": "jest --detectOpenHandles --forceExit"
   },
   "keywords": [],
   "author": "",
@@ -24,9 +24,7 @@
     "xyz": "^5.0.0"
   },
   "devDependencies": {
-    "chai": "^5.2.1",
-    "chai-http": "^5.1.2",
-    "mocha": "^11.7.1",
+    "jest": "^30.0.5",
     "supertest": "^7.1.4"
   }
 }

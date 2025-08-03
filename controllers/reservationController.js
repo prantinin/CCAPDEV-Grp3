@@ -393,7 +393,7 @@ exports.getEditRes = async (req, res) => {
     const formattedDate = reservation.reservDate.toISOString().split('T')[0];
 
     res.render('editreserve', {
-      roleTitle: 'Technician',
+      roleTitle: 'Student',
       lab: reservation.lab.labName,
       labId: reservation.lab._id.toString(),
       seat: reservation.seat?.seatCode,
@@ -515,7 +515,7 @@ exports.postEditRes = async (req, res) => {
 
     await reservationToEdit.save();
 
-    return res.redirect('/tviewreservs?success=true');
+    return res.redirect('tviewreservs?success=true');
   } catch (err) {
     console.log('Form or request body error:', err);
     return res.render('error', {

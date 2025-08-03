@@ -5,14 +5,14 @@ const errorSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    stack: {
+    /*stack: {
       type: String,
       required: true
     },
     location: {
         type: String,
         required: true
-    },
+    },*/
     timestamp: {
       type: Date,
       default: Date.now,
