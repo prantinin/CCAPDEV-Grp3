@@ -8,8 +8,8 @@ router.get('/MyProfile', isAuthenticated, userController.getMyProfile);
 
 router.get('/profile/:email', isAuthenticated, userController.getViewProfileTech);
 
-router.get('/editprofile/:idNum', isAuthenticated, userController.getEditProfile);
-router.post('/editprofile/:idNum', isAuthenticated, userController.uploadProfilePicture, userController.postEditProfile);
+router.get('/editprofile', isAuthenticated, userController.getEditProfile);
+router.post('/editprofile', isAuthenticated, userController.uploadProfilePicture, userController.postEditProfile);
 
 router.get('/searchusers', isAuthenticated, userController.getSearchUsers);
 router.post('/searchusers', isAuthenticated, userController.postSearchUsers);
