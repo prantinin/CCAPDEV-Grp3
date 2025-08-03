@@ -17,6 +17,8 @@ router.get('/tfilterreservs', isAuthenticated, isTechnician, reservationControll
 router.get('/editreserve/:id', isAuthenticated, reservationController.getEditRes);
 router.post('/editreserve/', isAuthenticated, reservationController.postEditRes);
 
+router.get('/Teditreserve/:id', isAuthenticated, reservationController.getEditRes);
+
 router.post('/deletereservation/:id', isAuthenticated, reservationController.deleteReservation);
 
 module.exports = router;

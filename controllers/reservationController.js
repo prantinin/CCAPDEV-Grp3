@@ -374,6 +374,49 @@ exports.getEditRes = async (req, res) => {
     const formattedDate = reservation.reservDate.toISOString().split('T')[0];
 
     res.render('editreserve', {
+      roleTitle: 'Technician',
+      lab: reservation.lab.labName,
+      labId: reservation.lab._id.toString(),
+      seat: reservation.seat?.seatCode,
+      startTime: timeLabels[parseInt(reservation.startTime)] || 'Unknown',
+      endTime: timeLabels[parseInt(reservation.endTime)] || 'Unknown',
+      timeSlot: reservation.timeSlot,
+      reservDate: formattedDate,
+      editId: reservation._id,
+      success: req.query.success === 'true',
+      labs: labsClean,
+      timeLabels
+    });
+
+  } catch (err) {
+    console.error('Edit reservation error:', err);
+    res.status(500).send('Server error while loading reservation');
+  }
+};
+
+// /Teditres/:id
+exports.getEditTRes = async (req, res) => {
+  try {
+    const reservation = await ReserveSchema.findById(req.params.id)
+      .populate('lab seat');
+
+    if (!reservation) {
+      return res.status(404).send('Reservation not found');
+    }
+
+    const labs = await LabSchema.find();
+
+    const labsClean = labs.map(lab => ({
+      value: lab._id.toString(),
+      name: lab.labName
+    }));
+
+
+    // Format the reservation date
+    const formattedDate = reservation.reservDate.toISOString().split('T')[0];
+
+    res.render('editreserve', {
+      roleTitle: 'Technician',
       lab: reservation.lab.labName,
       labId: reservation.lab._id.toString(),
       seat: reservation.seat?.seatCode,
