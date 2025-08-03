@@ -10,6 +10,7 @@ function formatReservation(r) {
   return {
     id: r._id,
     lab: r.lab.labName,
+    labNum: r.lab?.labName?.match(/\d+/)?.[0] || '',
     seat: r.seat.seatCode,
     reservDate: new Date(r.reservDate).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' }),
     time: timeLabels[r.timeSlot] || 'Unknown Time Slot',
@@ -419,6 +420,7 @@ exports.getEditTRes = async (req, res) => {
       roleTitle: 'Technician',
       lab: reservation.lab.labName,
       labId: reservation.lab._id.toString(),
+      labNum: reservation.lab.labName.match(/\d+/)?.[0] || '',
       seat: reservation.seat?.seatCode,
       chosenSlot: reservation.slotName,
       startTime: timeLabels[parseInt(reservation.startTime)] || 'Unknown',

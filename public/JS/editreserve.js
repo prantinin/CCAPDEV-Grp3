@@ -1,3 +1,16 @@
+
+function loadIframe() {
+  const lab = document.getElementById("labSelect").value;
+  const date = document.getElementById("resDate").value;
+  const start = document.querySelector("select[name='startTime']").value;
+  const end = document.querySelector("select[name='endTime']").value;
+
+  if (!lab || !date || !start || !end) return;
+
+  const iframe = document.getElementById("slotAreaContents");
+  iframe.src = `/reserveiframe?lab=${lab}&date=${date}&start=${start}&end=${end}`;
+}
+
 function populateDateAndTime() {
   const timeLabels = [
     "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM",
@@ -54,6 +67,13 @@ function allowFields() {
   const startFilled = startTime.value;
   const endFilled = endTime.value;
   const labFilled = labSelect.value;
+
+  [lab, date, start, end].forEach(input => {
+    input.addEventListener("change", loadIframe);
+  });
+
+  // Load once on page load if values already exist
+  loadIframe();
 
   // Validate time order
   if (startFilled && endFilled && parseInt(endFilled) <= parseInt(startFilled)) {

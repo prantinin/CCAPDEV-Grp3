@@ -13,24 +13,22 @@
   <!-- Slot / Seat Area -->
   <div class="col-span-3 bg-white rounded-xl overflow-hidden shadow-inner">
 
-<!-- Lab Selection -->
-<div class="flex items-center justify-center gap-2 p-4 border shadow-md bg-[#92D3AD]">
-  <label for="labSelect" class="hidden">Choose Lab</label>
-  <select id="labSelect" name="labSelect" class="labSelect font-Dongle-Regular text-xl bg-white border rounded-xl px-4 py-1">
-    <option value="">--</option>
-    {{#each labs}}
-      <option value="{{this.value}}"
-        {{#ifEquals this.value ../labId}}selected{{/ifEquals}}>
-        {{this.name}}
-      </option>
-    {{/each}}
-  </select>
-</div>
-
+    <!-- Lab Selection -->
+    <div class="flex items-center justify-center gap-2 p-4 border shadow-md bg-[#92D3AD]">
+      <label for="labSelect" class="hidden">Choose Lab</label>
+      <select id="labSelect" name="labSelect" class="labSelect font-Dongle-Regular text-xl bg-white border rounded-xl px-4 py-1">
+        <option value="">--</option>
+        {{#each labs}}
+          <option value="{{this.value}}"
+            {{#ifEquals this.value ../labId}}selected{{/ifEquals}}>
+            {{this.name}}
+          </option>
+        {{/each}}
+      </select>
+    </div>
 
     <!-- Seat Viewer -->
-    <iframe src="/unavailiframe" id="slotAreaContents" class="w-full h-full border"></iframe>
-
+    <iframe src="/reserveiframe?date={{reservDate}}&start={{startTime}}&end={{endTime}}&lab={{labNum}}" id="slotAreaContents" class="w-full h-full border"></iframe>
 
   </div>
 

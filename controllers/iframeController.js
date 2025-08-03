@@ -3,6 +3,7 @@ const LabSchema = require('../models/Labs');
 const { labs, areas } = require('../data/areas');
 const mongoose = require('mongoose');
 
+
 // /unavailiframe
 exports.getUnavailFrame = (req, res) => {
   res.render('unavailiframe', {
@@ -14,13 +15,15 @@ exports.getUnavailFrame = (req, res) => {
 // /reserveiframe
 exports.getResIframe = async (req, res) => {
   const { date, start, end, lab } = req.query;
+  console.log('Query params:', req.query);
   let reservedSeats = [];
   let labID;
 
   try {
     // Find Lab by name
-    labID = await LabSchema.findOne({ labName: `Lab ${lab}` }).exec();
 
+    labID = await LabSchema.findOne({ labName: `Lab ${lab}` }).exec();
+    console.log(`Lab ${lab}`);
     if (!labID) {
       console.error(`Lab not found for query: ${lab}`);
       return res.render('reserveiframe', {
@@ -32,17 +35,21 @@ exports.getResIframe = async (req, res) => {
     }
 
     // Find reservations with same param
-    for (let i = parseInt(start); i <= parseInt(end); i++) {
-      const reservations = await ReserveSchema.find({
-        lab: labID._id,
-        reservDate: new Date(date),
-        timeSlot: i.toString()
-      }).populate('seat').lean();
+    // Find all overlapping reservations once
+    const allReservations = await ReserveSchema.find({
+      lab: labID._id,
+      reservDate: new Date(date),
+      startTime: { $lt: end },
+      endTime: { $gt: start }
+    }).populate('seat').lean();
 
-      reservations.forEach(r => {
-        if (r.seat?.seatCode) reservedSeats.push(r.seat.seatCode);
-      });
-    }
+    // Extract all reserved seat codes
+    allReservations.forEach(r => {
+      if (r.seat?.seatCode) reservedSeats.push(r.seat.seatCode);
+    });
+
+    console.log('All reservations found for given slot:', allReservations);
+
 
   } catch (err) {
     console.error('Error loading reservation:', err);
