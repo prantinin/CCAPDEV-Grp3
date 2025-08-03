@@ -6,26 +6,27 @@
   <!-- Header -->
   <div class="col-span-4 flex justify-between font-[Dongle-Bold]">
     <h2 class="text-3xl font-bold">
-      Editing Reservation for {{lab}}, Seat {{seat}} on {{reservDate}} - {{time}}
+      Editing Reservation for {{lab}}, Seat {{seat}} on {{reservDate}} - {{startTime}} TO {{endTime}}
     </h2>
   </div>
 
   <!-- Slot / Seat Area -->
   <div class="col-span-3 bg-white rounded-xl overflow-hidden shadow-inner">
 
-    <!-- Lab Selection -->
-    <div class="flex items-center justify-center gap-2 p-4 border shadow-md bg-[#92D3AD]">
-      <label for="labSelect" class="hidden">Choose Lab</label>
-      <select id="labSelect" name="labSelect" class="labSelect font-Dongle-Regular text-xl bg-white border rounded-xl px-4 py-1" disabled>
-        <option value="">--</option>
-        {{#each labs}}
-          <option value="{{this.value}}"
-            {{#ifEquals this.value ../reservation.lab.value}}selected{{/ifEquals}}>
-            {{this.name}}
-          </option>
-        {{/each}}
-      </select>
-    </div>
+<!-- Lab Selection -->
+<div class="flex items-center justify-center gap-2 p-4 border shadow-md bg-[#92D3AD]">
+  <label for="labSelect" class="hidden">Choose Lab</label>
+  <select id="labSelect" name="labSelect" class="labSelect font-Dongle-Regular text-xl bg-white border rounded-xl px-4 py-1">
+    <option value="">--</option>
+    {{#each labs}}
+      <option value="{{this.value}}"
+        {{#ifEquals this.value ../labId}}selected{{/ifEquals}}>
+        {{this.name}}
+      </option>
+    {{/each}}
+  </select>
+</div>
+
 
     <!-- Seat Viewer -->
     <iframe src="/unavailiframe" id="slotAreaContents" class="w-full h-full border"></iframe>
@@ -53,19 +54,34 @@
         value="{{reservDate}}" required>
     </div>
 
-    <!-- Time Slot Dropdown (disabled) -->
+    <!-- Start Time -->
     <div>
-      <label for="timeSlot" class="text-2xl">Choose a Time Slot</label>
-      <select name="timeSlot" class="timeSlot w-full p-2 rounded border text-xl mt-1" required disabled>
+      <label for="startTime" class="text-2xl">Start of Reservation</label>
+      <select name="startTime" class="startTime w-full p-2 rounded border text-xl mt-1" required>
         <option value="">-- None --</option>
         {{#each timeLabels}}
           <option value="{{@index}}"
-            {{#ifEquals @index ../timeSlot}}selected{{/ifEquals}}>
+            {{#ifEquals @index ../startTimeIndex}}selected{{/ifEquals}}>
             {{this}}
           </option>
         {{/each}}
       </select>
     </div>
+
+    <!-- End Time -->
+    <div>
+      <label for="endTime" class="text-2xl">End of Reservation</label>
+      <select name="endTime" class="endTime w-full p-2 rounded border text-xl mt-1" required>
+        <option value="">-- None --</option>
+        {{#each timeLabels}}
+          <option value="{{@index}}"
+            {{#ifEquals @index ../endTimeIndex}}selected{{/ifEquals}}>
+            {{this}}
+          </option>
+        {{/each}}
+      </select>
+    </div>
+
 
     <!-- Success Message -->
     {{#if success}}

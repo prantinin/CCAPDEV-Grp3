@@ -14,7 +14,7 @@ router.get('/viewreservs/:idNum', isAuthenticated, isStudent, reservationControl
 router.get('/tviewreservs', isAuthenticated, isTechnician, reservationController.getViewResTech);
 router.get('/tfilterreservs', isAuthenticated, isTechnician, reservationController.getFilterResTech);
 
-router.get('/editreserve/:idNum', isAuthenticated, reservationController.getEditRes);
+router.get('/editreserve/:id', isAuthenticated, reservationController.getEditRes);
 router.post('/editreserve/', isAuthenticated, reservationController.postEditRes);
 
 router.post('/deletereservation/:id', isAuthenticated, reservationController.deleteReservation);
