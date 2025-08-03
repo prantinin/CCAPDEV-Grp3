@@ -16,8 +16,8 @@ describe('Reservation Controller', () => {
     agent = chai.request.agent(app);
 
     await agent.post('/login').send({
-      email: 'test@example.com',
-      password: 'password123'
+      email: 'timothy_ortiz@dlsu.edu.ph',
+      password: 'iLoveChikkieNuggies123'
     });
   });
 
