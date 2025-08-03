@@ -252,12 +252,21 @@ exports.getViewResStudent = async (req, res) => {   //student view
 
 // /tviewreservs
 exports.getViewResTech = async (req, res) => {
-  const { lab, date, time } = req.query;
+  const { lab, date, startTime, endTime } = req.query;
   const filter = {};
 
+  // Filter by lab ID if provided
   if (lab) filter.lab = lab;
+
+  // Filter by date (exact match)
   if (date) filter.reservDate = new Date(date);
-  if (time) filter.timeSlot = time;
+
+  if (startTime && endTime) {
+    const start = parseInt(startTime);
+    const end = parseInt(endTime);
+    filter.startTime = { $lt: end };
+    filter.endTime = { $gt: start };
+  }
 
   try {
     const reservations = await ReserveSchema.find(filter)
@@ -268,7 +277,10 @@ exports.getViewResTech = async (req, res) => {
 
     const formattedReservations = reservations.map(formatReservation);
     const availableSeats = 40 - reservations.length;
-    const isFiltered = lab && date && time; 
+
+    const isFiltered = lab && date && startTime && endTime;
+
+    // Get lab name for display
     let labName = 'No lab selected';
     if (lab) {
       try {
@@ -280,7 +292,6 @@ exports.getViewResTech = async (req, res) => {
       }
     }
 
-
     const formattedFilter = {
       lab: labName,
       date: date
@@ -290,17 +301,16 @@ exports.getViewResTech = async (req, res) => {
             day: 'numeric'
           })
         : null,
-      time
+      time: (startTime && endTime) ? `Slot ${startTime} to ${endTime}` : null
     };
 
     res.render('tviewreservs', {
-    title: 'Labubuddy | Filtered Reservations',
-    filter: formattedFilter,
-    isFiltered,
-    availableSeats,
-    reservations: formattedReservations
+      title: 'Labubuddy | Filtered Reservations',
+      filter: formattedFilter,
+      isFiltered,
+      availableSeats,
+      reservations: formattedReservations
     });
-
 
   } catch (error) {
     console.error('Technician filter error:', error);
@@ -311,6 +321,7 @@ exports.getViewResTech = async (req, res) => {
     });
   }
 };
+
 
 // /tfilterreservs
 exports.getFilterResTech = async (req, res) => {
