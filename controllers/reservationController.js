@@ -310,6 +310,7 @@ exports.getViewResTech = async (req, res) => {
     res.render('tviewreservs', {
       title: 'Labubuddy | Filtered Reservations',
       filter: formattedFilter,
+      roleTitle: 'Technician',
       isFiltered,
       availableSeats,
       reservations: formattedReservations
