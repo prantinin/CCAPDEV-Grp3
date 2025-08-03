@@ -18,6 +18,7 @@ router.get('/editreserve/:id', isAuthenticated, reservationController.getEditRes
 router.post('/editreserve/:id', isAuthenticated, reservationController.postEditRes);
 
 router.get('/Teditreserve/:id', isAuthenticated, reservationController.getEditRes);
+router.post('/Teditreserve/:id', isAuthenticated, reservationController.postEditRes);
 
 router.post('/deletereservation/:id', isAuthenticated, reservationController.deleteReservation);
 
