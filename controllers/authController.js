@@ -53,7 +53,11 @@ exports.postLogin = async (req, res) => {
       req.session.cookie.expires = false;
     }
 
-    res.redirect('/createreserve/' + user.idNum);
+    if(user.isTech) {
+      return res.redirect('/Tcreatereserve');
+    } else {
+    return res.redirect(`/createreserve/${user.idNum}`);
+    }
   } catch (err) {
     console.error(err);
     res.send('Login failed');

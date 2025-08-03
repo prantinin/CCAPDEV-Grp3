@@ -37,6 +37,9 @@ exports.getCreateResStudent = (req, res) => {
 exports.postResStudent = async (req, res) => {
   const { chosenSlot, resDate, startTime, endTime, anonymous } = req.body;
 
+  // Set session user data
+  const user = req.session.user;
+
   try {
     const [ labNamePart, seatCodePart ] = chosenSlot.split(', seat ');
 
@@ -60,8 +63,8 @@ exports.postResStudent = async (req, res) => {
 
       if (!reservedSlot) {
           const newRes = new ReserveSchema({
-            userID: null,   // null for students page. will fix in session handling
-            userIdNum: null,
+            userID: user.id,
+            userIdNum: user.idNum,
             isAnon: anonymous,
             slotName: chosenSlot,
             lab: lab._id,
@@ -81,7 +84,7 @@ exports.postResStudent = async (req, res) => {
       }
     }
 
-    return res.redirect('/createreserve?success=true');
+    return res.redirect(`/createreserve/${user.idNum}?success=true`);
     
   } catch (err) {
     console.log('Form or request body error');
@@ -92,6 +95,7 @@ exports.postResStudent = async (req, res) => {
   }
     
 };
+
 
 // /Tcreatereserve
 exports.getCreateResTech = (req, res) => {
@@ -135,7 +139,7 @@ exports.postResTech = async (req, res) => {
 
       if (!reservedSlot) {
           const newRes = new ReserveSchema({
-            userID: studentUserID ? studentUserID._id : null,   // null for students page. will fix in session handling
+            userID: studentUserID,
             userIdNum: studentID,
             isAnon: anonymous,
             slotName: chosenSlot,
