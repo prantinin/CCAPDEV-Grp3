@@ -48,42 +48,44 @@ exports.postResStudent = async (req, res) => {
     
     const now = new Date();
     const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
+    
+    // check if merong conflict aljdf
+    const conflict = await ReserveSchema.findOne({
+      lab: lab._id,
+      seat: seat._id,
+      reservDate: new Date(resDate),
+      $or: [
+        {
+          startTime: { $lt: endTime },
+          endTime: { $gt: startTime }
+        }
+      ]
+    });
 
-    // iterate through each time slot
-    for (let i = parseInt(startTime); i <= parseInt(endTime); i++) {
-      
-      // only makes new reservation if it doesn't exist (isn't booked)
-      let reservedSlot = await ReserveSchema.findOne({
-        slotName: chosenSlot,
-        lab: lab._id,
-        seat: seat._id,
-        timeSlot: i.toString(),
-        reservDate: new Date(resDate),
-      });
-
-      if (!reservedSlot) {
-          const newRes = new ReserveSchema({
-            userID: user.id,
-            userIdNum: user.idNum,
-            isAnon: anonymous,
-            slotName: chosenSlot,
-            lab: lab._id,
-            seat: seat._id,
-            timeSlot: i.toString(),
-            reservDate: new Date(resDate),
-            reqMade: phTimeNow
-          });
-
-          await newRes.save();
-      } else {
-        // In case user reserving a taken slot
-        return res.render('error', {
-          title: 'Reservation Error',
-          message: 'Oops! the slot you selected is already reserved.'
+    // create new res only if no conflict
+    if (!conflict) {
+        const newRes = new ReserveSchema({
+          userID: user.id,
+          userIdNum: user.idNum,
+          isAnon: anonymous,
+          slotName: chosenSlot,
+          lab: lab._id,
+          seat: seat._id,
+          startTime,
+          endTime,
+          reservDate: new Date(resDate),
+          reqMade: phTimeNow
         });
-      }
-    }
 
+        await newRes.save();
+    } else {
+      // In case user reserving a taken slot
+      return res.render('error', {
+        title: 'Reservation Error',
+        message: 'Oops! the slot you selected is already reserved.'
+      });
+    }
+    
     return res.redirect(`/createreserve/${user.idNum}?success=true`);
     
   } catch (err) {
@@ -125,39 +127,41 @@ exports.postResTech = async (req, res) => {
     const now = new Date();
     const phTimeNow = now.toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
     
-    // iterate through each time slot
-    for (let i = parseInt(startTime); i <= parseInt(endTime); i++) {
-      
-      // only makes new reservation if it doesn't exist (isn't booked)
-      let reservedSlot = await ReserveSchema.findOne({
-        slotName: chosenSlot,
-        lab: lab._id,
-        seat: seat._id,
-        timeSlot: i.toString(),
-        reservDate: new Date(resDate),
-      }).exec();
+    // check if merong conflict aljdf
+    const conflict = await ReserveSchema.findOne({
+      lab: lab._id,
+      seat: seat._id,
+      reservDate: new Date(resDate),
+      $or: [
+        {
+          startTime: { $lt: endTime },
+          endTime: { $gt: startTime }
+        }
+      ]
+    });
 
-      if (!reservedSlot) {
-          const newRes = new ReserveSchema({
-            userID: studentUserID,
-            userIdNum: studentID,
-            isAnon: anonymous,
-            slotName: chosenSlot,
-            lab: lab._id,
-            seat: seat._id,
-            timeSlot: i.toString(),
-            reservDate: new Date(resDate),
-            reqMade: phTimeNow
-          });
-
-          await newRes.save();
-      } else {
-        // In case user reserving a taken slot
-        return res.render('error', {
-          title: 'Reservation Error',
-          message: 'Oops! the slot you selected is already reserved.'
+    // create new res only if no conflict
+    if (!conflict) {
+        const newRes = new ReserveSchema({
+          userID: studentUserID,
+          userIdNum: studentID,
+          isAnon: anonymous,
+          slotName: chosenSlot,
+          lab: lab._id,
+          seat: seat._id,
+          startTime,
+          endTime,
+          reservDate: new Date(resDate),
+          reqMade: phTimeNow
         });
-      }
+
+        await newRes.save();
+    } else {
+      // In case user reserving a taken slot
+      return res.render('error', {
+        title: 'Reservation Error',
+        message: 'Oops! the slot you selected is already reserved.'
+      });
     }
     
     return res.redirect('/Tcreatereserve?success=true');
@@ -178,7 +182,7 @@ exports.getViewResStudent = async (req, res) => {   //student view
   try {
     // Set session user data
     const user = req.session.user;
-    
+
     const rawReservations = await ReserveSchema.find({ userIdNum: user.idNum })
       .populate('lab')
       .populate('seat')

@@ -28,7 +28,11 @@ const reservSchema = new mongoose.Schema({
         ref: 'Seat',
         required: true
     },
-    timeSlot: {
+    startTime: {
+        type: String,   // index in timeLabels array
+        required: true
+    },
+    endTime: {
         type: String,   // index in timeLabels array
         required: true
     },
